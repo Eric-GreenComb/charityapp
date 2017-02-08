@@ -1,0 +1,190 @@
+#offCanvasContentScroll{background:#fff;margin:44px 0 0 0;}
+.giftAll#offCanvasContentScroll{  margin:44px 0;}
+
+/*section*/
+.mui-table-view:after,.mui-table-view:before{
+    background:#fff;
+}
+.newsAll li{
+    padding:12px 10px ;
+}
+
+/*left*/
+.giftLeft{
+    height:40px;
+    line-height: 40px;
+}
+/*right*/
+.giftFail .giftRight{
+    background:rgba(234,67,53,0.10);
+}
+.giftRight{
+    background:#fafafa;
+    border-radius:0px 16px 16px 0px;
+    height:40px;
+    line-height: 40px;
+    padding:0 5px;
+}
+.mui-table-view-cell p.day{
+    font-size:14px;
+    color:#6c6c6c;
+    line-height:20px;
+    letter-spacing: 0.5px;
+    text-align: center;
+}
+.time{
+    font-size:12px;
+    letter-spacing: 0.5px;
+    color:#9b9b9b;
+    line-height:20px;
+    text-align: center;
+}
+.giftTitle{
+    font-size:14px;
+    color:#6c6c6c;
+}
+.giftMoney{
+    font-size:18px;
+    color:#fbbc05;
+    text-align:right;
+}
+.giftMoney img{
+    width:24px;
+    height: 24px;
+    vertical-align: middle;
+}
+
+/**********************详情********************/
+.section.delSec{
+    margin:70px 0 0 0;
+}
+.details{
+    margin:30px 0;
+    text-align:center;
+}
+.deTitle{
+    font-size:15px;
+    color:#6e6e6e;
+    line-height:22px;
+    letter-spacing: 1px;
+}
+.deMoney{
+    font-size:24px;
+    color:#fbbc05;
+    line-height:22px;
+    letter-spacing: 1px;
+}
+.deStatus{
+    font-size:12px;
+    color:#34a826;
+    letter-spacing: 1px;
+}
+/*giftDel*/
+.giftDel:last-child{
+    border-bottom:none;
+}
+.giftDel{
+    border-bottom:1px solid #f1f1f1;
+}
+.giftDel.mui-table-view .mui-table-view-cell:after{
+    background:#fff;
+}
+.giftDel li{
+    padding:10px 15px;
+}
+.giftDel li span.lf{
+    font-size:14px;
+    color:#6E6E6E;
+}
+.giftDel li span.rt{
+    font-size:12px;
+    color:#9B9B9B;
+}
+
+
+/*凭证*/
+.closeCon{
+    text-align: center;
+}
+.maskBack{
+    position:relative;
+    top:0;
+    left:0;
+    padding:50px 25px 0 25px;
+}
+.maskTxt{
+    position:absolute;
+    /*top:85px;*/
+    top:18%;
+    width:100%;
+    text-align: center;
+    left:0;
+    z-index:201;
+}
+.maskIcon img{
+    width:100%;
+    height:auto;
+}
+.closeCon img{
+    width:36px;
+    height:36px;
+}
+.title{
+    font-size:14px;
+    color:#3f3f3f;
+    margin-bottom:5px;
+}
+.pzH,.pzH span{
+    font-size:8px;
+    color:#9C27B0;
+}
+.maskDel{
+    /*padding:0 0 8px 0 ;*/
+    padding:0 ;
+    margin:0 auto;
+    position:absolute;
+    top:30%;
+    width:60%;
+    left:20%;
+    z-index:201;
+    list-style: none;
+    /*border-bottom: 1px dashed #f1f1f1;*/
+}
+.maskMoney.maskDel{
+    /*top:200px;*/
+    top:41%;
+}
+.maskRoad.maskDel{
+    top:52%;
+    /*top:252px;*/
+}
+.maskDel li{
+    margin:0;
+    padding:0;
+    list-style: none;
+    line-height: 12px;
+}
+.maskIcon{
+    position:relative;
+}
+.maskDel span,.maskText{
+    font-size:8px;
+    color:#3f3f3f;
+}
+.maskText{
+    padding:0 0 8px 0;
+    position:absolute;
+    /*top:285px;*/
+    top:58%;
+    width:60%;
+    left:20%;
+    z-index:201;
+    text-align: left;
+    text-indent: 2em;
+    line-height: 14px;
+}
+
+
+
+
+

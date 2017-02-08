@@ -1,0 +1,132 @@
+/*section*/
+.section{
+    width:100%;
+    margin:0;
+    padding:0;
+    background:url('../img/common/loginBack.png') no-repeat ;
+    background-size:100% 100%;
+}
+p{
+    margin:0;
+    padding:0;
+}
+.loginBack{
+    padding-top:30%;
+}
+/******************************注册*****************************/
+/*logo*/
+.loginIcon{
+    text-align: center;
+    padding:0 5px;
+}
+.loginIcon img{
+    width:120px;
+    height:auto;
+}
+/*inputLine*/
+.inputLine{
+    /*width:270px;*/
+}
+.inputLine span{
+    display: inline-block;
+    background:#9c27b0;
+    width:8px;
+    height:8px;
+}
+.inputLine p{
+    display: inline-block;
+    border-top:1px solid #cccccc;
+    width:233px;
+    margin:0 8px;
+    vertical-align: middle;
+}
+/*input*/
+.inputCon{
+    background:#fff;
+    width:265px;
+    margin:38px auto 0;
+    border:1px solid #f1f1f1;
+    border-radius:8px;
+}
+.loginYi{
+    font-size:16px;
+    color:#666;
+    width:255px;
+
+    position: relative;
+}
+/*错误提示、*/
+.alertCon{
+    text-align: center;
+    margin:10px 0;
+    display: none;
+    position: relative;
+}
+.errorAlert{
+    position: absolute;
+    left:0;
+    width:100%;
+    text-align: center;
+    font-size:11px;
+    color:#d50000;
+    vertical-align: bottom;
+}
+.loginYi input{
+    border:none;
+    outline:none;
+    width:245px;
+    height:25px;
+    line-height:25px;
+    padding-left: 10px;
+    padding-top:-2px;
+    font-size: 16px;
+    color:#6c6c6c;
+}
+/*denglu*/
+.btnCon{
+    text-align: center;
+    margin-top:54px;
+}
+.btn.loginBtn{
+    background:#9c27b0;
+    border-radius:36px;
+    width:130px;
+    height:32px;
+    line-height:32px;
+    font-size:16px;
+    color:#ffffff;
+    outline: none;
+    border:none;
+}
+/*kan*/
+.kan{
+    position: fixed;
+    bottom:30px;
+    left:0;
+    text-align: center;
+    width:100%;
+}
+.kan a{
+    font-size:14px;
+    color:#9c27b0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

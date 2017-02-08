@@ -1,0 +1,156 @@
+/********************section********************/
+/*icon*/
+.rateIcon{
+    text-align: center;
+    padding:15px 0;
+}
+.rateIcon p{
+    margin:0;
+}
+.rateIcon img{
+    width:38px;
+    height:38px;
+}
+.rateIcon span{
+    display: block;
+    margin-top:5px;
+}
+/*项目动态*/
+.dynamicAll{
+    padding:10px 15px;
+}
+.readZi{
+    font-size:14px;
+    color:#5c5c5c;
+    border-bottom:1px solid #f1f1f1;
+    padding-bottom:6px;
+    margin-bottom:12px;
+}
+.readZi span{
+    border-bottom:3px solid #9C27B0;
+    padding-bottom:6px;
+}
+.dynamicYi{
+    margin-top:20px;
+}
+.dynamicUl{
+    list-style: none;
+    margin:0;
+    padding:0;
+}
+.dynamicUl li{
+    list-style: none;
+    margin:0 auto 12px;
+    padding:0;
+}
+.dynamicUl li:last-child{
+    margin-bottom:0;
+}
+.dynamicUl p{
+    font-size:12px;
+    color:#333333;
+}
+.dynamicUl li img{
+    margin-left:25px;
+    width:203px;
+    height:auto;
+    box-shadow:0 4px 8px rgba(0,0,0,.2);
+}
+.yue {
+    font-size: 16px;
+    color: #6e6e6e;
+    margin:0;
+}
+.ri{
+    margin:0;
+    font-size: 12px;
+    color: #6e6e6e;
+    padding-left:8px;
+}
+
+/*****************施工图集********************/
+.img-responsive{width:100%;}
+.imgDiv{
+    text-align: center;
+}
+.imgDiv p{
+    margin:15px 0 0 0;
+    padding:0 10px;
+}
+.imgDiv img{
+    border-radius:8px;
+    box-shadow:0 2px 4px 0  rgba(0,0,0,0.12);
+}
+
+/*******************提款明细*******************/
+.drawingAll{
+    margin:30px 0;
+    text-align:center;
+}
+.drawingTxt{
+    font-size:20px;
+    color:#3c3c3c;
+    margin-bottom:5px;
+    letter-spacing: 0.5px;
+}
+.drawingMon{
+    font-size:24px;
+    color:#fdc130;
+    letter-spacing: 0.5px;
+    margin:0;
+}
+/*ul*/
+.drawingDel{
+    margin:0;
+    padding:0;
+    list-style: none;
+}
+.drawingDel li{
+    margin:0 10px 15px 10px ;
+    background:#fafafa;
+    border-radius:8px;
+    height:40px;
+    line-height:40px;
+    padding:0 10px;
+    list-style: none;
+}
+.drawingDel p.lf{
+    font-size:16px;
+    color:#9b9b9b;
+    letter-spacing:0.39px;
+}
+.drawingDel p.rt{
+    font-size:19px;
+    color:#fdc130;
+    letter-spacing:0.46px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

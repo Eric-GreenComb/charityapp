@@ -1,0 +1,225 @@
+/*通用*/
+body {
+    font: 12px "microsoft yahei", Arial, Helvetica, sans-serif;
+    color:#999;
+    background:#fff;
+    margin:0;
+    padding:0;
+}
+a{color:#333;}
+a{text-decoration: none;}
+a:hover,a:focus,a:hover{text-decoration:none;color:#333;}
+/*img */
+.img-responsive{
+    display: block;
+    max-width:100%;
+    height:auto;
+}
+#offCanvasContentScroll{background:#fff;}
+img{vertical-align: middle;}
+.lf{float:left;}
+.rt{float:right;}
+.over{overflow:hidden;}
+
+/*headerTop*/
+.header{
+    position: fixed;
+    width:100%;
+    height:44px;
+    left:0;
+    top:0;
+}
+.headerTop{
+    background:#9C27B0;
+    padding:10px 15px;
+    position: relative;
+    height:44px;
+}
+.headerTop p{
+    margin:0;
+    display: inline-block;
+}
+.headerTop p.user img{
+    width:11px;
+    height:17px;
+    vertical-align: middle;
+}
+.headerTitle{
+    position: absolute;
+    width:100%;
+    left:0;
+    vertical-align: bottom;
+    text-align: center;
+    font-size:18px;
+    color:#ffffff;
+    bottom:10px;
+}
+
+/*****************水滴********************/
+/*newsPer*/
+.newsPer{
+    display: inline-block;
+    padding-top:5px;
+    font-size:14px;
+    color:#4a94ea;
+}
+/********************mine_contribute******************/
+.goTop{
+    position:relative;
+    top:0;
+    left:0;
+}
+.goTop img{
+    width:100%;
+    height:auto;
+    vertical-align: middle;
+}
+/*ul*/
+.traceUl{
+    padding:0;margin:0;
+    list-style: none;
+}
+.traceUl li{
+    padding:0 15px 5px 15px;
+}
+.traceUl li>span:first-child{
+    padding-right:20px;
+}
+.traceUl li span{
+    font-size:14px;
+    color:#3c3c3c;
+}
+.traceUl li span.traceIng,.traceIng{
+    font-size:14px;
+    color:#4285f4;
+}
+.traceUl li span.traceEnd,.traceEnd{
+    font-size:14px;
+    color:#34a826;
+}
+.traceUl li span.traceDelay,.traceDelay{
+    font-size:14px;
+    color:#c33;
+}
+.traceP{
+    background:rgba(225,225,225,0.2);
+    border-radius:4px;
+    width:73px;
+    height:28px;
+    line-height:28px;
+    text-align: center;
+    margin:0 auto;
+}
+
+/*foot*/
+.foot{
+    background:#fff;
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    z-index:100;
+    box-shadow:inset 0 1px 0 0 rgba(0,0,0,0.12);
+    height:56px;
+    text-align: center;
+}
+.foot button{
+    margin-top:11px;
+    border:1px solid #9c27b0;
+    color:#9c27b0;
+    border-radius:8px;
+    width:161px;
+    height:34px;
+}
+/*底部弹出框*/
+.mask{
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 200;
+    background-color: rgba(0,0,0,.5);
+    text-align: center;
+    width:100%;
+}
+
+/***************项目合约**************/
+.contractUl{
+    margin:0;
+    padding:0;
+    list-style: none;
+}
+.contractUl li{
+    margin:0;
+    padding:15px;
+    list-style: none;
+}
+.contractUl img{
+    width:100%;
+    height:auto;
+    box-shadow:0 2px 4px 0 rgba(0,0,0,0.12);
+}
+
+/*****************空页面****************/
+.nullView{
+    margin-top:144px;
+    text-align: center;
+}
+.nullView.nullViewGo{
+    margin-top:60px;
+}
+.nullView_zi{
+    font-size:16px;
+    color:#cacaca;
+    margin-top:10px;
+    letter-spacing: 0.6px;
+}
+.succeed_zi{
+    font-size:22px;
+    color:#3c3c3c;
+    text-align:center;
+    margin-top:22px;
+}
+.succeed_zi_sm{
+    font-size:14px;
+    color:#9b9b9b;
+    margin-top:18px;
+}
+.nullAct button.btn{
+    background:#ffffff;
+    border:1px solid #9c27b0;
+    border-radius:8px;
+    width:161px;
+    height:34px;
+    margin-top:40px;
+    font-size:16px;
+    color:#9C27B0;
+}
+/*scceed*/
+.foot>p{margin:0;}
+.foot>p>button{
+    width:auto;
+    padding:6px 25%;
+}
+.foot button.footBack{
+    background:#9C27B0;
+    color:#fff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
