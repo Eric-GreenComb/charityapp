@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecloudtime.model.Channel;
 import com.ecloudtime.model.Contract;
-import com.ecloudtime.model.Treaty;
+import com.ecloudtime.model.SmartContract;
 import com.ecloudtime.model.User;
 import com.ecloudtime.service.ApiService;
 import com.ecloudtime.service.HttpService;
@@ -41,13 +40,13 @@ public class ApiController extends BaseController{
     
     @ApiOperation(value="queryTreaty",notes="requires noting")
     @RequestMapping(value="/queryTreaty",method=RequestMethod.GET)
-    public Treaty queryTreaty(@RequestParam(value="name", required=false, defaultValue="treaty01") String name, Model model){
+    public SmartContract queryTreaty(@RequestParam(value="name", required=false, defaultValue="treaty01") String name, Model model){
         return apiService.queryTreaty(name);
     }
     
     @ApiOperation(value="queryTreaties",notes="requires noting")
     @RequestMapping(value="/queryTreaties",method=RequestMethod.GET)
-    public List<Treaty> queryTreaties(@RequestParam(value="name", required=false, defaultValue="treaty01") String name, Model model){
+    public List<SmartContract> queryTreaties(@RequestParam(value="name", required=false, defaultValue="treaty01") String name, Model model){
         return apiService.queryTreaties(name);
     }
     
@@ -105,7 +104,7 @@ public class ApiController extends BaseController{
 	
 	@ApiOperation(value="viewTreaty",notes="requires noting")
     @RequestMapping(value="/viewTreaty",method=RequestMethod.GET)
-    public Treaty viewTreaty(@RequestParam(value="name", required=false, defaultValue="contract01") String name, Model model){
+    public SmartContract viewTreaty(@RequestParam(value="name", required=false, defaultValue="contract01") String name, Model model){
 		return apiService.viewTreaty(name);
 	}
 	

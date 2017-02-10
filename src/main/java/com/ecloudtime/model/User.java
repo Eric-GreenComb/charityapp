@@ -1,14 +1,33 @@
 package com.ecloudtime.model;
 
+import java.util.List;
+
+import com.ecloudtime.utils.MoneyUtil;
+
 public class User {
     private String name;
     private Integer age;
     private String password;
     private String addr;
-    private String total;
     private String balance;
+    private int total;
+    private String totalStr;
+    private List<DonorContribution> contributions ;
+
+    private List<DonorTrack> trackings ;
     
-    public String getBalance() {
+    public String getTotalStr() {
+    	if(0!=total){
+    		return MoneyUtil.ccToMoneyFormat(total);
+    	}
+    	return "0.00";
+	}
+
+	public void setTotalStr(String totalStr) {
+		this.totalStr = totalStr;
+	}
+
+	public String getBalance() {
 		return balance;
 	}
 
@@ -16,13 +35,6 @@ public class User {
 		this.balance = balance;
 	}
 
-	public String getTotal() {
-		return total;
-	}
-
-	public void setTotal(String total) {
-		this.total = total;
-	}
 
 	public String getName() {
         return name;
@@ -54,6 +66,30 @@ public class User {
 
 	public void setAddr(String addr) {
 		this.addr = addr;
+	}
+
+	public int getTotal() {
+		return total;
+	}
+
+	public void setTotal(int total) {
+		this.total = total;
+	}
+
+	public List<DonorContribution> getContributions() {
+		return contributions;
+	}
+
+	public void setContributions(List<DonorContribution> contributions) {
+		this.contributions = contributions;
+	}
+
+	public List<DonorTrack> getTrackings() {
+		return trackings;
+	}
+
+	public void setTrackings(List<DonorTrack> trackings) {
+		this.trackings = trackings;
 	}
     
     

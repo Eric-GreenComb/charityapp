@@ -19,7 +19,7 @@
             <div class="headerIndex">
                 <!--微公益-->
                 <div class="headerTop">
-                    <p class="user">用户<span>${userName}</span></p>
+                    <p class="user">用户<span>${user.name}</span></p>
                     <p class="headerTitle">微公益</p>
                 </div>
                 <!--tree-->
@@ -29,7 +29,7 @@
                             <p class="lf"><img src="img/index/treeIcon.png" alt="" class="treeIcon"/></p>
                             <div class="rt">
                                 <p class="allGift">我已捐赠善款</p>
-                                <p class="allMoney"><span>2000.00</span>元</p>
+                                <p class="allMoney"><span>${user.totalStr}</span>元</p>
                             </div>
                         </div>
                     </div>
@@ -50,6 +50,29 @@
             <div class="newsCon">
                 <p class="newsIcon"><img src="img/index/newsIcon.png" alt="" class=""/>筹款中的公益项目</p>
                 <ul class="newsAll mui-table-view">
+                
+                	<#list treatys as smartcontract>
+						 <li class="mui-table-view-cell mui-row">
+	                        <div class="mui-col-xs-4 newsMask">
+	                            <img src="img/index/news01.png" alt="" class="img-responsive maskPic"/>
+	                            <p class="maskImg"></p>
+	                            <p class="maskTxt">共<span>${smartcontract.alreadyStr}</span>份爱心</p>
+	                        </div>
+	                        <div class="mui-col-xs-7 newsDel">
+	                            <p class="newsTitle">${smartcontract.name}</p>
+	                            <p class="newsTxt">${smartcontract.detail}</p>
+	                            <div class="newsMoney">
+	                                <p>已筹<span>${smartcontract.alreadyStr}</span>万元</p>
+	                                <p>目标<span>${smartcontract.goalStr}</span>万元</p>
+	                            </div>
+	                        </div>
+	                        <div class="mui-col-xs-1 newsImg">
+	                            <img src="img/index/per_10.png" alt="" class="img-responsive"/>
+	                            <p class="newsPerP"><span class="newsPer">10</span>%</p>
+	                        </div>
+	                    </li>
+					</#list>
+                
                     <li class="mui-table-view-cell mui-row">
                         <div class="mui-col-xs-4 newsMask">
                             <img src="img/index/news01.png" alt="" class="img-responsive maskPic"/>
@@ -156,20 +179,17 @@
 
 <script>
 window.onload = function(){
-	alert(1)
     //要执行的js代码段
     var w=$('.maskPic').css('width'),
         h=$('.maskPic').css('height');
     $('.maskImg').css('height',h);
     $('.maskImg').css('width',w);
     $('.maskTxt').css('width',w);
-    alert(2)
 };
 
 
 function shui(){
     var li=$('.newsAll li');
-    alert(3)
     for(var i=0;i<li.length;i++){
         var yi=parseFloat(($(li[i]).find('.newsMoney p:first-child span')).html()),
                 all=parseFloat(($(li[i]).find('.newsMoney p:last-child span')).html());

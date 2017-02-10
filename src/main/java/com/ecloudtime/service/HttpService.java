@@ -21,6 +21,7 @@ import com.ecloudtime.model.ChainCodeInvokeRequest;
 import com.ecloudtime.model.ChainCodeQueryRequest;
 import com.ecloudtime.utils.HttpRequestUtils;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 @Service
 public class HttpService {
@@ -35,7 +36,7 @@ public class HttpService {
 	private static ChainCodeInvokeRequest invokeRequest;
 	private static ChainCodeDeployRequest deployRequest;
 	private static JSONObject jsonParam;
-	private static JSONObject jsonResponse;
+	private static Object jsonResponse;
 	
 	public HttpService() {
 		// TODO Auto-generated constructor stub
@@ -48,7 +49,7 @@ public class HttpService {
 		return httpPost(url,jsonParam,false);
 	}
 	
-	public static JSONObject httpPostQuery(String url,String chaincodeName,String funcName,List<String> args){
+	public static Object httpPostQuery(String url,String chaincodeName,String funcName,List<String> args){
 		queryRequest=new ChainCodeQueryRequest(chaincodeName,funcName,args);
 		jsonParam=JSONObject.fromObject(queryRequest);
 		logger.info("jsonParams_query:"+jsonParam.toString());
@@ -60,7 +61,7 @@ public class HttpService {
 
 	
 	
-	public static JSONObject httpPostInvoke(String url,String chaincodeName,String funcName,List<String> args){
+	public static Object httpPostInvoke(String url,String chaincodeName,String funcName,List<String> args){
 		invokeRequest=new ChainCodeInvokeRequest(chaincodeName,funcName,args);
 		jsonParam=JSONObject.fromObject(invokeRequest);
 		logger.info("jsonParams_invoke:"+jsonParam.toString());
@@ -70,7 +71,7 @@ public class HttpService {
 		return jsonResponse;
 	}
 	
-	public static JSONObject httpPostDeploy(String path,String url){
+	public static Object httpPostDeploy(String path,String url){
 		deployRequest=new ChainCodeDeployRequest(path);
 		jsonParam=JSONObject.fromObject(deployRequest);
 		logger.info("jsonParams_deploy:"+jsonParam.toString());
@@ -84,13 +85,21 @@ public class HttpService {
 		if(null!=jsonResponse){
 	    	String status;
 			try {
-				status = jsonResponse.getJSONObject("result").getString("status");
+				status = ((JSONObject)jsonResponse).getJSONObject("result").getString("status");
 			} catch (Exception e) {
 				status="error";
 			}
 	    	if("ok".equalsIgnoreCase(status)){
 	    		logger.info("执行成功success!");
-	    		jsonResponse=jsonResponse.getJSONObject("result").getJSONObject("message");
+	    		if(((JSONObject)jsonResponse).getJSONObject("result").get("message") instanceof JSONObject){
+	    			jsonResponse=((JSONObject)jsonResponse).getJSONObject("result").getJSONObject("message");
+	    		}else if(((JSONObject)jsonResponse).getJSONObject("result").get("message") instanceof JSONArray){
+	    			jsonResponse=(JSONArray)((JSONObject)jsonResponse).getJSONObject("result").getJSONArray("message");
+//	    		}else if(((JSONObject)jsonResponse).getJSONObject("result").get("message") instanceof String){
+//	    			jsonResponse=(String)((JSONObject)jsonResponse).getJSONObject("result").getString("message");
+	    		}else {
+	    			jsonResponse=null;
+	    		}
 	    	}else{
 	    		logger.info("执行失败error!");
 	    		jsonResponse=null;
@@ -105,16 +114,17 @@ public class HttpService {
         try {
             if (null != jsonParam) {
                 //解决中文乱码问题
-                method.setEntity(new StringEntity(jsonParam.toString(), Charset.forName("UTF-8")));  
+                method.setEntity(new StringEntity(jsonParam.toString(), Charset.forName("utf-8")));  
             }
             result = httpClient.execute(method);
-            url = URLDecoder.decode(url, "UTF-8");
+            url = URLDecoder.decode(url, "utf-8");
             /**请求发送成功，并得到响应**/
             if (result.getStatusLine().getStatusCode() == 200) {
                 String str = "";
                 try {
                     /**读取服务器返回过来的json字符串数据**/
                     str = EntityUtils.toString(result.getEntity());
+                    str=new String(str.getBytes("ISO-8859-1"),"utf-8");
                     if (noNeedResponse) {
                         return null;
                     }

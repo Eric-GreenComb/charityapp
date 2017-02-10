@@ -3,7 +3,6 @@ package com.ecloudtime.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,28 +10,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ecloudtime.model.SmartContract;
 import com.ecloudtime.model.User;
 import com.ecloudtime.service.ApiService;
+import com.ecloudtime.service.CacheManager;
 import com.wordnik.swagger.annotations.ApiOperation;
 
-@Controller
-public class LoginController extends BaseController{
-	
+public class DonateController extends BaseController{
+
 	@Autowired
     private ApiService apiService;
+	@Autowired
+	private CacheManager cacheManager;
 	
-	
-	@RequestMapping("/login")
-	@ApiOperation(value="login",notes="requires login Name")
-	public String login(@RequestParam(value = "name", required = false, defaultValue = "name") String name,
-			Model model) {
-		model.addAttribute("name", name);
-		return "login";
-	}
-	
-	@RequestMapping("/index")
-	@ApiOperation(value="index",notes="requires login Name default user01")
+	@RequestMapping("/myDonateHis")
+	@ApiOperation(value="myDonateHis",notes="myDonateHis")
 	public String index(@RequestParam(value = "name", required = false, defaultValue = "user01") String name,
 			Model model) {
 		model.addAttribute("name", name);
+		
 		User user =apiService.queryDonor(name);
 		model.addAttribute("user", user);
 		name="treaty01";
@@ -40,5 +33,4 @@ public class LoginController extends BaseController{
 		model.addAttribute("treatys", treatys);
 		return "index";
 	}
-
 }
