@@ -51,7 +51,7 @@
                 <p class="newsIcon"><img src="img/index/newsIcon.png" alt="" class=""/>筹款中的公益项目</p>
                 <ul class="newsAll mui-table-view">
                 
-                	<#list treatys as smartcontract>
+                	<#list smartcontracts as smartcontract>
 						 <li class="mui-table-view-cell mui-row">
 	                        <div class="mui-col-xs-4 newsMask">
 	                            <img src="img/index/news01.png" alt="" class="img-responsive maskPic"/>

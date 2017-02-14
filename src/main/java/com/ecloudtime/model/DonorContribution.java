@@ -1,5 +1,7 @@
 package com.ecloudtime.model;
 
+import com.ecloudtime.utils.DateUtil;
+
 public class DonorContribution {
 	/*Name              string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
 	SmartContractName string `protobuf:"bytes,2,opt,name=smartContractName" json:"smartContractName,omitempty"`
@@ -16,6 +18,20 @@ public class DonorContribution {
 	private long amount;
 
 	private int timestamp;
+	
+	private String donorTimeStr;
+	
+	public String getDonorTimeStr() {
+		if(0!=timestamp){
+			return DateUtil.getDateFromUnixTime(timestamp);
+		}
+		
+		return donorTimeStr;
+	}
+
+	public void setDonorTimeStr(String donorTimeStr) {
+		this.donorTimeStr = donorTimeStr;
+	}
 
 	public String getDonorid() {
 		return donorid;

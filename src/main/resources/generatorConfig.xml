@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+    <!DOCTYPE generatorConfiguration 
+      PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+      "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+    <generatorConfiguration>
+    <!-- 配置参数从properties中读取 -->
+    <properties resource="generatorConfig.properties" />
+    <context id="Mysql" targetRuntime="MyBatis3Simple">
+      <commentGenerator>
+        <property name="suppressAllComments" value="true"/>
+      </commentGenerator>
+      <!-- 数据库连接 -->
+    <jdbcConnection driverClass="${jdbc.driverClass}"
+        connectionURL="${jdbc.url}" userId="${jdbc.user}" password="${jdbc.password}">
+    </jdbcConnection>
+      <javaTypeResolver>
+         <property name="forceBigDecimals" value="false"/>
+      </javaTypeResolver>
+      <!-- 实体 -->
+      <javaModelGenerator targetPackage="com.ecloudtime.model" targetProject="src/main/java">
+          <property name="enableSubPackages" value="true"/>
+          <property name="trimStrings" value="true"/>
+      </javaModelGenerator>
+        <!-- mapper文件 -->      
+      <sqlMapGenerator targetPackage="mybatis" targetProject="src/main/resources">
+           <property name="enableSubPackages" value="true"/>
+      </sqlMapGenerator>   
+      <!-- mapper接口 --> 
+      <javaClientGenerator type="XMLMAPPER" targetPackage="com.ecloudtime.mapper" targetProject="src/main/java">
+        <property name="enableSubPackages" value="true"/>
+      </javaClientGenerator>
+      <!-- tableName表名，domainObjectName实体名 -->
+      <table  tableName="user" domainObjectName="Bargain" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false">
+
+      </table>
+    </context>
+
+    </generatorConfiguration>

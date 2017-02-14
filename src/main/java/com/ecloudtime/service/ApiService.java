@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ecloudtime.model.BlockInfo;
 import com.ecloudtime.model.Contract;
 import com.ecloudtime.model.DonorContribution;
 import com.ecloudtime.model.DonorTrack;
@@ -35,7 +36,7 @@ public class ApiService {
 
 	@Value("${chaincode.base.url}")
 	private String ccBaseUrl;
-
+	
 	@Value("${chaincode.base.chaincodeName}")
 	private String chaincodeName;
 
@@ -45,8 +46,8 @@ public class ApiService {
 	@Value("${chaincode.base.bargain01Args}")
 	private String bargain01Args;
 
-	@Value("${chaincode.base.user01Args}")
-	private String user01Args;
+	@Value("${chaincode.base.donor01Args}")
+	private String donor01Args;
 
 	@Value("${chaincode.base.channel01Args}")
 	private String channel01Args;
@@ -99,10 +100,10 @@ public class ApiService {
 	}
 
 	// 查询用户钱包 done
-	public User queryAccount(@RequestParam(value = "name", required = false, defaultValue = "user01") String name) {
+	public User queryAccount(@RequestParam(value = "name", required = false, defaultValue = "donor01") String name) {
 		List<String> args = new ArrayList<String>();
-		if ("user01".equals(name)) {
-			args.add(user01Args);
+		if ("donor01".equals(name)) {
+			args.add(donor01Args);
 		} else if ("channel01".equals(name)) {
 			args.add(channel01Args);
 		} else if ("fund01".equals(name)) {
@@ -204,8 +205,8 @@ public class ApiService {
 
 	public User queryDonor(String name) {
 		List<String> args = new ArrayList<String>();
-		if ("user01".equals(name)) {
-			args.add(user01Args);
+		if ("donor01".equals(name)) {
+			args.add(donor01Args);
 		} else {
 			args.add(name);
 		}
@@ -264,7 +265,7 @@ public class ApiService {
 		List<String> args = new ArrayList<String>();
 		String msg = "error";
 		args.add(channel01Args);
-		args.add(user01Args);
+		args.add(donor01Args);
 		args.add(donate01ChannelArgs);
 		args.add(donate01FundArgs);
 		JSONObject jsonResponse = (JSONObject)httpService.httpPostInvoke(ccBaseUrl, chaincodeName, "donated", args);
@@ -318,6 +319,7 @@ public class ApiService {
 		}
 		return treaty;
 	}*/
+	
 	
 	/*********************************** 分割线 ***********************************************/
 

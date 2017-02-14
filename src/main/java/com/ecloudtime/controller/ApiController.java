@@ -9,12 +9,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ecloudtime.model.BlockInfo;
 import com.ecloudtime.model.Contract;
 import com.ecloudtime.model.SmartContract;
+import com.ecloudtime.model.Transaction;
 import com.ecloudtime.model.User;
 import com.ecloudtime.service.ApiService;
+import com.ecloudtime.service.BlockInfoService;
 import com.ecloudtime.service.HttpService;
 import com.wordnik.swagger.annotations.ApiOperation;
+
+import net.sf.json.JSONObject;
 
 @RestController
 @RequestMapping(value="/apicc")
@@ -24,6 +29,11 @@ public class ApiController extends BaseController{
     private HttpService httpService;
     @Autowired
     private ApiService apiService;
+    
+    @Autowired
+    private BlockInfoService blockInfoService;
+    
+    
     
     
 	@ApiOperation(value="queryBank",notes="requires noting")
@@ -98,6 +108,7 @@ public class ApiController extends BaseController{
     public String destroycoinbase(@RequestParam(value="name", required=false, defaultValue="contract01") String name, Model model){
 		return apiService.destroycoinbase(name);
 	}
+	
 	
     /***********************************分割线***********************************************/
 	

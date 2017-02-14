@@ -19,7 +19,7 @@ public class BaseController {
 
 	@ModelAttribute("system")  
     public Map addBaseSystemParam() {  
-        System.out.println("Inside of addBaseSystemParam");
+//        logger.info("Inside of addBaseSystemParam");
         Map<String,String> params = new HashMap<String,String>();
         params.put("basePath", systemBasePath);
         return params;  

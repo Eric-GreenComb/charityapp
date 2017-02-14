@@ -1,0 +1,397 @@
+@charset "utf-8";
+/*通用样式*/
+body {
+    font: 12px "microsoft yahei", Arial, Helvetica, sans-serif;
+    color:#666;
+    margin:0;
+    padding:0;
+}
+ul,li,p,h1,h2,h3,h4,h5,h6,dl,dt,dd,input {
+    margin:0;
+    padding:0;
+    border:none;
+    list-style:none;
+}
+iframe{
+    width:0;
+    height:0;
+    margin:0;
+    padding:0;
+}
+input,select,option {border:none;}
+.lf   {float:left;}
+.rt  {float:right;}
+.clear  {clear:both;}
+a{text-decoration:none; color:#1a1a1a;}
+a:hover{color:#9c27b0;text-decoration: none;}
+img{ vertical-align: middle; border:none;}
+nav,#banner,section,footer{
+    margin:0 auto;
+}
+.container{
+    width:945px;
+    margin:0 auto;
+    overflow: hidden;
+}
+
+/******************************header*******************************/
+.header{
+    background:#9c27b0;
+    height:50px;
+    line-height:50px;
+    width:100%;
+}
+.logoDiv{
+    height:50px;
+}
+.logoDiv img{
+    margin-bottom:5px;
+}
+.logoTxt{
+    font-size:18px;
+    color:#ffffff;
+    letter-spacing:1px;
+    padding-left:5px;
+}
+/*搜索*/
+.search_con{
+    display: inline-block;
+    margin-right:5px;
+    border-radius: 5px;
+}
+.search{
+    width:220px;
+    height:22.5px;
+    padding:0 5px;
+    letter-spacing: 1px;
+    outline: none;
+    font-size:14px;
+    line-height:22.5px;
+    color:#fff;
+    opacity:0.5;
+    background:rgba(250,250,250,0.30);
+    border:1px solid rgba(250,250,250,0.2);
+    vertical-align: middle;
+}
+.search_con label{
+    background:#fff ;
+    display: inline-block;
+    width:45px;
+    text-align: center;
+    line-height:24px;
+    margin-left:-4px;
+    vertical-align: middle;
+}
+.search_con label a{
+    display: inline-block;
+    width:45px;
+    line-height:24px;
+}
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:#fff;
+    opacity:0.8;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:#fff;
+    opacity:0.8;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:#fff;
+    opacity:0.8;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:#fff;
+    opacity:0.8;
+}
+
+/************************section***************************/
+.section{
+    background:#fafafa;
+    min-height:600px;
+}
+.section .container{
+    background:#fff;
+    padding:24px;
+    box-sizing: border-box;
+    min-height:600px;
+}
+/*lf*/
+.secLf{
+    width:647px;
+}
+/*节点共识*/
+.nodeAll{
+    background:#fafafa;
+    border-radius:8px;
+    width:100%;
+    padding:14px 8px 10px 8px;
+    box-sizing: border-box;
+    margin-bottom:15px;
+}
+.nodeTxt{
+    font-size:16px;
+    color:#4a4a4a;
+    letter-spacing:1px;
+}
+/*ul*/
+.nodeNews{
+    text-align:center;
+}
+.nodeNewsYi{
+    display: inline-block;
+    text-align:center;
+    width:130px;
+}
+.nodeNewsYi p{
+    margin-bottom:4px;
+}
+.nodeNewsYiQuan{
+    width:72px;
+    height:72px;
+    border-radius:100%;
+    margin:0 auto;
+}
+.nodeNewsYiQuan.green{
+    background:#34a826;
+}
+.nodeNewsYiQuan.green span{
+    color:#ffffff;
+}
+.nodeNewsYiQuan.gray span{
+    color:#6c6c6c;
+}
+.nodeNewsYiQuan.gray{
+    background:#d8d8d8;
+}
+.nodeNewsYiQuan span{
+    line-height:72px;
+    font-size:17px;
+}
+.nodeNewsYiNew{
+    font-size:13px;
+    color:#9c9c9c;
+    letter-spacing:0.77px;
+}
+.nodeNewsYiDian{
+    font-size:13px;
+    color:#4a4a4a;
+    letter-spacing:0.77px;
+}
+/*最新交易信息*/
+.newsAll .nodeTxt{
+    padding: 8px;
+    background:#fafafa;
+    height:24px;
+    line-height:24px;
+}
+/*ul*/
+.newsUl{
+    text-align: center;
+    padding:0 8px ;
+    background: #fafafa;
+}
+.newsUl li{
+    height:40px;
+    line-height: 40px;
+}
+.newsUl li span,.newsUl li a,.newsTitle span{
+    display: inline-block;
+    width:33%;
+}
+.newsTitle span{
+    font-size:15px;
+    color:#4a4a4a;
+    letter-spacing:0.88px;
+    height:40px;
+    line-height: 40px;
+    text-align: center;
+}
+.newsInfo span{
+    font-size:14px;
+    color: #4a4a4a;
+}
+.newsInfo a{
+    color:#9c27b0;
+    font-size:14px;
+}
+
+/*rt*/
+.secRt{
+    width:240px;
+}
+.partUl{
+    background:#fafafa;
+}
+.partUl li{
+    padding:0 8px;
+}
+.partUl li:first-child{
+    background:#fff;
+}
+.partUl li a,.partUl li span{
+    display: inline-block;
+    width:50%;
+    text-align: left;
+}
+.partUl li span:last-child{
+    text-align: right;
+}
+.partUl li{
+    height:35px;
+    line-height: 35px;
+}
+.partUl .newsTitle span{
+    font-size: 14px;
+}
+.newsAll .nodeTxt.partTxt{
+    height:19px;
+    line-height: 19px;
+}
+
+/*****************************区块详情************************8*/
+.partYi{
+    width:736px;
+    margin:0 auto 20px;
+    background:#fafafa;
+    padding:15px 30px;
+    border-left:4px solid #9c27b0;
+}
+.partYi p:not(:last-child){
+    margin-bottom:18px;
+}
+/********************交易详情**********************/
+.partName{
+    font-size:18px;
+    color:#4a4a4a;
+    letter-spacing:1px;
+}
+.partInfo span{
+    font-size:14px;
+    color:#4a4a4a;
+    letter-spacing:0.77px;
+}
+.partInfo span:first-child{
+    display: inline-block;
+    width:130px;
+}
+.color,.partInfo span.color{
+    color:#9c27b0;
+    font-size:14px;
+}
+.partXlh{
+    width:800px;
+    margin:0 auto 20px;
+    border-top:2px solid #d8d8d8;
+    padding-top:12px;
+}
+.partXlh p{
+    margin-bottom:10px;
+}
+.partShu{
+    font-size:14px;
+    color:#666;
+    letter-spacing:0.88px;
+    word-break: break-all;
+}
+/*tu*/
+.moneyAll{
+    width:600px;
+    padding:0 100px;
+    margin:25px auto 20px;
+    font-size: 14px;
+    color:#4a4a4a;
+    letter-spacing:0.88px;
+}
+.dealMoney{
+    display: inline-block;
+    vertical-align: top;
+}
+.jkr{
+    padding-right:90px;
+}
+.zhuan{
+    margin:0 35px;
+}
+.dealMoney li{
+    line-height: 40px;
+}
+.dealMoney li span:first-child{
+    padding-right:80px;
+}
+/*合约Id*/
+#contractId{
+    cursor: pointer;
+}
+.dealDel{
+    display: none;
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(255,255,255,.6);
+    margin:0 auto;
+}
+.dealMask{
+    background:#ffffff;
+    box-shadow:0px 4px 4px 0px rgba(0,0,0,0.12), 0px 4px 8px 0px rgba(0,0,0,0.24);
+    border-radius:16px;
+    width:664px;
+    height:304px;
+    position:absolute;
+    margin:0 auto;
+    top:20%;
+    left:24%;
+    padding:16px 0;
+}
+.dealTitle{
+    font-size:14px;
+    color:#333333;
+    padding-left:187px;
+    border-bottom:2px solid #fafafa;
+    padding-bottom:15px;
+}
+.maskColor{
+    background:#9c27b0;
+    width:56px;
+    height:4px;
+    margin-left:187px;
+    margin-top:-3px;
+}
+.maskUl{
+    padding-left:187px;
+    margin-top:30px;
+}
+.maskUl li{
+    font-size:12px;
+    color:#6e6e6e;
+    line-height:18px;
+}
+.close{
+    position:absolute;
+    top:80%;
+    left:48%;
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
