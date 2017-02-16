@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
-    <title>首页--图书</title>
+    <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
@@ -19,7 +19,7 @@
             <div class="headerIndex">
                 <!--微公益-->
                 <div class="headerTop">
-                    <p class="user">用户<span>${user.name}</span></p>
+                    <p class="user">用户<span>${user.name?if_exists}</span></p>
                     <p class="headerTitle">微公益</p>
                 </div>
                 <!--tree-->
@@ -36,11 +36,12 @@
                 </div>
                 <!--捐款-->
                 <div class="mine mui-row">
-                    <dl class="mui-col-xs-6">
-                        <dt><img src="img/index/giftIcon.png" alt=""/></dt>
+                    <dl class="mui-col-xs-6" id="gift" >
+                        <dt><img src="img/index/giftIcon.png" alt="" /></dt>
                         <dd>捐款记录</dd>
+                        
                     </dl>
-                    <dl class="mui-col-xs-6">
+                    <dl class="mui-col-xs-6" id="contribute" >
                         <dt><img src="img/index/traceIcon.png" alt=""/></dt>
                         <dd>善款追踪</dd>
                     </dl>
@@ -73,101 +74,6 @@
 	                    </li>
 					</#list>
                 
-                    <li class="mui-table-view-cell mui-row">
-                        <div class="mui-col-xs-4 newsMask">
-                            <img src="img/index/news01.png" alt="" class="img-responsive maskPic"/>
-                            <p class="maskImg"></p>
-                            <p class="maskTxt">共<span>1234</span>份爱心</p>
-                        </div>
-                        <div class="mui-col-xs-7 newsDel">
-                            <p class="newsTitle">宁夏母亲水窖项目</p>
-                            <p class="newsTxt">项目简介项目简介项目简介项目简介干活就爱看的施工方发动机号分公司附近可兑换水电费及航空股份的</p>
-                            <div class="newsMoney">
-                                <p>已筹<span>100</span>万元</p>
-                                <p>目标<span>2000</span>万元</p>
-                            </div>
-                        </div>
-                        <div class="mui-col-xs-1 newsImg">
-                            <img src="img/index/per_10.png" alt="" class="img-responsive"/>
-                            <p class="newsPerP"><span class="newsPer">10</span>%</p>
-                        </div>
-                    </li>
-                    <li class="mui-table-view-cell mui-row">
-                        <div class="mui-col-xs-4 newsMask">
-                            <img src="img/index/news02.png" alt="" class="img-responsive maskPic"/>
-                            <p class="maskImg"></p>
-                            <p class="maskTxt">共<span>1234</span>份爱心</p>
-                        </div>
-                        <div class="mui-col-xs-7 newsDel">
-                            <p class="newsTitle">宁夏母亲水窖项目</p>
-                            <p class="newsTxt">项目简介项目简介项目简介项目简介罕见的反馈个梵蒂冈</p>
-                            <div class="newsMoney">
-                                <p>已筹<span>1000</span>万元</p>
-                                <p>目标<span>2000</span>万元</p>
-                            </div>
-                        </div>
-                        <div class="mui-col-xs-1 newsImg">
-                            <img src="img/index/per_10.png" alt="" class="img-responsive"/>
-                            <p class="newsPerP"><span class="newsPer">10</span>%</p>
-                        </div>
-                    </li>
-                    <li class="mui-table-view-cell mui-row">
-                        <div class="mui-col-xs-4 newsMask">
-                            <img src="img/index/news01.png" alt="" class="img-responsive maskPic"/>
-                            <p class="maskImg"></p>
-                            <p class="maskTxt">共<span>1234</span>份爱心</p>
-                        </div>
-                        <div class="mui-col-xs-7 newsDel">
-                            <p class="newsTitle">宁夏母亲水窖项目</p>
-                            <p class="newsTxt">项目简介项目简介项目简介项目简介干活就爱看的施工方发动机号分公司附近可兑换水电费及航空股份的</p>
-                            <div class="newsMoney">
-                                <p>已筹<span>1000</span>万元</p>
-                                <p>目标<span>2000</span>万元</p>
-                            </div>
-                        </div>
-                        <div class="mui-col-xs-1 newsImg">
-                            <img src="img/index/per_10.png" alt="" class="img-responsive"/>
-                            <p class="newsPerP"><span class="newsPer">10</span>%</p>
-                        </div>
-                    </li>
-                    <li class="mui-table-view-cell mui-row">
-                        <div class="mui-col-xs-4 newsMask">
-                            <img src="img/index/news02.png" alt="" class="img-responsive maskPic"/>
-                            <p class="maskImg"></p>
-                            <p class="maskTxt">共<span>1234</span>份爱心</p>
-                        </div>
-                        <div class="mui-col-xs-7 newsDel">
-                            <p class="newsTitle">宁夏母亲水窖项目</p>
-                            <p class="newsTxt">项目简介项目简介项目简介项目简介罕见的反馈个梵蒂冈</p>
-                            <div class="newsMoney">
-                                <p>已筹<span>1110</span>万元</p>
-                                <p>目标<span>2000</span>万元</p>
-                            </div>
-                        </div>
-                        <div class="mui-col-xs-1 newsImg">
-                            <img src="img/index/per_10.png" alt="" class="img-responsive"/>
-                            <p class="newsPerP"><span class="newsPer">10</span>%</p>
-                        </div>
-                    </li>
-                    <li class="mui-table-view-cell mui-row">
-                        <div class="mui-col-xs-4 newsMask">
-                            <img src="img/index/news02.png" alt="" class="img-responsive maskPic"/>
-                            <p class="maskImg"></p>
-                            <p class="maskTxt">共<span>1234</span>份爱心</p>
-                        </div>
-                        <div class="mui-col-xs-7 newsDel">
-                            <p class="newsTitle">宁夏母亲水窖项目</p>
-                            <p class="newsTxt">项目简介项目简介项目简介项目简介罕见的反馈个梵蒂冈</p>
-                            <div class="newsMoney">
-                                <p>已筹<span>1110</span>万元</p>
-                                <p>目标<span>2000</span>万元</p>
-                            </div>
-                        </div>
-                        <div class="mui-col-xs-1 newsImg">
-                            <img src="img/index/per_10.png" alt="" class="img-responsive"/>
-                            <p class="newsPerP"><span class="newsPer">10</span>%</p>
-                        </div>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -186,6 +92,22 @@ window.onload = function(){
     $('.maskImg').css('width',w);
     $('.maskTxt').css('width',w);
 };
+
+// 跳转
+    $('#gift').on('tap',function(){
+        window.location.href="${system.basePath}/app/queryDonorHis";
+//        window.location.href="mine_giftNull.html";
+    });
+    $('#contribute').on('tap',function(){
+        window.location.href="${system.basePath}/app/queryDonatedContract";
+//        window.location.href="mine_contributeNull.html";  //queryDonatedContract
+    });
+    $('.newsAll').on('tap','li',function(){
+          var smartContractAddr = this.getAttribute("id");
+          window.location.href="${system.basePath}/app/querySmartContract?smartContractAddr="+smartContractAddr;
+        //window.location.href="mine_contribute.html";
+        
+    });
 
 
 function shui(){

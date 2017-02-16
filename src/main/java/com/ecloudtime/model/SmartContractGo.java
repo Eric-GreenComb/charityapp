@@ -1,5 +1,7 @@
 package com.ecloudtime.model;
 
+import com.ecloudtime.utils.DateUtil;
+
 public class SmartContractGo {
 	private String addr;
 	private String id;
@@ -13,12 +15,36 @@ public class SmartContractGo {
 	private int fundManangerFee;
 	private int channelFee;
 	private int createTimestamp;
+	private String createTimeStr;
 	private int utilTimestamp;
+	private String endTimeStr;
 	private int terminationTimestamp;
 	private String foundation;
 	private String attachhash;
 	private int status;
 	private String remark;
+	
+	public String getCreateTimeStr() {
+		if(0!=createTimestamp){
+			return DateUtil.getDateFromUnixTime(createTimestamp);
+		}
+		return createTimeStr;
+	}
+	public String getEndTimeStr() {
+		if(0!=utilTimestamp){
+			return DateUtil.getDateFromUnixTime(utilTimestamp);
+		}
+		return endTimeStr;
+	}
+
+	public void setCreateTimeStr(String createTimeStr) {
+		this.createTimeStr = createTimeStr;
+	}
+
+
+	public void setEndTimeStr(String endTimeStr) {
+		this.endTimeStr = endTimeStr;
+	}
 
 	public String getAddr() {
 		return addr;

@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <link rel="stylesheet" href="css/mui.min.css">
-    <link href="css/common.css" rel="stylesheet">
-    <link href="css/mine_gift.css" rel="stylesheet">
+    <link rel="stylesheet" href="${system.basePath}/css/mui.min.css">
+    <link href="${system.basePath}/css/common.css" rel="stylesheet">
+    <link href="${system.basePath}/css/mine_gift.css" rel="stylesheet">
 </head>
 <body>
 
@@ -17,7 +17,7 @@
 <div class="header">
     <!--微公益-->
     <div class="headerTop">
-        <p class="user"><img src="img/common/back.png" alt=""/></p>
+        <p class="user"><img src="${system.basePath}/img/common/back.png" alt=""/></p>
         <p class="headerTitle">捐款记录</p>
     </div>
 </div>
@@ -29,56 +29,36 @@
             <div class="newsCon">
                 <ul class="newsAll mui-table-view">
                 	<#list donorHisList as donorHis>
-                		<li class="mui-table-view-cell mui-row">
-	                        <div class="mui-col-xs-2 giftLeft">
+                		<li class="mui-table-view-cell mui-row" id="${donorHis.donorid?if_exists}">
+	                        <div class="mui-col-xs-3 giftLeft">
 	                            <p class="day">${donorHis.donorTimeStr?if_exists?substring(0,10)}</p>
-	                            <p class="time">${donorHis.donorTimeStr?if_exists?substring(10,20)}</p>
+	                            <p class="time">${donorHis.donorTimeStr?if_exists?substring(10)}</p>
 	                        </div>
-	                       <div class="mui-col-xs-10 over giftRight">
+	                       <div class="mui-col-xs-9 over giftRight">
 	                           <span class="giftTitle lf">${donorHis.smartContractName?if_exists}</span>
-	                           <span class="giftMoney rt"><span>&yen;${donorHis.amount?if_exists}</span><img src="img/common/more.png" alt=""/></span>
+	                           <span class="giftMoney rt"><span>&yen;${donorHis.amountStr?if_exists}</span><img src="${system.basePath}/img/common/more.png" alt=""/></span>
 	                       </div>
                    		</li>
                     </#list>
-                    <li class="mui-table-view-cell mui-row">
-                        <div class="mui-col-xs-2 giftLeft">
-                            <p class="day">今天</p>
-                            <p class="time">12:00</p>
-                        </div>
-                       <div class="mui-col-xs-10 over giftRight">
-                           <span class="giftTitle lf">宁夏母亲水窖项目各环节的老公哈萨克的刚开始都很快乐撒大哥</span>
-                           <span class="giftMoney rt"><span>&yen;50.00</span><img src="img/common/more.png" alt=""/></span>
-                       </div>
-                    </li>
-                    <li class="mui-table-view-cell mui-row giftFail">
-                        <div class="mui-col-xs-2 giftLeft">
-                            <p class="day">12/01</p>
-                            <p class="time">12:00</p>
-                        </div>
-                        <div class="mui-col-xs-10 over giftRight">
-                            <span class="giftTitle lf">宁夏母亲水窖项目</span>
-                            <span class="giftMoney rt"><span>&yen;50.00</span><img src="img/common/giftFali.png" alt=""/></span>
-                        </div>
-                    </li>
                 </ul>
             </div>
         </div>
     </div>
 </div>
 
-<script src="js/mui.min.js"></script>
-<script src="js/jquery-1.11.3.js"></script>
+<script src="${system.basePath}/js/mui.min.js"></script>
+<script src="${system.basePath}/js/jquery-1.11.3.js"></script>
 
 <script>
 function goback(){
-    alert(1)
 }
     //页面跳转
     $('.user').on('tap',function(){
         window.history.back(-1);
     });
     $('.newsAll').on('tap','li',function(){
-        window.location.href="mine_giftDel.html";
+     	var donorid = this.getAttribute("id");
+        window.location.href="${system.basePath}/app/queryDonorDeatail?donorid="+donorid;
     });
 
 

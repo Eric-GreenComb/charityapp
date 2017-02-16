@@ -29,7 +29,7 @@ public class DonateController extends BaseController{
 		User user =apiService.queryDonor(name);
 		model.addAttribute("user", user);
 		name="treaty01";
-		List<SmartContract> treatys= apiService.queryTreaties(name);
+		List<SmartContract> treatys= apiService.querySmartContracts(name);
 		model.addAttribute("treatys", treatys);
 		return "index";
 	}

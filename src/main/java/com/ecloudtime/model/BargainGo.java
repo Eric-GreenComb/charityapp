@@ -28,6 +28,7 @@ public class BargainGo {
 	private String bankAccount;
 	private int status;
 	private String remark;
+	private String attach;
 	public String getAddr() {
 		return addr;
 	}
@@ -99,6 +100,12 @@ public class BargainGo {
 	}
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	public String getAttach() {
+		return attach;
+	}
+	public void setAttach(String attach) {
+		this.attach = attach;
 	}
 	
 	

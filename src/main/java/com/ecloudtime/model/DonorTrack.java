@@ -2,7 +2,7 @@ package com.ecloudtime.model;
 
 public class DonorTrack {
   
-	private String donorid;
+	private String donorid;//捐款id
 	
 	private String drawid;//取款id
 

@@ -18,7 +18,8 @@
         <!--inputCon-->
         <div class="inputCon">
             <p class="loginYi">
-                <input type="text" id="userName" placeholder="用户账号"/>
+                <input type="text" id="userName" value="donor01" placeholder="用户账号"/>
+                <!-- <select name="userName" id="userName"><option value="donor01">donor01</option></select> -->
             </p>
             <div class="inputLine"><span></span><p></p><span></span></div>
             <p class="loginYi">
@@ -28,7 +29,7 @@
         <!--alert-->
         <p class="alertCon"><span class="errorAlert"><img src="img/common/errorAlert.png" alt=""/>密码错误！</span></p>
         <!--denglu -->
-        <p class="btnCon"><a href="#"><button class="btn loginBtn">登录</button></a></p>
+        <p class="btnCon"><a href="${system.basePath}/login_login"><button class="btn loginBtn">登录</button></a></p>
         <!--看看-->
         <p class="kan"><a href="${system.basePath}/index">我是访客，随便看看&gt;&gt;</a></p>
     </div>

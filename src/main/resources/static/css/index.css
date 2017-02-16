@@ -111,24 +111,24 @@ a:hover,a:focus,a:hover{text-decoration:none;color:#333;}
     background-size:100% 100%;
 }
 /*headerTop*/
-.headerTop{
+.headerTopRen{
    background:#9C27B0;
     padding:10px 15px;
     position: relative;
     height:44px;
 }
-.headerTop p{
+.headerTopRen p{
     margin:0;
     display: inline-block;
 }
-.headerTop p.user{
+.headerTopRen p.userRen{
     font-size:12px;
     color:#ffffff;
-    line-height:14px;
+    line-height:30px;
     text-align: left;
     vertical-align: middle;
 }
-.headerTitle{
+.headerTitleRen{
     position: absolute;
     width:100%;
     left:0;

@@ -76,9 +76,6 @@
 .mui-segmented-control.mui-segmented-control-inverted~.mui-slider-progress-bar{
     background-color:transparent;
 }
-.mui-control-content {
-    min-height:250px;
-}
 .mui-control-content .mui-loading {
     margin-top: 50px;
 }
@@ -107,8 +104,8 @@
 }
 
 .mui-control-content {
-    background-color: white;
-    min-height: 215px;
+    background-color: #fff;
+    min-height:300px;
 }
 .mui-control-content .mui-loading {
     margin-top: 50px;

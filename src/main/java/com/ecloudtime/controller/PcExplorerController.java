@@ -13,6 +13,7 @@ import com.ecloudtime.model.BlockInfo;
 import com.ecloudtime.model.Transaction;
 import com.ecloudtime.service.ApiService;
 import com.ecloudtime.service.BlockInfoService;
+import com.ecloudtime.service.CacheManager;
 import com.ecloudtime.service.HttpService;
 import com.wordnik.swagger.annotations.ApiOperation;
 
@@ -24,6 +25,8 @@ public class PcExplorerController extends BaseController{
     private HttpService httpService;
     @Autowired
     private ApiService apiService;
+    @Autowired
+	private CacheManager cacheManager;
     
     @Autowired
     private BlockInfoService blockInfoService;
@@ -46,7 +49,11 @@ public class PcExplorerController extends BaseController{
    	public String blockDetail(@RequestParam(value = "heigh", required = false, defaultValue = "0") int heigh,
    			Model model) {
    		model.addAttribute("heigh", heigh);
-   		BlockInfo blockInfo=blockInfoService.queryBlockByHigh(heigh-1);
+   		int cacheHigh=this.cacheManager.getCacheBlockHigh();
+   		BlockInfo blockInfo=new BlockInfo();
+   		blockInfo=blockInfoService.queryBlockByHigh(heigh-1);
+   		/*if(heigh<cacheHigh&&0!=cacheHigh){
+   		}*/
    		model.addAttribute("blockInfo", blockInfo);
    		return "explorer/blockDetail";
    	}

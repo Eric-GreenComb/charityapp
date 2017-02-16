@@ -32,12 +32,17 @@ img{vertical-align: middle;}
 .headerTop{
     background:#9C27B0;
     padding:10px 15px;
-    position: relative;
     height:44px;
+    text-align: center;
+    overflow:hidden;
 }
 .headerTop p{
     margin:0;
     display: inline-block;
+}
+p.user{
+   float:left;
+    /*padding:0 5px 10px 5px;*/
 }
 .headerTop p.user img{
     width:11px;
@@ -45,14 +50,10 @@ img{vertical-align: middle;}
     vertical-align: middle;
 }
 .headerTitle{
-    position: absolute;
-    width:100%;
-    left:0;
     vertical-align: bottom;
     text-align: center;
     font-size:18px;
     color:#ffffff;
-    bottom:10px;
 }
 
 /*****************水滴********************/
@@ -140,7 +141,7 @@ img{vertical-align: middle;}
     bottom: 0;
     left: 0;
     z-index: 200;
-    background-color: rgba(0,0,0,.5);
+    background-color: rgba(0,0,0,.55);
     text-align: center;
     width:100%;
 }

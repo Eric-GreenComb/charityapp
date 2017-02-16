@@ -2,6 +2,11 @@ package com.ecloudtime.controller;
 
 import java.util.List;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +17,8 @@ import com.ecloudtime.model.DonorContribution;
 import com.ecloudtime.model.SmartContract;
 import com.ecloudtime.model.User;
 import com.ecloudtime.service.ApiService;
+import com.ecloudtime.utils.Const;
+import com.ecloudtime.utils.SessionUtils;
 import com.wordnik.swagger.annotations.ApiOperation;
 
 @Controller
@@ -21,6 +28,14 @@ public class LoginController extends BaseController{
     private ApiService apiService;
 	
 	
+	@RequestMapping("/403")
+	@ApiOperation(value="login",notes="requires login Name")
+	public String loginNotAuth(@RequestParam(value = "name", required = false, defaultValue = "name") String name,
+			Model model) {
+		model.addAttribute("name", name);
+		return "403";
+	}
+	
 	@RequestMapping("/login")
 	@ApiOperation(value="login",notes="requires login Name")
 	public String login(@RequestParam(value = "name", required = false, defaultValue = "name") String name,
@@ -29,29 +44,44 @@ public class LoginController extends BaseController{
 		return "login";
 	}
 	
+	@RequestMapping("/login_login")
+	@ApiOperation(value="login_login",notes="requires login Name")
+	public String login_login(@RequestParam(value = "userName", required = true, defaultValue = "donor01") String userName,
+			Model model) {
+		model.addAttribute("userName", userName);
+		if(!"".equals(userName)){
+			User user =apiService.queryDonor(userName);
+			user.setName(userName);
+			Subject subject = SecurityUtils.getSubject(); 
+		    UsernamePasswordToken token = new UsernamePasswordToken(userName, userName+"_pwd"); 
+		    try { 
+		        subject.login(token); 
+		    } catch (AuthenticationException e) { 
+		    	
+		    }
+			
+			SessionUtils.putUserInfoToSession(user);
+			return index(userName,model);
+		}
+		
+		return "login";
+	}
+	
 	@RequestMapping("/index")
 	@ApiOperation(value="index",notes="requires login Name default user01")
 	public String index(@RequestParam(value = "name", required = false, defaultValue = "donor01") String name,
 			Model model) {
 		model.addAttribute("name", name);
-		User user =apiService.queryDonor(name);
+//		User user =apiService.queryDonor(name);
+		User user =SessionUtils.getUserFromSession();
 		if(null==user.getName())user.setName("donor01");
 		model.addAttribute("user", user);
 		name="smartcontract01";
-		List<SmartContract> smartcontracts= apiService.queryTreaties(name);
+		List<SmartContract> smartcontracts= apiService.querySmartContracts(name);
 		model.addAttribute("smartcontracts", smartcontracts);
 		return "index";
 	}
 	
-	@RequestMapping("/mine_gift")
-	@ApiOperation(value="mine_gift",notes="requires login Name")
-	public String mine_gift(@RequestParam(value = "name", required = false, defaultValue = "donor01") String name,
-			Model model) {
-		model.addAttribute("name", name);
-		User user =apiService.queryDonor(name);
-		List<DonorContribution> donorHisList=user.getContributions();
-		model.addAttribute("donorHisList", donorHisList);
-		return "mine_gift";
-	}
+	
 
 }

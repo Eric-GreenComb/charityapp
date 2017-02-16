@@ -51,13 +51,13 @@ public class ApiController extends BaseController{
     @ApiOperation(value="queryTreaty",notes="requires noting")
     @RequestMapping(value="/queryTreaty",method=RequestMethod.GET)
     public SmartContract queryTreaty(@RequestParam(value="name", required=false, defaultValue="treaty01") String name, Model model){
-        return apiService.queryTreaty(name);
+        return apiService.querySmartContract(name);
     }
     
     @ApiOperation(value="queryTreaties",notes="requires noting")
     @RequestMapping(value="/queryTreaties",method=RequestMethod.GET)
     public List<SmartContract> queryTreaties(@RequestParam(value="name", required=false, defaultValue="treaty01") String name, Model model){
-        return apiService.queryTreaties(name);
+        return apiService.querySmartContracts(name);
     }
     
     @ApiOperation(value="queryContract",notes="requires noting")

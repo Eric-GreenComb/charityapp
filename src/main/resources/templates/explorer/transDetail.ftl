@@ -53,8 +53,8 @@
             <p class="partName">交易信息</p>
             <p class="partInfo"><span>交易ID</span><span class="color">${transaction.txid?if_exists}</span></p>
             <p class="partInfo"><span>交易金额</span><span>90.00 &yen;</span><span>交易已确认</span></p>
-            <p class="partInfo"><span>所在区块(UUID)</span><a href="partDel.html" class="color">a49929f1ac2999e809997a49929f1ac2999e809997</a></p>
-            <p class="partInfo"><span>接收时间</span><span>{transaction.tranGenTime?if_exists}</span></p>
+            <p class="partInfo"><span>所在区块(stateHash)</span><a href="#" class="color">a49929f1ac2999e809997a49929f1ac2999e809997</a></p>
+            <p class="partInfo"><span>接收时间</span><span>${transaction.tranGenTime?if_exists}</span></p>
             <p class="partInfo"><span>合约ID</span><span class="color" id="contractId">2919239123[fake]</span></p>
         </div>
         <!--tu-->
@@ -63,9 +63,9 @@
             <span>90.00&yen;</span>
             <img src="${system.basePath}/img/common_pc/zhuan.png" alt="" class="zhuan"/>
             <ul class="dealMoney">
-                <li><span class="lf">合约账户</span><span class="rt">89.00&yen;</span></li>
-                <li><span class="lf">基金管理费账户</span><span class="rt">89.00&yen;</span></li>
-                <li><span class="lf">渠道账户</span><span class="rt">89.00&yen;</span></li>
+                <li><span class="lf">合约账户</span><span class="rt">87.00&yen;</span></li>
+                <li><span class="lf">基金管理费账户</span><span class="rt">1.00&yen;</span></li>
+                <li><span class="lf">渠道账户</span><span class="rt">2.00&yen;</span></li>
             </ul>
         </div>
         <!--序列化信息-->

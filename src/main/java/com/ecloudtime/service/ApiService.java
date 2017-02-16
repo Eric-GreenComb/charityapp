@@ -125,7 +125,7 @@ public class ApiService {
 		return user;
 	}
 
-	public SmartContract queryTreaty(@RequestParam(value = "name", required = false, defaultValue = "smartcontract01") String name) {
+	public SmartContract querySmartContract(@RequestParam(value = "name", required = false, defaultValue = "smartcontract01") String name) {
 		SmartContract treaty = new SmartContract();
 		List<String> args = new ArrayList<String>();
 		if ("smartcontract01".equals(name)) {
@@ -133,7 +133,7 @@ public class ApiService {
 		} else {
 			args.add(name);
 		}
-		JSONObject jsonResponse = (JSONObject) httpService.httpPostQuery(ccBaseUrl, chaincodeName, "queryTreaty", args);
+		JSONObject jsonResponse = (JSONObject) httpService.httpPostQuery(ccBaseUrl, chaincodeName, "querySmartContract", args);
 		if (null != jsonResponse) {
 			// 填充內容
 			treaty = (SmartContract) JSONObject.toBean(jsonResponse, SmartContract.class);
@@ -141,7 +141,7 @@ public class ApiService {
 		return treaty;
 	}
 
-	public List<SmartContract> queryTreaties(
+	public List<SmartContract> querySmartContracts(
 			@RequestParam(value = "name", required = false, defaultValue = "smartcontract01") String name) {
 		List<SmartContract> list = new ArrayList<SmartContract>();
 		List<String> args = new ArrayList<String>();
@@ -150,7 +150,7 @@ public class ApiService {
 		} else {
 			args.add(name);
 		}
-		JSONArray jsonResponse = (JSONArray) httpService.httpPostQuery(ccBaseUrl, chaincodeName, "queryTreaties", args);
+		JSONArray jsonResponse = (JSONArray) httpService.httpPostQuery(ccBaseUrl, chaincodeName, "querySmartContracts", args);
 		if (null != jsonResponse) {
 			Iterator<Object> it = jsonResponse.iterator();
 			while (it.hasNext()) {
