@@ -148,10 +148,10 @@
               <version>${version.shiro}</version>
           </dependency>
           
-           <!-- devtoolså¯ä»¥å®žçŽ°çƒ­éƒ¨ç½²ã€‚devtoolsä¼šç›‘å¬classpathä¸‹çš„æ–‡ä»¶å˜åŠ¨ï¼Œå¹¶ä¸”ä¼šç«‹å³é‡å¯åº”ç”¨ï¼ˆå‘ç”Ÿåœ¨ä¿å­˜æ—¶æœºï¼‰ï¼Œ
-			           æ³¨æ„ï¼šå› ä¸ºå…¶é‡‡ç”¨çš„è™šæ‹Ÿæœºæœºåˆ¶ï¼Œè¯¥é¡¹é‡å¯æ˜¯å¾ˆå¿«çš„å¦‚æžœè®¾ç½®SpringApplication.setRegisterShutdownHook(false)ï¼Œåˆ™è‡ªåŠ¨é‡å¯å°†ä¸èµ·ä½œç”¨ã€‚
-			           è®¾ç½® spring.devtools.restart.enabled å±žæ€§ä¸ºfalseï¼Œå¯ä»¥å…³é—­è¯¥ç‰¹æ€§ã€‚
-			           optional=true,ä¾èµ–ä¸ä¼šä¼ é€’ï¼Œ
+           <!-- devtools¿ÉÒÔÊµÏÖÈÈ²¿Êð¡£devtools»á¼àÌýclasspathÏÂµÄÎÄ¼þ±ä¶¯£¬²¢ÇÒ»áÁ¢¼´ÖØÆôÓ¦ÓÃ£¨·¢ÉúÔÚ±£´æÊ±»ú£©£¬
+			           ×¢Òâ£ºÒòÎªÆä²ÉÓÃµÄÐéÄâ»ú»úÖÆ£¬¸ÃÏîÖØÆôÊÇºÜ¿ìµÄÈç¹ûÉèÖÃSpringApplication.setRegisterShutdownHook(false)£¬Ôò×Ô¶¯ÖØÆô½«²»Æð×÷ÓÃ¡£
+			           ÉèÖÃ spring.devtools.restart.enabled ÊôÐÔÎªfalse£¬¿ÉÒÔ¹Ø±Õ¸ÃÌØÐÔ¡£
+			           optional=true,ÒÀÀµ²»»á´«µÝ£¬
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>

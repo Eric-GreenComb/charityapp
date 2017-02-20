@@ -5,9 +5,7 @@ import com.ecloudtime.utils.MoneyUtil;
 public class SmartContract extends SmartContractGo{
 
 	private String goalStr;//目标金额
-	private String alreadyStr;//已筹集金额
-	private int donateNumber;//捐献的爱心数量
-	private long  balance;//合约中的余额
+	private String pic;
 	
 	public String getGoalStr() {
 		if(null!=getGoal()&&0!=getGoal()){
@@ -23,20 +21,18 @@ public class SmartContract extends SmartContractGo{
 		return "0";
 	}
 	
-	public int getDonateNumber() {
-		return donateNumber;
-	}
-
-	public void setDonateNumber(int donateNumber) {
-		this.donateNumber = donateNumber;
-	}
 
 	public void setGoalStr(String goalStr) {
 		this.goalStr = goalStr;
 	}
-	
-	
-	
+
+	public String getPic() {
+		return pic;
+	}
+
+	public void setPic(String pic) {
+		this.pic = pic;
+	}
 	
 	/*Addr                 string       `protobuf:"bytes,1,opt,name=addr" json:"addr,omitempty"`
 	Id                   string       `protobuf:"bytes,2,opt,name=id" json:"id,omitempty"`

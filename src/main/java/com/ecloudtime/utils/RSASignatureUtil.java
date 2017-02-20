@@ -1,31 +1,14 @@
 package com.ecloudtime.utils;
 
-import java.io.BufferedReader;  
-import java.io.BufferedWriter;  
-import java.io.FileReader;  
-import java.io.FileWriter;  
-import java.io.IOException;  
-import java.security.InvalidKeyException;  
-import java.security.KeyFactory;  
-import java.security.KeyPair;  
-import java.security.KeyPairGenerator;  
-import java.security.NoSuchAlgorithmException;  
-import java.security.SecureRandom;  
-  
-import java.security.interfaces.RSAPrivateKey;  
-import java.security.interfaces.RSAPublicKey;  
-import java.security.spec.InvalidKeySpecException;  
-import java.security.spec.PKCS8EncodedKeySpec;  
-import java.security.spec.X509EncodedKeySpec;  
-  
-import javax.crypto.BadPaddingException;  
-import javax.crypto.Cipher;  
-import javax.crypto.IllegalBlockSizeException;  
-import javax.crypto.NoSuchPaddingException;  
-
-import java.security.PrivateKey;  
-import java.security.PublicKey;  
-
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.security.KeyFactory;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
 public class RSASignatureUtil {  
@@ -45,8 +28,7 @@ public class RSASignatureUtil {
      */  
     public static String loadPrivateKeyByFile(String path) throws Exception {  
         try {  
-            BufferedReader br = new BufferedReader(new FileReader(path  
-                    + "/pkcs8_private.pem"));  
+            BufferedReader br = new BufferedReader(new FileReader(path));  
             String readLine = null;  
             StringBuilder sb = new StringBuilder();  
             while ((readLine = br.readLine()) != null) {  
@@ -72,8 +54,7 @@ public class RSASignatureUtil {
      */  
     public static String loadPublicKeyByFile(String path) throws Exception {  
         try {  
-            BufferedReader br = new BufferedReader(new FileReader(path  
-                    + "/public.pem"));  
+            BufferedReader br = new BufferedReader(new FileReader(path));  
             String readLine = null;  
             StringBuilder sb = new StringBuilder();  
             while ((readLine = br.readLine()) != null) {  
@@ -89,6 +70,20 @@ public class RSASignatureUtil {
         }  
     }      
 
+    public static String signWithKeyPath(String content, String keyPath)throws Exception{
+    	String filepath=System.getProperty("user.dir")+File.separator+"rsakey"+File.separator;
+    	if("cebBank".equals(keyPath)){
+//    		"donor01pkcs8_private.pem";
+    		filepath+="cebbankpkcs8_private.pem";
+    	}else if("donor".equals(keyPath)){
+    		filepath+="donor01pkcs8_private.pem";
+    	}else if("fund".equals(keyPath)){
+    		filepath+="fund01pkcs8_private.pem";
+    	}	
+    	String privateKey = loadPrivateKeyByFile(filepath);
+    	return sign(content,privateKey);
+    }
+    
     public static String sign(String content, String privateKey)  
     {  
         try   
@@ -138,10 +133,19 @@ public class RSASignatureUtil {
         return false;  
     }               
 
+    
     public static void main(String[] args) throws Exception {  
-
-        String filepath="/home/eric/go/src/github.com/CebEcloudTime/tools/java/rsa";  
-
+    	
+//        String filepath="/home/eric/go/src/github.com/CebEcloudTime/tools/java/rsa";  
+   /* 	RSASignatureUtil  rsaUtil= new RSASignatureUtil();
+        String filepath=rsaUtil.getClass().getResource("/").getPath();
+        System.out.println(filepath);
+        URL xmlpath = rsaUtil.getClass().getClassLoader().getResource("rsaFile.go"); 
+        System.out.println(xmlpath); 
+//        System.out.println( System.getProperty("java.class.path")); 
+        System.out.println(System.getProperty("user.dir")); */
+		
+    	String filepath=System.getProperty("user.dir")+File.separator+"rsakey"+File.separator+"donor01pkcs8_private.pem";
         String key = loadPrivateKeyByFile(filepath);
 
         System.out.println(key);
@@ -157,9 +161,10 @@ public class RSASignatureUtil {
         System.out.println("签名串：");
         System.out.println(signstr);  
         System.out.println();  
-          
+        filepath=System.getProperty("user.dir")+File.separator+"rsakey"+File.separator+"donor01public.pem";
         System.out.println("---------------公钥校验签名------------------");  
         System.out.println("验签结果："+RSASignatureUtil.doCheck(content, signstr, loadPublicKeyByFile(filepath)));  
+        
         System.out.println();  
           
     }  

@@ -9,8 +9,9 @@ public class User {
     private Integer age;
     private String password;
     private String addr;
+    private String type;
     private String balance;
-    private int total;
+    private int total; //我已捐赠的款
     private String totalStr;
     private List<DonorContribution> contributions ;
 
@@ -91,6 +92,13 @@ public class User {
 	public void setTrackings(List<DonorTrack> trackings) {
 		this.trackings = trackings;
 	}
-    
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
     
 }

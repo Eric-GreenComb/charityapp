@@ -3,7 +3,7 @@
 <mapper namespace="com.ecloudtime.mapper.UserMapper">
  
   <select id="findUserInfo" resultType="com.ecloudtime.model.User">
-    select name, age,password from user
+    select * from user
   </select>
  
 </mapper>

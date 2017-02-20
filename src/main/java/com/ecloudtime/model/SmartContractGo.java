@@ -12,7 +12,11 @@ public class SmartContractGo {
 	private String partyA;
 	private String partyB;
 	private int type;
+	private String fundAddr;
+	private String fundName;
 	private int fundManangerFee;
+	private String channelAddr;
+	private String channelName;
 	private int channelFee;
 	private int createTimestamp;
 	private String createTimeStr;
@@ -188,6 +192,30 @@ public class SmartContractGo {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	public String getFundAddr() {
+		return fundAddr;
+	}
+	public void setFundAddr(String fundAddr) {
+		this.fundAddr = fundAddr;
+	}
+	public String getFundName() {
+		return fundName;
+	}
+	public void setFundName(String fundName) {
+		this.fundName = fundName;
+	}
+	public String getChannelAddr() {
+		return channelAddr;
+	}
+	public void setChannelAddr(String channelAddr) {
+		this.channelAddr = channelAddr;
+	}
+	public String getChannelName() {
+		return channelName;
+	}
+	public void setChannelName(String channelName) {
+		this.channelName = channelName;
 	}
 
 	/*

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecloudtime.mapper.CommonMapper">
+ 
+ 
+ <resultMap id="TransRelMap" type="com.ecloudtime.model.TransRel">
+		<result column="trans_id" property="transId" jdbcType="VARCHAR" />
+		<result column="txid" property="txid" jdbcType="VARCHAR" />
+		<result column="block_height" property="blockHeight" jdbcType="VARCHAR" />
+		<result column="tran_sign" property="tranSign" jdbcType="VARCHAR" />
+		<result column="contract_id" property="contractId" jdbcType="VARCHAR" />
+	</resultMap>
+ <!-- resultMap="TopicBookMap" -->
+   <select id="findContractInfo" resultType="com.ecloudtime.model.SmartContract">
+    select * from sys_contract
+    	where 1=1
+		<if test="id != null and  id != ''">
+			and id = #{id}
+		</if>
+		<if test="addr != null and  addr != ''">
+			and addr = #{addr}
+		</if>
+  </select>
+   <select id="findContractInfoList" resultType="com.ecloudtime.model.SmartContract">
+   	 select * from sys_contract
+  </select>
+  
+  <select id="findBargainInfo" resultType="com.ecloudtime.model.Bargain">
+    select * from sys_contract
+    	where 1=1
+		<if test="id != null and  id != ''">
+			and id = #{id}
+		</if>
+		<if test="addr != null and  addr != ''">
+			and addr = #{addr}
+		</if>
+  </select>
+  
+  <select id="findTransInfo" resultMap="TransRelMap">
+    select * from sys_trans_rel
+    	where 1=1
+		<if test="transId != null and  transId != ''">
+			and trans_id = #{transId}
+		</if>
+		<if test="txid != null and  txid != ''">
+			and txid = #{txid}
+		</if>
+  </select>
+  
+    <select id="findFundInfo" resultType="com.ecloudtime.model.Bargain">
+    select * from sys_contract
+    	where 1=1
+		<if test="id != null and  id != ''">
+			and id = #{id}
+		</if>
+		<if test="addr != null and  addr != ''">
+			and addr = #{addr}
+		</if>
+  </select>
+  
+    <select id="findDonorAddrByName" resultType="String" parameterType="string">
+    select addr from sys_user
+    	where 1=1
+		<if test="_parameter != null and  _parameter != ''">
+			and name = #{_parameter}
+		</if>
+  </select>
+    <select id="findSmartContractAddrByName" resultType="String" parameterType="string">
+    select addr from sys_contract
+    	where 1=1
+		<if test="_parameter != null and  _parameter != ''">
+			and id = #{_parameter}
+		</if>
+  </select>
+  
+</mapper>

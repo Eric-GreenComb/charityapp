@@ -52,19 +52,19 @@
                 <p class="newsIcon"><img src="img/index/newsIcon.png" alt="" class=""/>筹款中的公益项目</p>
                 <ul class="newsAll mui-table-view">
                 
-                	<#list smartcontracts as smartcontract>
+                	<#list smartcontracts as smt>
 						 <li class="mui-table-view-cell mui-row">
 	                        <div class="mui-col-xs-4 newsMask">
-	                            <img src="img/index/news01.png" alt="" class="img-responsive maskPic"/>
+	                            <img src="${smt.pic?if_exists}" alt="" class="img-responsive maskPic"/>
 	                            <p class="maskImg"></p>
-	                            <p class="maskTxt">共<span>${smartcontract.alreadyStr}</span>份爱心</p>
+	                            <p class="maskTxt">共<span>${smt.donateNumber?if_exists}</span>份爱心</p>
 	                        </div>
 	                        <div class="mui-col-xs-7 newsDel">
-	                            <p class="newsTitle">${smartcontract.name}</p>
-	                            <p class="newsTxt">${smartcontract.detail}</p>
+	                            <p class="newsTitle">${smt.smartContract.name?if_exists}</p>
+	                            <p class="newsTxt">${smt.smartContract.detail?if_exists}</p>
 	                            <div class="newsMoney">
-	                                <p>已筹<span>${smartcontract.alreadyStr}</span>万元</p>
-	                                <p>目标<span>${smartcontract.goalStr}</span>万元</p>
+	                                <p>已筹<span>${smt.validTotalStr?if_exists}</span>万元</p>
+	                                <p>目标<span>${smt.smartContract.goalStr?if_exists}</span>万元</p>
 	                            </div>
 	                        </div>
 	                        <div class="mui-col-xs-1 newsImg">

@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,11 +12,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.ecloudtime.model.DonorContribution;
+import com.ecloudtime.mapper.CommonMapper;
 import com.ecloudtime.model.SmartContract;
+import com.ecloudtime.model.SmartContractExt;
 import com.ecloudtime.model.User;
 import com.ecloudtime.service.ApiService;
-import com.ecloudtime.utils.Const;
+import com.ecloudtime.service.CommonService;
 import com.ecloudtime.utils.SessionUtils;
 import com.wordnik.swagger.annotations.ApiOperation;
 
@@ -26,6 +26,9 @@ public class LoginController extends BaseController{
 	
 	@Autowired
     private ApiService apiService;
+	
+	 @Autowired
+	 private CommonService commonService;
 	
 	
 	@RequestMapping("/403")
@@ -76,8 +79,14 @@ public class LoginController extends BaseController{
 		User user =SessionUtils.getUserFromSession();
 		if(null==user.getName())user.setName("donor01");
 		model.addAttribute("user", user);
-		name="smartcontract01";
-		List<SmartContract> smartcontracts= apiService.querySmartContracts(name);
+		 
+		String allContractStr=commonService.findAllSmartContractS();//查询数据
+//		name="smartcontract01";
+//		querySmartContractExts();
+//		List<SmartContractExt> smartcontracts=this.apiService.querySmartContractExts(smartAddrs);
+		
+		
+		List<SmartContractExt> smartcontracts= apiService.querySmartContractExts(allContractStr);
 		model.addAttribute("smartcontracts", smartcontracts);
 		return "index";
 	}

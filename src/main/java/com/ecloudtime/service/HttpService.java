@@ -97,8 +97,8 @@ public class HttpService {
 	    			jsonResponse=((JSONObject)jsonResponse).getJSONObject("result").getJSONObject("message");
 	    		}else if(((JSONObject)jsonResponse).getJSONObject("result").get("message") instanceof JSONArray){
 	    			jsonResponse=(JSONArray)((JSONObject)jsonResponse).getJSONObject("result").getJSONArray("message");
-//	    		}else if(((JSONObject)jsonResponse).getJSONObject("result").get("message") instanceof String){
-//	    			jsonResponse=(String)((JSONObject)jsonResponse).getJSONObject("result").getString("message");
+	    		}else if(((JSONObject)jsonResponse).getJSONObject("result").get("message") instanceof String){
+	    			jsonResponse=(String)((JSONObject)jsonResponse).getJSONObject("result").getString("message");
 	    		}else {
 	    			jsonResponse=null;
 	    		}

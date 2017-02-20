@@ -93,20 +93,29 @@ import java.util.regex.Matcher;
 	    }      
 	    return buffer.reverse().toString();      
 	    }    
+
+	    public static long moneyToCcFormat(String amount){
+//	    	amount=amount.replace(".", newChar)
+//	    	double cc=MathUtil.mul(Double.valueOf(amount), Double.valueOf(1000));//到元
+//	    	double cc=MathUtil.mul(Double.valueOf(cc), Double.valueOf(100));//到分
+	    	
+	    	return Long.valueOf(amount)*1000*100;//
+	    }
 	    
 	    public static String ccToMoneyFormat(Object amount){
 	    	return ccToMoneyFormat(amount,"yuan");
 	    }
+	    
 	    public static String ccToMoneyFormat(Object amount,String type){
-	    	if(amount  instanceof Integer){
+	    	if(amount instanceof Integer){
 	    		 amount=(Integer)amount/10000;//到金额分
-		    	 amount=(Integer)amount/100;//到金额元
+//		    	 amount=MathUtil.div(amount, 100, 2);//到金额元
 		    	 if("wan".equals(type)){
 		    		 amount=(Integer)amount/10000;//到金额元
 		    	 }
-	    	}else if(amount  instanceof Long){
+	    	}else if(amount instanceof Long){
 	    		 amount=(Long)amount/10000;//到金额分
-		    	 amount=(Long)amount/100;//到金额元
+//		    	 amount=(Long)amount/100;//到金额元
 		    	 if("wan".equals(type)){
 		    		 amount=(Long)amount/10000;//到金额元
 		    	 }
@@ -157,6 +166,8 @@ import java.util.regex.Matcher;
 	      System.out.println(MoneyUtil.moneyFormat("123.2803"));    
 	      System.out.println(MoneyUtil.convert("1000.00"));  
 	      System.out.println(MoneyUtil.ccToMoneyFormat(1000000000));  
+	      System.out.println(MoneyUtil.ccToMoneyFormat(99500000));  
+	      System.out.println(MoneyUtil.ccToMoneyFormat(99500000,"wan"));  
 	      
 	      DecimalFormat myformat = new DecimalFormat();
 	      myformat.applyPattern(YUAN_FORMAT);

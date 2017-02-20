@@ -604,6 +604,11 @@ public class DateUtil {
 		return new java.text.SimpleDateFormat(longTimeStr).format(new java.util.Date (unixTime*1000));
 	}
 	
+	public static long getUnixTime(){
+		//new Date().getTime()/1000
+		return System.currentTimeMillis()/1000;
+	}
+	
 	public static void main(String[] args) {
 //    	System.out.println(getDays());
 //    	System.out.println(getDaysyyyyMMddHHmmss());
@@ -662,5 +667,8 @@ public class DateUtil {
 		DateUtil dateUtil = new DateUtil();
 		;
 		System.out.println(dateUtil.getDateFromUnixTime(1486697869));
+		System.out.println(dateUtil.getDateFromUnixTime(getUnixTime()));
+		System.out.println(dateUtil.getDateFromUnixTime(new Date().getTime()/1000));
+		
 	}
 }

@@ -21,37 +21,37 @@
             <div class="maskTxt">
                 <div class="txtTitle">
                     <p class="title">微公益捐款凭证</p>
-                    <p class="pzH">凭证号(哈希)：<span>6427593895874963</span></p>
+                    <p class="pzH">凭证号(哈希[需要转换])：<span>${processDonored.donorUUID}</span></p>
                 </div>
             </div>
             <!--ul-->
             <ul class="maskDel">
                 <li class=" over">
                     <span class="lf">捐款人</span>
-                    <span class="rt">150*****678</span>
+                    <span class="rt">${name?if_exists}</span>
                 </li>
                 <li class=" over">
                     <span class="lf">收款方</span>
-                    <span class="rt">中国妇女联合基金</span>
+                    <span class="rt">${processDonored.smartContractName}</span>
                 </li>
                 <li class=" over">
                     <span class="lf">捐款时间</span>
-                    <span class="rt">2016.09.09 12:00</span>
+                    <span class="rt">${processDonored.donorTimeStr}</span>
                 </li>
             </ul>
             <!--ul-->
             <ul class="maskDel maskMoney">
                 <li class="over">
                     <span class="lf">捐款金额</span>
-                    <span class="rt"><span>997.00</span>元</span>
+                    <span class="rt"><span>${processDonored.amountStr?if_exists}</span>元</span>
                 </li>
                 <li class="over">
-                    <span class="lf">基金管理费(0.2%)</span>
-                    <span class="rt"><span>2.00</span>元</span>
+                    <span class="lf">基金管理费(0.${donorContribution.smartContract.channelFee?if_exists}%)</span>
+                    <span class="rt"><span>${processDonored.fundAmountStr?if_exists}</span>元</span>
                 </li>
                 <li class="over">
-                    <span class="lf">渠道费(0.1%)</span>
-                    <span class="rt"><span>1.00</span>元</span>
+                    <span class="lf">渠道费(0.${donorContribution.smartContract.fundManangerFee?if_exists}%)</span>
+                    <span class="rt"><span>${processDonored.channelAmountStr?if_exists}</span>元</span>
                 </li>
             </ul>
             <!--ul-->
@@ -76,7 +76,9 @@
     <div class="headerTop">
         <p class="user"><img src="${system.basePath}/img/common/back.png" alt=""/></p>
         <p class="headerTitle">捐款详情</p>
-        <button id="lookPz" class="rt lookPz">查看凭证</button>
+        <!--
+        	<button id="lookPz" class="rt lookPz">查看凭证</button>
+        -->
     </div>
 </div>
 <!--section-->
@@ -86,8 +88,8 @@
             <!--news-->
             <div class="newsCon">
                 <div class="details">
-                    <p class="deTitle">宁夏母亲水窖项目</p>
-                    <p class="deMoney"><span>1000.00</span> 元</p>
+                    <p class="deTitle">${donorContribution.smartContractName?if_exists}</p>
+                    <p class="deMoney"><span>${donorContribution.amountStr?if_exists}</span> 元</p>
                     <p class="deStatus">捐献成功</p>
                 </div>
             </div>
@@ -95,48 +97,44 @@
             <ul class="giftDel mui-table-view">
                 <li class="mui-table-view-cell over" id="PZHao">
                     <span class="lf">凭证号</span>
-                    <span class="rt hao">091938463857636541293</span>
+                    <span class="rt hao">${processDonored.donorUUID?if_exists}</span>
                 </li>
             </ul>
             <!--ul-->
             <ul class="giftDel mui-table-view">
                 <li class="mui-table-view-cell over">
                     <span class="lf">收款方</span>
-                    <span class="rt">中国妇女联合基金</span>
+                    <span class="rt">${donorContribution.smartContractName?if_exists}</span>
                 </li>
                 <li class="mui-table-view-cell over">
                     <span class="lf">捐款人</span>
-                    <span class="rt">150*****678</span>
+                    <span class="rt">${name?if_exists}</span>
                 </li>
             </ul>
             <!--ul-->
             <ul class="giftDel mui-table-view">
                 <li class="mui-table-view-cell over">
                     <span class="lf">捐款时间</span>
-                    <span class="rt">2017.09.09 12:00</span>
+                    <span class="rt">${processDonored.donorTimeStr}</span>
                 </li>
                 <li class="mui-table-view-cell over">
                     <span class="lf">捐款渠道</span>
                     <span class="rt">瑶瑶缴费</span>
                 </li>
-                <li class="mui-table-view-cell over">
-                    <span class="lf">凭证号</span>
-                    <span class="rt">78095647383929</span>
-                </li>
             </ul>
             <!--ul-->
             <ul class="giftDel mui-table-view">
                 <li class="mui-table-view-cell over">
-                    <span class="lf">区块链账户实收</span>
-                    <span class="rt"><span>997.00</span>元</span>
+                    <span class="lf">合约账户实收</span>
+                    <span class="rt"><span>${processDonored.smartContractAmountStr?if_exists}</span>元</span>
                 </li>
                 <li class="mui-table-view-cell over">
-                    <span class="lf">基金管理费(0.2%)</span>
-                    <span class="rt"><span>2.00</span>元</span>
+                    <span class="lf">基金管理费(0.${donorContribution.smartContract.fundManangerFee?if_exists}%)</span>
+                    <span class="rt"><span>${processDonored.channelAmountStr?if_exists}</span>元</span>
                 </li>
                 <li class="mui-table-view-cell over">
-                    <span class="lf">渠道费(0.1%)</span>
-                    <span class="rt"><span>1.00</span>元</span>
+                    <span class="lf">渠道费(0.${donorContribution.smartContract.channelFee?if_exists}%)</span>
+                    <span class="rt"><span>${processDonored.channelAmountStr?if_exists}</span>元</span>
                 </li>
             </ul>
             <!--ul-资金流向-->

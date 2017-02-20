@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ecloudtime.model.DonorContribution;
+import com.ecloudtime.model.DonorTrack;
+import com.ecloudtime.model.ProcessDonored;
 import com.ecloudtime.model.SmartContract;
 import com.ecloudtime.model.User;
 import com.ecloudtime.service.ApiService;
@@ -68,9 +70,33 @@ public class AppController extends BaseController{
 	public String queryDonorDeatail(@RequestParam(value = "donorid", required = false, defaultValue = "donorid") String donorid,
 			Model model) {
 		model.addAttribute("donorid", donorid);
-//		User user =apiService.queryDonor(name);
-//		List<DonorContribution> donorHisList=user.getContributions();
-//		model.addAttribute("donorHisList", donorHisList);
+		String userName=SessionUtils.getUserNameFromSession();
+		model.addAttribute("name", userName);
+		User user =SessionUtils.getUserFromSession();
+		List<DonorContribution> conList=user.getContributions();
+		DonorContribution donorContribution=new DonorContribution();
+		for(DonorContribution dct :conList){
+			if(donorid.equals(dct.getDonorid())){
+				donorContribution=dct;
+				break;
+			}
+		}
+		
+		List<DonorTrack>  trackings= new ArrayList<DonorTrack>();
+		for(DonorTrack dt :user.getTrackings()){
+			if(donorid.equals(dt.getDonorid())){
+				trackings.add(dt);
+			}
+		}
+		ProcessDonored processDonored =this.apiService.queryProcessDonored(donorid);
+		
+		donorContribution.setSmartContract(this.apiService.querySmartContract(donorContribution.getSmartContractAddr()));
+		
+		model.addAttribute("donorContribution", donorContribution);
+		
+		model.addAttribute("trackings", trackings);
+		model.addAttribute("processDonored", processDonored);
+		
 		return "app/queryDonorDeatail";
 	}
 	

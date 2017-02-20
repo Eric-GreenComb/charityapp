@@ -9,17 +9,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecloudtime.model.BlockInfo;
+import com.ecloudtime.model.Account;
 import com.ecloudtime.model.Contract;
 import com.ecloudtime.model.SmartContract;
-import com.ecloudtime.model.Transaction;
+import com.ecloudtime.model.SmartContractExt;
 import com.ecloudtime.model.User;
 import com.ecloudtime.service.ApiService;
 import com.ecloudtime.service.BlockInfoService;
 import com.ecloudtime.service.HttpService;
 import com.wordnik.swagger.annotations.ApiOperation;
-
-import net.sf.json.JSONObject;
 
 @RestController
 @RequestMapping(value="/apicc")
@@ -44,20 +42,25 @@ public class ApiController extends BaseController{
     
     @ApiOperation(value="queryAccount",notes="requires noting")
     @RequestMapping(value="/queryAccount",method=RequestMethod.GET)
-    public User queryAccount(@RequestParam(value="name", required=false, defaultValue="user01") String name, Model model){
+    public Account queryAccount(@RequestParam(value="name", required=false, defaultValue="user01") String name, Model model){
 		return apiService.queryAccount(name);
 	}
     
-    @ApiOperation(value="queryTreaty",notes="requires noting")
-    @RequestMapping(value="/queryTreaty",method=RequestMethod.GET)
-    public SmartContract queryTreaty(@RequestParam(value="name", required=false, defaultValue="treaty01") String name, Model model){
+    @ApiOperation(value="querySmartContract",notes="requires noting")
+    @RequestMapping(value="/querySmartContract",method=RequestMethod.GET)
+    public SmartContract querySmartContract(@RequestParam(value="name", required=false, defaultValue="treaty01") String name, Model model){
         return apiService.querySmartContract(name);
     }
     
-    @ApiOperation(value="queryTreaties",notes="requires noting")
-    @RequestMapping(value="/queryTreaties",method=RequestMethod.GET)
-    public List<SmartContract> queryTreaties(@RequestParam(value="name", required=false, defaultValue="treaty01") String name, Model model){
+    @ApiOperation(value="querySmartContracts",notes="requires noting")
+    @RequestMapping(value="/querySmartContracts",method=RequestMethod.GET)
+    public List<SmartContract> querySmartContracts(@RequestParam(value="name", required=false, defaultValue="treaty01") String name, Model model){
         return apiService.querySmartContracts(name);
+    }
+    @ApiOperation(value="querySmartContractExts",notes="requires noting")
+    @RequestMapping(value="/querySmartContractExts",method=RequestMethod.GET)
+    public List<SmartContractExt> querySmartContractExts(@RequestParam(value="name", required=false, defaultValue="treaty01") String name, Model model){
+    	return apiService.querySmartContractExts(name);
     }
     
     @ApiOperation(value="queryContract",notes="requires noting")
@@ -90,11 +93,19 @@ public class ApiController extends BaseController{
         apiService.changeCoin(name);
     }
     
-    @ApiOperation(value="donated",notes="requires noting")
-    @RequestMapping(value="/donated",method=RequestMethod.GET)
-    public String donated(@RequestParam(value="name", required=false, defaultValue="contract01") String name, Model model){
+    @ApiOperation(value="donatedTest",notes="requires noting")
+    @RequestMapping(value="/donatedTest",method=RequestMethod.GET)
+    public String donatedTest(@RequestParam(value="name", required=false, defaultValue="contract01") String name, Model model){
 		return apiService.donated(name);
 	}
+    @ApiOperation(value="donated",notes="requires noting")
+    @RequestMapping(value="/donated",method=RequestMethod.GET)
+    public String donated(@RequestParam(value="donorName", required=false, defaultValue="donor01") String donorName,
+    		@RequestParam(value="donorAmount", required=false, defaultValue="100") String donorAmount,
+    		Model model){
+    	//String donorName,String donorAmount
+    	return apiService.donated(donorName,donorAmount);
+    }
 	
 	@ApiOperation(value="drawed",notes="requires noting")
     @RequestMapping(value="/drawed",method=RequestMethod.GET)
