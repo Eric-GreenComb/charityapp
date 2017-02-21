@@ -76,9 +76,7 @@
     <div class="headerTop">
         <p class="user"><img src="${system.basePath}/img/common/back.png" alt=""/></p>
         <p class="headerTitle">捐款详情</p>
-        <!--
         	<button id="lookPz" class="rt lookPz">查看凭证</button>
-        -->
     </div>
 </div>
 <!--section-->
@@ -130,7 +128,7 @@
                 </li>
                 <li class="mui-table-view-cell over">
                     <span class="lf">基金管理费(0.${donorContribution.smartContract.fundManangerFee?if_exists}%)</span>
-                    <span class="rt"><span>${processDonored.channelAmountStr?if_exists}</span>元</span>
+                    <span class="rt"><span>${processDonored.fundAmountStr?if_exists}</span>元</span>
                 </li>
                 <li class="mui-table-view-cell over">
                     <span class="lf">渠道费(0.${donorContribution.smartContract.channelFee?if_exists}%)</span>
@@ -145,20 +143,24 @@
                 </li>
                 <li class="moneyIcon">
                     <p class="lxIcon"><img src="${system.basePath}/img/common/lxIcon.png" alt=""/></p>
-                    <div class="lxTxt jk"><p>发起捐款</p><p>90.00 ¥</p></div>
-                    <div class="lxTxt qd"><p>渠道账户</p><p>0.09 ¥</p></div>
-                    <div class="lxTxt jjgl"><p>基金管理账户</p><p>9.00 ¥</p></div>
-                    <div class="lxTxt qkl"><p>合约<br/>区块链账户</p><p>9.00 ¥</p></div>
+                    <div class="lxTxt jk"><p>发起捐款</p><p>${donorTrackDetail.donorAmountStr?if_exists}¥</p></div>
+                    <div class="lxTxt qd"><p>渠道账户</p><p>${donorTrackDetail.channelAmountStr?if_exists} ¥</p></div>
+                    <div class="lxTxt jjgl"><p>基金管理账户</p><p>${donorTrackDetail.fundAmountStr?if_exists} ¥</p></div>
+                    <div class="lxTxt qkl"><p>合约<br/>区块链账户</p><p>${donorTrackDetail.contractAmountStr?if_exists} ¥</p></div>
+                    <!--
                     <div class="lxTxt xm xm01"><p>工程项目名称</p><p>81.10 ¥</p><p>(工程状态)</p></div>
                     <div class="lxTxt xm xm02"><p>工程项目名称</p><p>81.10 ¥</p><p>(工程状态)</p></div>
                     <div class="lxTxt xm xm03"><p>工程项目名称</p><p>81.10 ¥</p><p>(工程状态)</p></div>
-                    <div class="lj lj01">1</div>
+                    -->
+                    <div class="lj lj01" id="${donorTrackDetail.donorid?if_exists}" type="donor">1</div>
+                    <!--
                     <div class="lj lj02">2</div>
                     <div class="lj lj03">3</div>
                     <div class="lj lj04">4</div>
+                     -->
                 </li>
             </ul>
-            <!--ul-交易凭证-->
+            <!--ul-交易凭证
             <ul class="giftDel mui-table-view giftDelHao">
                 <li class="mui-table-view-cell over">
                     <span class="lf">交易凭证</span>
@@ -180,6 +182,7 @@
                     <span class="rt hao">5786596504712347898909</span>
                 </li>
             </ul>
+            -->
         </div>
     </div>
 </div>
@@ -205,7 +208,9 @@ $('.xm').on('tap',function(){
     window.location.href="mine_contributeRate.html";
 });
 $('.lj').on('tap',function(){
-    window.location.href="mine_giftDel_pzDel.html";
+	var donorid = this.getAttribute("id");
+	var type = this.getAttribute("type");
+	window.location.href="${system.basePath}/app/queryDonorTransDeatail?donorid="+donorid+"&type="+type;
 });
 
 

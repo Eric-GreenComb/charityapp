@@ -126,7 +126,7 @@
 
 		 function refreshPeer()
     {
-         	var peerUrl="http://192.168.43.212:7050/chain";
+         	var peerUrl="${currentPeerUrl?if_exists}";
 			queryCurrentPeerStatus(peerUrl);
 			
 			setTimeout("refreshPeer()",60000);

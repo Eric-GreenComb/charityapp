@@ -73,4 +73,33 @@
 		</if>
   </select>
   
+  <insert id="saveTxidDonorIdRefInfo" parameterType="com.ecloudtime.model.SysDonorTransRel">
+  	INSERT INTO sys_trans_rel (trans_id, txid, block_height, tran_sign, contract_id,block_hash) 
+  		VALUES (#{transId}, #{txid}, #{blockHeight},#{tranSign},#{contractId},#{blockHash});
+  </insert>
+  
+  <resultMap id="donorRelMap" type="com.ecloudtime.model.SysDonorTransRel">
+		<result column="trans_id" property="transId" jdbcType="VARCHAR" />
+		<result column="txid" property="txid" jdbcType="VARCHAR" />
+		<result column="block_height" property="blockHeight" jdbcType="VARCHAR" />
+		<result column="tran_sign" property="tranSign" jdbcType="VARCHAR" />
+		<result column="contract_id" property="contractId" jdbcType="VARCHAR" />
+		<result column="block_hash" property="blockHash" jdbcType="VARCHAR" />
+	</resultMap>
+  
+   <select id="findDonorTransRelByDonorid" resultMap="donorRelMap" parameterType="string">
+    select * from sys_trans_rel
+    	where 1=1
+		<if test="_parameter != null and  _parameter != ''">
+			and trans_id = #{_parameter}
+		</if>
+  </select>
+   <select id="findDonorTransRelByTxid" resultMap="donorRelMap" parameterType="string">
+    select * from sys_trans_rel
+    	where 1=1
+		<if test="_parameter != null and  _parameter != ''">
+			and txid = #{_parameter}
+		</if>
+  </select>
+  
 </mapper>

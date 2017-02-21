@@ -51,6 +51,12 @@ public class BlockInfoService {
 		return jsonObject;
 	}
 	
+	public JSONObject queryCurrentPeerStatus(){
+		JSONObject jsonObject= httpService.httpGet(nodeUrl+"/chain");
+		return jsonObject;
+	}
+	
+	
 	public BlockInfo queryBlockByHigh(int height){
 		
 		return queryBlockByHigh(nodeUrl+"/chain/blocks/"+height);
@@ -85,6 +91,11 @@ public class BlockInfoService {
 		return transaction;
 	}
 	
+	
+	
+	public int getCurrentHigh(){
+		return getCurrentHigh(nodeUrl+"/chain");
+	}
 	
 	//获取区块的当前高度
 	public int getCurrentHigh(String url){

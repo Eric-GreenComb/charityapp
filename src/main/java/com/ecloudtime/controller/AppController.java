@@ -11,12 +11,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ecloudtime.model.BlockInfo;
 import com.ecloudtime.model.DonorContribution;
 import com.ecloudtime.model.DonorTrack;
+import com.ecloudtime.model.DonorTrackDetail;
 import com.ecloudtime.model.ProcessDonored;
 import com.ecloudtime.model.SmartContract;
+import com.ecloudtime.model.SysDonorTransRel;
+import com.ecloudtime.model.Transaction;
 import com.ecloudtime.model.User;
 import com.ecloudtime.service.ApiService;
+import com.ecloudtime.service.BlockInfoService;
+import com.ecloudtime.service.CacheManager;
+import com.ecloudtime.service.CommonService;
 import com.ecloudtime.service.HttpService;
 import com.ecloudtime.utils.SessionUtils;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -28,6 +35,16 @@ public class AppController extends BaseController{
 
     @Autowired
     private HttpService httpService;
+    
+    @Autowired
+	private CommonService commonService;
+    
+    @Autowired
+    private BlockInfoService blockInfoService;
+    
+    @Autowired
+	private CacheManager cacheManager;
+    
     @Autowired
     private ApiService apiService;
     
@@ -54,7 +71,16 @@ public class AppController extends BaseController{
 		model.addAttribute("name", userName);
 		if(null==userName)userName="donor01";
 		User user =apiService.queryDonor(userName);
-		List<DonorContribution> donorHisList=user.getContributions();
+		List<DonorContribution> donorHisList =new ArrayList<DonorContribution>();
+		List<DonorContribution> donorHisTempList=user.getContributions();
+		int len=donorHisTempList.size();
+		for(int i=len-1;i>0;i--){
+			donorHisList.add(donorHisTempList.get(i));
+			if(donorHisList.size()>10){
+				break;
+			}
+		}
+		
 		model.addAttribute("donorHisList", donorHisList);
 		return "app/queryDonorHis";
 	}
@@ -96,9 +122,58 @@ public class AppController extends BaseController{
 		
 		model.addAttribute("trackings", trackings);
 		model.addAttribute("processDonored", processDonored);
+		DonorTrackDetail donorTrackDetail =new DonorTrackDetail(trackings);
+		model.addAttribute("donorTrackDetail", donorTrackDetail);
+		 this.cacheManager.putObjectToCache("donorTrackDetail_"+donorid, donorTrackDetail);
+//		SysDonorTransRel donorTransRel=new SysDonorTransRel(donorid);
+//		donorTransRel=this.commonService.findDonorTransRel(donorTransRel);
+//		model.addAttribute("donorTransRel", this.commonService.findDonorTransRel(new SysDonorTransRel(donorid)));
+//		model.addAttribute("donorTransRel", donorTransRel);
 		
 		return "app/queryDonorDeatail";
 	}
+	
+	@RequestMapping("/queryDonorTransDeatail")
+	@ApiOperation(value="queryDonorTransDeatail",notes="requires login Name")
+	public String queryDonorTransDeatail(@RequestParam(value = "donorid", required = false, defaultValue = "donorid") String donorid,
+			@RequestParam(value = "type", required = false, defaultValue = "type") String type,
+			Model model) {
+		String txid="";
+		if("donor".equals(type)){
+			SysDonorTransRel donorTransRel=this.commonService.findDonorTransRelByDonorid(donorid);
+			if(null==donorTransRel)return "app/queryDonorTransDeatail";
+			txid=donorTransRel.getTxid();
+		}else{
+			
+		}
+		model.addAttribute("txid", txid);
+   		Transaction transaction =blockInfoService.queryTransactionByTxId(txid);
+   		
+   		SysDonorTransRel donorTransRel=this.commonService.findDonorTransRelByTxid(txid);
+		DonorTrackDetail donorTrackDetail =(DonorTrackDetail)this.cacheManager.getCacheObjectByKey("donorTrackDetail_"+donorid);
+//		this.cacheManager.putObjectToCache("donorTrackDetail_"+donorid, donorTrackDetail);
+   		model.addAttribute("transaction", transaction);
+   		model.addAttribute("donorTrackDetail", donorTrackDetail);
+   		model.addAttribute("donorTransRel", donorTransRel);
+		
+		
+	    return "app/queryDonorTransDeatail";  
+	}
+	
+	@RequestMapping("/blockDetail")
+   	@ApiOperation(value="blockDetail",notes="requires login Name default user01")
+   	public String blockDetail(@RequestParam(value = "heigh", required = false, defaultValue = "0") int heigh,
+   			Model model) {
+   		model.addAttribute("heigh", heigh);
+   		int cacheHigh=this.cacheManager.getCacheBlockHigh();
+   		BlockInfo blockInfo=new BlockInfo();
+   		blockInfo=blockInfoService.queryBlockByHigh(heigh-1);
+   		/*if(heigh<cacheHigh&&0!=cacheHigh){
+   		}*/
+   		model.addAttribute("blockInfo", blockInfo);
+   		return "app/appBlockDetail";
+   	}
+	
 	
 	/**
 	 * 善款追踪

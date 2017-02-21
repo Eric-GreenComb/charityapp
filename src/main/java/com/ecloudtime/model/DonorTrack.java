@@ -59,6 +59,9 @@ public class DonorTrack {
 	}
 
 	public String getType() {
+		if("".equals(type)||null==type){
+			type="0";
+		}
 		return type;
 	}
 
@@ -72,6 +75,14 @@ public class DonorTrack {
 
 	public void setDonorAmount(long donorAmount) {
 		this.donorAmount = donorAmount;
+	}
+
+	public String getDrawid() {
+		return drawid;
+	}
+
+	public void setDrawid(String drawid) {
+		this.drawid = drawid;
 	}
 	
 	 /*Name        string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`

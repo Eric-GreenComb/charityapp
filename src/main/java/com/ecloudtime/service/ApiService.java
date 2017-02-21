@@ -25,6 +25,7 @@ import com.ecloudtime.model.ProcessDrawed;
 import com.ecloudtime.model.SmartContract;
 import com.ecloudtime.model.SmartContractExt;
 import com.ecloudtime.model.SmartContractTrack;
+import com.ecloudtime.model.SysDonorTransRel;
 import com.ecloudtime.model.TX;
 import com.ecloudtime.model.TX_TXIN;
 import com.ecloudtime.model.TX_TXOUT;
@@ -46,6 +47,9 @@ public class ApiService {
 	private HttpService httpService;
 	@Autowired
 	private CommonService commonService;
+	
+	@Autowired
+	private BlockInfoService blockInfoService;
 	
 	@Autowired
 	private CacheManager cacheManager;
@@ -534,7 +538,7 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 	 */
 	public String donated(String donorName,String donorAmount) {
 		
-		String msg = "error";
+		String txidmsg = "error";
 		String smartContractName="smartcontract01";//捐款合约 限定
 		String cebBankAddr=cebbankArgs;//中央银行
 		String donorAddr=this.commonService.findDonorAddrByName(donorName);
@@ -582,8 +586,21 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		args.add(smartContractAddr);//args[3] //合约地址
 		args.add(donorTx);// args[4]      //tx --》json————》base64
 		args.add(donorSign);// args[5]   // 用donor的私钥签名
-			msg = (String)httpService.httpPostInvoke(ccBaseUrl, chaincodeName, "donated", args);
-		return msg;
+//		args.add(":::"+donorAmount+":::");// args[6]   // :::1000:::
+		
+		txidmsg = (String)httpService.httpPostInvoke(ccBaseUrl, chaincodeName, "donated", args);
+//		INSERT INTO sys_trans_rel (trans_id, txid, block_height, tran_sign, contract_id) VALUES ('', '', '', '', '');
+		SysDonorTransRel donorRel=new SysDonorTransRel();
+		donorRel.setContractId(smartContractAddr);//合约id
+		donorRel.setTransId(donorUUID);
+		donorRel.setTxid(txidmsg);
+		donorRel.setTranSign(donorSign);
+		JSONObject jsonObject=blockInfoService.queryCurrentPeerStatus();
+		donorRel.setBlockHeight(jsonObject.getString("height"));
+		donorRel.setBlockHash(jsonObject.getString("currentBlockHash"));
+		this.commonService.saveTxidDonorIdRefInfo(donorRel);//保存donorId和交易id的关系信息
+		
+		return txidmsg;
 	}
 	
 	/**
@@ -729,9 +746,6 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 	}
 	
 	
-	public void queryDonorDeatail(String donorid){
-		
-	}
 	
 
 	/*public Treaty queryTreaty(@RequestParam(value = "name", required = false, defaultValue = "treaty01") String name) {
@@ -749,6 +763,8 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		}
 		return treaty;
 	}*/
+	
+	
 	
 	
 	/*********************************** 分割线 ***********************************************/

@@ -31,13 +31,6 @@
             <p class="partInfo"><span>世界态哈希</span><span>${blockInfo.stateHash?if_exists}</span></p>
             <p class="partInfo"><span>上一区块</span><span>${blockInfo.previousBlockHash?if_exists}</span></p>
         </div>
-        
-        <div class="partYi">
-        	<#list blockInfo.transactions?if_exists as trans>
-        		<p class="partInfo"><span>包含交易ID</span><a href="${system.basePath}/explorer/transDetail?txid=${trans.txid?if_exists}" class="color">${trans.txid?if_exists?substring(0,20)}</a></p>
-                <p class="partInfo"><span>交易时间</span><span>${trans.tranGenTime?if_exists}</span></p>
-       		 </#list>
-        </div>
     </div>
 </div>
 

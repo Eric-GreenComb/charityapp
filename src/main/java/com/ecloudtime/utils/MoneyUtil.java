@@ -158,6 +158,22 @@ import java.util.regex.Matcher;
 	        return sb.toString();    
 	    }    
 	    
+	public static String getMoneyFromPayload(String payload) {
+//		payload=Base64Util.getFromBase64(payload);
+		String money = "";
+		String regEx = ":::(\\d+):::";
+		// String s = "count000dfdfsdffaaaa1";
+		// s=":::1000:::_wwwww:::2000:::";
+		Pattern pat = Pattern.compile(regEx);
+		Matcher mat = pat.matcher(payload);
+		if (mat.find()) {
+//			System.out.println(mat.group(1));
+			money=mat.group(1);//只获取payload中的一个金钱
+		}
+
+		return money;
+	}
+	    
 	    
 	    /**  
 	     * @param args  

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ecloudtime.mapper.CommonMapper;
 import com.ecloudtime.model.SmartContract;
+import com.ecloudtime.model.SysDonorTransRel;
 
 @Service
 public class CommonService {
@@ -23,6 +24,17 @@ public class CommonService {
 		 
 		 return UUID.randomUUID().toString();
 	 }
+	 public void saveTxidDonorIdRefInfo(SysDonorTransRel donorRel){
+		 commonMapper.saveTxidDonorIdRefInfo(donorRel);
+	 }
+	 
+	 public SysDonorTransRel findDonorTransRelByDonorid(String donorid){
+		 return (SysDonorTransRel)this.commonMapper.findDonorTransRelByDonorid(donorid);
+	 }
+	 
+	public SysDonorTransRel findDonorTransRelByTxid(String txid){
+		return (SysDonorTransRel)this.commonMapper.findDonorTransRelByTxid(txid);
+	}
 	 
 	 /**
 	  * 
