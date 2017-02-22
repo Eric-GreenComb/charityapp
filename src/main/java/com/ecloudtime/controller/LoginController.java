@@ -58,13 +58,10 @@ public class LoginController extends BaseController{
 		    try { 
 		        subject.login(token); 
 		    } catch (AuthenticationException e) { 
-		    	
 		    }
-			
 			SessionUtils.putUserInfoToSession(user);
 			return index(model);
 		}
-		
 		return "login";
 	}
 	

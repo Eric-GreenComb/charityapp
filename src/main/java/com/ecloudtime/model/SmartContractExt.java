@@ -17,14 +17,53 @@ public class SmartContractExt  {
 	private long donateNumber;//合约的总捐款爱心数量
 	private SmartContract smartContract;
 	private String canDonateNumberStr;//该合约还可以捐款的钱数
-	private String channelFeeStr;//合约的总渠道费
+	private String channelFeeStr;//合约的总渠道费万元
+	private String channelFeeYuan;//合约的总渠道费元
 	private String fundFeeStr;//合约的总基金费
+	private String fundFeeYuan;//合约的总基金费
 	private String pic;//合约的存储图片地址
 	private String totalStr;//总捐款 万元
 	private String totalYuan;//总捐款 元
 	private String validTotalStr;//已筹集善款  万元
 	private String validTotalYuan;//已筹集善款 元
 	
+	public String getChannelFeeStr() {
+		if(0!=this.getTotal()){
+			long channelFeeTemp=smartContract.getChannelFee();
+			long channelFee=(getTotal()/1000)*channelFeeTemp;
+			return MoneyUtil.ccToMoneyFormat(channelFee,"wan");
+		}
+		return channelFeeStr;
+	}
+	
+	public String getFundFeeStr() {
+		if(0!=this.getTotal()){
+			long fundFeeTemp=smartContract.getFundManangerFee();
+			long fundFee=(getTotal()/1000)*fundFeeTemp;
+			return MoneyUtil.ccToMoneyFormat(fundFee,"wan");
+		}
+		return fundFeeStr;
+	}
+	
+	public String getChannelFeeYuan() {
+		if(0!=this.getTotal()){
+			long channelFeeTemp=smartContract.getChannelFee();
+			long channelFee=(getTotal()/1000)*channelFeeTemp;
+			return MoneyUtil.ccToMoneyFormat(channelFee,"yuan");
+		}
+		return channelFeeYuan;
+	}
+
+	public String getFundFeeYuan() {
+		if(0!=this.getTotal()){
+			long fundFeeTemp=smartContract.getFundManangerFee();
+			long fundFee=(getTotal()/1000)*fundFeeTemp;
+			return MoneyUtil.ccToMoneyFormat(fundFee,"yuan");
+		}
+		return fundFeeYuan;
+	}
+	
+
 	public String getTotalStr() {
 		if(0!=this.getTotal()){
     		return MoneyUtil.ccToMoneyFormat(getTotal(),"wan");
@@ -43,14 +82,9 @@ public class SmartContractExt  {
 	public void setTotalYuan(String totalYuan) {
 		this.totalYuan = totalYuan;
 	}
-	public String getChannelFeeStr() {
-		return channelFeeStr;
-	}
+	
 	public void setChannelFeeStr(String channelFeeStr) {
 		this.channelFeeStr = channelFeeStr;
-	}
-	public String getFundFeeStr() {
-		return fundFeeStr;
 	}
 	public void setFundFeeStr(String fundFeeStr) {
 		this.fundFeeStr = fundFeeStr;
@@ -66,7 +100,13 @@ public class SmartContractExt  {
 	public void setCanDonateNumberStr(String canDonateNumberStr) {
 		this.canDonateNumberStr = canDonateNumberStr;
 	}
-	
+	public void setChannelFeeYuan(String channelFeeYuan) {
+		this.channelFeeYuan = channelFeeYuan;
+	}
+
+	public void setFundFeeYuan(String fundFeeYuan) {
+		this.fundFeeYuan = fundFeeYuan;
+	}
 	
 	public String getValidTotalYuan() {
 		if(0!=this.getValidTotal()){

@@ -44,15 +44,15 @@
                         <ul class="giftDel mui-table-view">
                             <li class="mui-table-view-cell over">
                                 <span class="lf">受理渠道服务费</span>
-                                <span class="rt"><span>${smartContractExt.validTotalYuan?if_exists}</span>元</span>
+                                <span class="rt"><span>${smartContractExt.channelFeeYuan?if_exists}</span>元</span>
                             </li>
                             <li class="mui-table-view-cell over">
                                 <span class="lf">慈善基金管理费</span>
-                                <span class="rt"><span>${smartContractExt.validTotalYuan?if_exists}</span>元</span>
+                                <span class="rt"><span>${smartContractExt.fundFeeYuan?if_exists}</span>元</span>
                             </li>
                             <li class="mui-table-view-cell over">
                                 <span class="lf">实收善款</span>
-                                <span class="rt"><span>${smartContractExt.validTotalYuan?if_exists}</span>元</span>
+                                <span class="rt"><span>${smartContractExt.totalYuan?if_exists}</span>元</span>
                             </li>
                         </ul>
                         <!--ul-->

@@ -50,6 +50,8 @@ public class MathUtil {
 	}
 	
 	public static void main(String[] args) {
-		
+		MathUtil.div(9950, 10000, 2);
+		System.out.println(MathUtil.div(9950, 10000, 4));
+		System.out.println(Math.round(MathUtil.div(9950, 10000, 4)));
 	}
 }

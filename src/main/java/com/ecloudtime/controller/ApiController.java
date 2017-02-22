@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecloudtime.model.Account;
+import com.ecloudtime.model.Bargain;
 import com.ecloudtime.model.Contract;
+import com.ecloudtime.model.Foundation;
 import com.ecloudtime.model.SmartContract;
 import com.ecloudtime.model.SmartContractExt;
 import com.ecloudtime.model.SysDonorTransRel;
@@ -32,8 +34,11 @@ public class ApiController extends BaseController{
     @Autowired
     private BlockInfoService blockInfoService;
     
-    
-    
+    @ApiOperation(value="initCc",notes="requires noting")
+    @RequestMapping(value="/initCc",method=RequestMethod.GET)
+    public void initCc( Model model){
+		apiService.initCc();
+	}
     
 	@ApiOperation(value="queryBank",notes="requires noting")
     @RequestMapping(value="/queryBank",method=RequestMethod.GET)
@@ -41,6 +46,17 @@ public class ApiController extends BaseController{
 		return apiService.queryBank(name);
 	}
     
+	@ApiOperation(value="queryBargain",notes="requires noting")
+    @RequestMapping(value="/queryBargain",method=RequestMethod.GET)
+    public Bargain queryBargain(@RequestParam(value="name", required=false, defaultValue="bargain01") String name, Model model){
+		return apiService.queryBargain(name);
+	}
+	@ApiOperation(value="queryFund",notes="requires noting")
+	@RequestMapping(value="/queryFund",method=RequestMethod.GET)
+	public Foundation queryFund(@RequestParam(value="name", required=false, defaultValue="fund01") String name, Model model){
+		return apiService.queryFund(name);
+	}
+	
     @ApiOperation(value="queryAccount",notes="requires noting")
     @RequestMapping(value="/queryAccount",method=RequestMethod.GET)
     public Account queryAccount(@RequestParam(value="name", required=false, defaultValue="user01") String name, Model model){

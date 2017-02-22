@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ecloudtime.model.Account;
+import com.ecloudtime.model.Bargain;
 import com.ecloudtime.model.Channel;
 import com.ecloudtime.model.Contract;
 import com.ecloudtime.model.DonorContribution;
@@ -107,26 +108,137 @@ public class ApiService {
 	@Value("${chaincode.base.drawed01ContractArgs}")
 	private String drawed01ContractArgs;
 
-	public void init(){
+	public void initCc(){
 		//1.invoke RegisterBank
-		List<String> args = new ArrayList<String>();
-		args.add("cebbank:29731d0e6c6ca9cb985eabf9fe716d1644c624cae5265c36c9b7a46702003924");
-		args.add("LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHZk1BMEdDU3FHU0liM0RRRUJBUVVBQTRHTkFEQ0JpUUtCZ1FDenFYaVVyRFZzanhIZzdyM1RMc1NSaGlaTApqeE1nczBIU3JsRlV3c0s1eFVCcGFwSHdSazlHeGJrMWtOd2tkSzdPeHlselJjbmxzbEd5VnhhU21KYzNqbmpvClVRVFphbVRaemViMzNNZC9oYUVkN3BhSXFkSS9pZ1Z6TEtpaStXcFJkUE02VlFaV0pHam01eEMwMHhWUWw3aWcKOExBUXV6ek1OMnNCRkhsSmN3SURBUUFCCi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo=");
-		args.add("QPssbLyWzxZKd2ib//dZpBq0CVXGUuujnTkpMp+rsCPUqTvvwTvhrPomwaeMZagQzBzPiltKdrHZ5RiLqEGOFWsB4PJLNrAKRnVme1cHhpZ0Qwi1TP/HYgSflW5sSZ3FUM9pm75G9FuPkQpmO0bnkG1X5GKLWr3n2XRDcAlkPVg=");
-		httpService.httpPostInvoke(ccBaseUrl, chaincodeName, "registerBank", args);
+		step1RegisterBank();
+		this.queryBank("cebbank:29731d0e6c6ca9cb985eabf9fe716d1644c624cae5265c36c9b7a46702003924");
 		//2.invoke RegisterFund
+		step2RegisterFund();
+		this.queryFund("fund01:25ab580a2093776ca2e1dd1775e96dfec5f1ffbcc9565129351cb330cf0712d7");
+		//3. registerChannel
+		step3RegisterChannel();
+		this.queryChannel("channel01:9c8b43ce948010efc3b7d102aae502165ccd5e0714a3e765fe1a8f444936785a");
+		//4. registerDonor
+		step4RegisterDonor();
+		this.queryDonor("donor01:275e74b0e340f54135496e46d829b25af699984e6787f9a7b13191ad991a1eb1");
+		//5. registerSmartContract
+		step5RegisterSmartContract();
+		this.querySmartContract("smartcontract01:1d54a8713923af1718e8eeabec3e4d8596dbbdf2da3f69ea23aeb8c7a5ab73d8");
+		//6. registerBargain
+		step6RegisterBargain();
+//		this.query
+		//7. coinbase
+		step7Coinbase();
+		
+	}
+
+	private void step7Coinbase() {
+		List<String> args;
+		args = new ArrayList<String>();
+		args.add("cebbank:29731d0e6c6ca9cb985eabf9fe716d1644c624cae5265c36c9b7a46702003924");
+		args.add("eyJ2ZXJzaW9uIjoxNzAxMDEsInRpbWVzdGFtcCI6MTQ4NzI0MjgxOCwidHhpbiI6W3sic291cmNlVHhIYXNoIjoibnVsbCIsImFkZHIiOiJudWxsIn1dLCJ0eG91dCI6W3sidmFsdWUiOjEwMDAwMDAwMDAwMDAwLCJhZGRyIjoiY2ViYmFuazoyOTczMWQwZTZjNmNhOWNiOTg1ZWFiZjlmZTcxNmQxNjQ0YzYyNGNhZTUyNjVjMzZjOWI3YTQ2NzAyMDAzOTI0Iiwic2lnbiI6IklXN2EzVjV1S1Zzc29WaVF1Ym15aVNUWmhDaGUvaTFETklkQkZ6K1pmNGgrbWR3bXFObmtKeFQ3Q0hCOGlxWWdsVjJKcjNicWpHNEJQY0NMNUxVaW5HUnlQQlp2cFRNMTVNSWxOenU3S0doNlBmZUdkdnhCbzFsWm5OMU1RWklOcENldWZFWlBHcTBFNXdCaEtaQzdFeTlKdjRKWTdvaVUyU2RXZ25FL2Zmcz0ifV0sIklucHV0RGF0YSI6ImRvbm9ydXVpZCIsImZvdW5kZXIiOiJjZWJiYW5rIn0=");
+		args.add("smZPn6MCd5b07xHFgV2XTYtH6XrkBX2VCYUacNMhrswY9tOg3PpjMUStdefs7iADwgVaUenONsfw9BNaUwhCY6P5F/nE360+/au7bAZeEVtpOhu+S9E+8zoFbleX3Bslp5o6S05nsaM+BdYwRj/XSmoQ8DGfuBeZyTow7gOSh/Q=");
+		httpService.httpPostInvoke(ccBaseUrl, chaincodeName, "coinbase", args);
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void step6RegisterBargain() {
+		List<String> args;
+		args = new ArrayList<String>();
+		args.add("fund01:25ab580a2093776ca2e1dd1775e96dfec5f1ffbcc9565129351cb330cf0712d7");
+		args.add("bargain01:8fcc58ea7ed212f7c1ba359d15bea144e67c390044d953797548cf67fd62534a");
+		args.add("LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHZk1BMEdDU3FHU0liM0RRRUJBUVVBQTRHTkFEQ0JpUUtCZ1FDM3R4R3hnWUtKcjlZK21iMTROcENKS0NtUgo4QmNRek9MSjNEK3EvUFo1Zk9xUzUzdFhvVko2QUZtNEwyelZLYUFkMWNOS0s4L2t3RktsV1E5YmJLZ1ZOV25zCnc4MjM0N05yRzQxaWZocFZ3dThJVHJSOGlMOC9pR3lMdnh4SGg0OWpmQ3RIWkFHV3hrWkFsVDBwdkRZYTNJMW0KTjZMKytZWCt2WW42WTdOOFB3SURBUUFCCi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo=");
+		args.add("eyJhZGRyIjoiYmFyZ2FpbjAxOjhmY2M1OGVhN2VkMjEyZjdjMWJhMzU5ZDE1YmVhMTQ0ZTY3YzM5MDA0NGQ5NTM3OTc1NDhjZjY3ZmQ2MjUzNGEiLCJuYW1lIjoi5a6B5aSP6KW/6YOo5Zyw5Yy65q+N5Lqy5rC056qW6aG555uuWFjljr9YWOadkeawtOeqliIsImRldGFpbCI6IuWugeWkj+ilv+mDqOWcsOWMuuavjeS6suawtOeqlumhueebrlhY5Y6/WFjmnZHmsLTnqpYiLCJzdGFydFRpbWUiOiIyMDE3LTAxLTAxIiwiZW5kVGltZSI6IjIwMTgtMDEtMDEiLCJwYXJ0eUEiOiLmn5Dln7rph5HkvJoiLCJwYXJ0eUIiOiLmn5DlnLDljLpYWOWOv1hY5p2R5pa95bel6ZifIiwiZGVwb3NpdEJhbmsiOiLlhYnlpKfpk7booYwiLCJiYW5rQWNjb3VudCI6IjEyOThoZmFrMDlra2xqYWRza2YifQ==");
+		args.add("ODlZNQp5fjyOKiXbchNF3vlF8E/VBoUKmxmNPPTMg/giE8yadF4Fc7OdiUwsPhHzLQbGdpaltgrw+tliPwhmV0zf5zwwmra/4BUWnAtNq+Zvjx5+G8ljSDpLCKqZQvrvEX3SfR/YEhGY/9QrPasZJrm7pc+iDQ3WmEnL0b/drR0=");
+		httpService.httpPostInvoke(ccBaseUrl, chaincodeName, "registerBargain", args);
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void step5RegisterSmartContract() {
+		List<String> args;
+		args = new ArrayList<String>();
+		args.add("fund01:25ab580a2093776ca2e1dd1775e96dfec5f1ffbcc9565129351cb330cf0712d7");
+		args.add("smartcontract01:1d54a8713923af1718e8eeabec3e4d8596dbbdf2da3f69ea23aeb8c7a5ab73d8");
+		args.add("LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHZk1BMEdDU3FHU0liM0RRRUJBUVVBQTRHTkFEQ0JpUUtCZ1FEMG80Q3dIdE9ISzEvUXZZQzlCL0o4NTZmKwoyQTFtRGE5elpiTE5yZXhHdVlPZ1Yvb1UwTDdTaVBnSUF3Tm9HSGRENmtQakxkK2N3aEVaMHdQRnluZjhicDh5CithK00wRUJjeStkK1VQQ1MrQmNlYjdrWDVOK3VYUm9za3VzWWx3MTVRc3UyeDBrZ3hXVUJIUXZiOGxEV0xuNVUKckptSVVUdG5XWkExMHB0em13SURBUUFCCi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo=");
+		args.add("eyJhZGRyIjoic21hcnRjb250cmFjdDAxOjFkNTRhODcxMzkyM2FmMTcxOGU4ZWVhYmVjM2U0ZDg1OTZkYmJkZjJkYTNmNjllYTIzYWViOGM3YTVhYjczZDgiLCJuYW1lIjoi5a6B5aSP6KW/6YOo5Zyw5Yy65q+N5Lqy5rC056qW6aG555uuIiwiZGV0YWlsIjoi5a6B5aSP6KW/6YOo5Zyw5Yy65q+N5Lqy5rC056qW6aG555uuIiwiZ29hbCI6MTAwMDAwMDAwMDAwMCwicGFydHlBIjoi5p+Q5Z+66YeR5LyaIiwicGFydHlCIjoi5p+Q5Zyw5Yy6IiwiZnVuZEFkZHIiOiJmdW5kMDE6MjVhYjU4MGEyMDkzNzc2Y2EyZTFkZDE3NzVlOTZkZmVjNWYxZmZiY2M5NTY1MTI5MzUxY2IzMzBjZjA3MTJkNyIsImZ1bmROYW1lIjoi5p+Q5Z+66YeR5LyaIiwiZnVuZE1hbmFuZ2VyRmVlIjozLCJjaGFubmVsQWRkciI6ImNoYW5uZWwwMTo5YzhiNDNjZTk0ODAxMGVmYzNiN2QxMDJhYWU1MDIxNjVjY2Q1ZTA3MTRhM2U3NjVmZTFhOGY0NDQ5MzY3ODVhIiwiY2hhbm5lbE5hbWUiOiLmn5BDaGFubmVsTmFtZSIsImNoYW5uZWxGZWUiOjIsImNyZWF0ZVRpbWVzdGFtcCI6MTQ4NzIzOTU5NiwiZm91bmRhdGlvbiI6ImZ1bmQwMToyNWFiNTgwYTIwOTM3NzZjYTJlMWRkMTc3NWU5NmRmZWM1ZjFmZmJjYzk1NjUxMjkzNTFjYjMzMGNmMDcxMmQ3In0=");
+		args.add("GTWAUlSNgxQQDrKURYQ3L3NL3WMYuoIaDwZVdxGTKubmeDjJ0181uYjxLLq0p6yhYl2e+2P86WfJ8elKl6EU9uA73LvYurq0tyVEBQ54rE6Wm/C1WVFpJBVKpQySqpzJ2E05mWoG3zHtqOUVGjGyaZjKaZBtmJEyiuUxCZ6uj/0=");
+		httpService.httpPostInvoke(ccBaseUrl, chaincodeName, "registerSmartContract", args);
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void step4RegisterDonor() {
+		List<String> args;
+		args = new ArrayList<String>();
+		args.add("channel01:9c8b43ce948010efc3b7d102aae502165ccd5e0714a3e765fe1a8f444936785a");
+		args.add("donor01:275e74b0e340f54135496e46d829b25af699984e6787f9a7b13191ad991a1eb1");
+		args.add("LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHZk1BMEdDU3FHU0liM0RRRUJBUVVBQTRHTkFEQ0JpUUtCZ1FERS9HZ3VWbUk0QmRnUU5oYThPMmtYK3dHQgpNSkxQbGNPZllLMUdsQkpsZzlLUm9RNmZrWGd5aXRCb2FORzI5dVpnV3loVjZSMmhzUXpmRyt3cHE0VmsyQkEyClBxZEtFcVRyQVhMU0EvWkw0bUpPVEx4bjV0Qm5QL0p5OGRGaitXSjBlSWtzOGZhMUxORS9QVnR6UDlEZDV2bmEKbEZvTXNJa09maDlMcWxmaFRRSURBUUFCCi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo=");
+		args.add("Pj027Mhn5cpVTzsCs/NHTk8ZgrceatzxcCsU2LX4zK2eDEtupd5vxAIBNMNOScCWXu699gRdqSgkzHCHGguuidC9Y5l+Yr01fOylAxGvuuRNMTn+CitR5JZF9g0S/x+2HHc+rNljIT2Fqd1H5oHWSwEVbdTqTYqNrirgxWcl3kE=");
+		httpService.httpPostInvoke(ccBaseUrl, chaincodeName, "registerDonor", args);
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void step3RegisterChannel() {
+		List<String> args;
+		args = new ArrayList<String>();
+		args.add("channel01:9c8b43ce948010efc3b7d102aae502165ccd5e0714a3e765fe1a8f444936785a");
+		args.add("LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHZk1BMEdDU3FHU0liM0RRRUJBUVVBQTRHTkFEQ0JpUUtCZ1FERGVNNzJVRnkvK1VTaUpTU3BkWlF2Tmt2NgpySDAvQ25raUJMRmRBUEVIUUR6bTY0Wks3bWR0bUE2ayt1alJtbENXbjhIUVRSK0xHcGp4WGxhVFc1a1Z2a2xVCks4cUdkRUUzNW5JTW0zQnc2ZldsQUlvV2I4dUxEQjlVQmpIVGxIb1dlaEE0SzV3WEh6ZmpqaWQ0U2dBNEhwbzUKdlhlazdzc3RESEpBZUhuNXdRSURBUUFCCi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo=");
+		args.add("jYpb/0yeO8TZ6fMPezgr4c4eRG9heObZcFVG/nRk1YSaDrW5Y2d9yaPSsjOc5p3OurFWJOQvC2xL1A0RstsPNKpIqjiickLZ/HqLXDr/4NrK4VZT2yeGwHU+nYasntaRDMwHhj1JD/zdC3sGxt8a/zQmoPmNybS7bZ0JM5vc+sQ=");
+		httpService.httpPostInvoke(ccBaseUrl, chaincodeName, "registerChannel", args);
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void step2RegisterFund() {
+		List<String> args;
 		args = new ArrayList<String>();
 		args.add("fund01:25ab580a2093776ca2e1dd1775e96dfec5f1ffbcc9565129351cb330cf0712d7");
 		args.add("LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHZk1BMEdDU3FHU0liM0RRRUJBUVVBQTRHTkFEQ0JpUUtCZ1FEanZlcE94YkI1SGlQbVgwcnJTUThJMG90MQp2c0ljNno0RThtVnhubEtlMCt3MVpOT1J1UEdwSmE1TENNZWNqNDk4dllDcEljbk1IMkJCZjJQMk4wcnVkOW5PCllOVWZiOHlxdk5aODZNNHZBRVM4d2QxT1MzYmY1bm12Ry92Ykl5aWQwSmdIK0tRNU1LVDFZSjNGRE5TcWYrbHQKRHVTOWFUeDhtb3BKODlSME93SURBUUFCCi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo=");
 		args.add("SKzK1DsdKfHMEljNPV9mtFAQfDwld2Q3cwB/yhR6wnXoZlTKpi5PPLRL+ZIYDiJgYm3rRTOmjnWA+XAjQyhKL1BukUM/l/VLBVApcLhYlM8iqhattDEOsUraEzk2RXO6hlr+bljaR4JEqW2+FdCp23eoiSdjNum6HeA/UIOedwE=");
 		httpService.httpPostInvoke(ccBaseUrl, chaincodeName, "registerFund", args);
-		//2.invoke RegisterFund
-		args = new ArrayList<String>();
-		args.add("channel01:9c8b43ce948010efc3b7d102aae502165ccd5e0714a3e765fe1a8f444936785a");
-		args.add("LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHZk1BMEdDU3FHU0liM0RRRUJBUVVBQTRHTkFEQ0JpUUtCZ1FERGVNNzJVRnkvK1VTaUpTU3BkWlF2Tmt2NgpySDAvQ25raUJMRmRBUEVIUUR6bTY0Wks3bWR0bUE2ayt1alJtbENXbjhIUVRSK0xHcGp4WGxhVFc1a1Z2a2xVCks4cUdkRUUzNW5JTW0zQnc2ZldsQUlvV2I4dUxEQjlVQmpIVGxIb1dlaEE0SzV3WEh6ZmpqaWQ0U2dBNEhwbzUKdlhlazdzc3RESEpBZUhuNXdRSURBUUFCCi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo=");
-		args.add("jYpb/0yeO8TZ6fMPezgr4c4eRG9heObZcFVG/nRk1YSaDrW5Y2d9yaPSsjOc5p3OurFWJOQvC2xL1A0RstsPNKpIqjiickLZ/HqLXDr/4NrK4VZT2yeGwHU+nYasntaRDMwHhj1JD/zdC3sGxt8a/zQmoPmNybS7bZ0JM5vc+sQ=");
-		httpService.httpPostInvoke(ccBaseUrl, chaincodeName, "registerFund", args);
-		
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void step1RegisterBank() {
+		List<String> args = new ArrayList<String>();
+		args.add("cebbank:29731d0e6c6ca9cb985eabf9fe716d1644c624cae5265c36c9b7a46702003924");
+		args.add("LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHZk1BMEdDU3FHU0liM0RRRUJBUVVBQTRHTkFEQ0JpUUtCZ1FDenFYaVVyRFZzanhIZzdyM1RMc1NSaGlaTApqeE1nczBIU3JsRlV3c0s1eFVCcGFwSHdSazlHeGJrMWtOd2tkSzdPeHlselJjbmxzbEd5VnhhU21KYzNqbmpvClVRVFphbVRaemViMzNNZC9oYUVkN3BhSXFkSS9pZ1Z6TEtpaStXcFJkUE02VlFaV0pHam01eEMwMHhWUWw3aWcKOExBUXV6ek1OMnNCRkhsSmN3SURBUUFCCi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo=");
+		args.add("QPssbLyWzxZKd2ib//dZpBq0CVXGUuujnTkpMp+rsCPUqTvvwTvhrPomwaeMZagQzBzPiltKdrHZ5RiLqEGOFWsB4PJLNrAKRnVme1cHhpZ0Qwi1TP/HYgSflW5sSZ3FUM9pm75G9FuPkQpmO0bnkG1X5GKLWr3n2XRDcAlkPVg=");
+		httpService.httpPostInvoke(ccBaseUrl, chaincodeName, "registerBank", args);
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	// 查询银行done
@@ -322,6 +434,30 @@ public class ApiService {
 		}
 		return fund;
 	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public Bargain queryBargain(@RequestParam(value = "name", required = false, defaultValue = "bargain01") String name) {
+		Bargain bargain = new Bargain();
+		List<String> args = new ArrayList<String>();
+		if ("bargain01".equals(name)) {
+			args.add(fund01Args);
+		} else {
+			args.add(name);
+		}
+		JSONObject jsonResponse = (JSONObject) httpService.httpPostQuery(ccBaseUrl, chaincodeName, "queryBargain", args);
+		if (null != jsonResponse) {
+			// 填充內容
+			bargain = (Bargain) JSONObject.toBean(jsonResponse, Bargain.class);
+		}
+		return bargain;
+	}
+	
+	
+	
 	
 	/**
 	 * 查询渠道信息
@@ -613,10 +749,43 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		donorRel.setBlockHeight(jsonObject.getString("height"));
 		donorRel.setBlockHash(jsonObject.getString("currentBlockHash"));
 		this.commonService.saveTxidDonorIdRefInfo(donorRel);//保存donorId和交易id的关系信息
-		User user =this.queryDonor(donorAddr);
-		user.setName(donorName);
-		SessionUtils.putUserInfoToSession(user);
+		putDonateToSession(donorName, donorAddr, donorUUID);
+		
 		return donorRel;
+	}
+    /**
+     * 将最新的捐款信息 存入session中
+     * @param donorName
+     * @param donorAddr
+     * @param donorUUID
+     */
+	private void putDonateToSession(String donorName, String donorAddr, String donorUUID) {
+		boolean checkFlag =true;
+		boolean isExist=false;
+		while(checkFlag){
+			isExist=false;
+			User user =this.queryDonor(donorAddr);
+			user.setName(donorName);
+			List<DonorContribution> ctlist=user.getContributions();
+			if(null!=ctlist){
+				for(DonorContribution dct:ctlist){
+					if(donorUUID.equals(dct.getDonorid())){
+						isExist=true;
+						break;
+					}
+				}
+			}
+			if(isExist){
+				checkFlag=false;
+				SessionUtils.putUserInfoToSession(user);
+			}else{
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	
 	/**
@@ -666,6 +835,7 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		  tx.setTimestamp(DateUtil.getUnixTime());
 		  tx.setTxin(txinList);
 		  tx.setTxout(txoutList);
+		  tx.setInputData(":::"+donorAmount+":::");
 		 return JSONObject.fromObject(tx).toString();
 	}
 	

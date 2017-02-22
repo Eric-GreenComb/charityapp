@@ -63,7 +63,7 @@
 	                            <p class="newsTitle">${smt.smartContract.name?if_exists}</p>
 	                            <p class="newsTxt">${smt.smartContract.detail?if_exists}</p>
 	                            <div class="newsMoney">
-	                                <p>已筹<span>${smt.validTotalStr?if_exists}</span>万元</p>
+	                                <p>已筹<span>${smt.validTotalStr?if_exists}</span>万元${smt.validTotal?if_exists}</p>
 	                                <p>目标<span>${smt.smartContract.goalStr?if_exists}</span>万元</p>
 	                            </div>
 	                        </div>

@@ -15,7 +15,7 @@ import java.util.regex.Matcher;
 	    private static final String[] U1 = {"", "拾", "佰", "仟"};      
 	    private static final String[] U2 = {"", "万", "亿"};   
 	    private static final String YUAN_FORMAT="##,###.00";
-	    private static final String WAN_FORMAT="##,###";
+	    private static final String WAN_FORMAT="##,###.0";
 	    
 	        
 	    /**   
@@ -107,22 +107,20 @@ import java.util.regex.Matcher;
 	    }
 	    
 	    public static String ccToMoneyFormat(Object amount,String type){
+	    	
 	    	if(amount instanceof Integer){
-	    		 amount=(Integer)amount/10000;//到金额分
-//		    	 amount=MathUtil.div(amount, 100, 2);//到金额元
-		    	 if("wan".equals(type)){
-		    		 amount=(Integer)amount/10000;//到金额元
-		    	 }
+	    		 amount=(Integer)amount/100000;//到金额分
 	    	}else if(amount instanceof Long){
-	    		 amount=(Long)amount/10000;//到金额分
-//		    	 amount=(Long)amount/100;//到金额元
-		    	 if("wan".equals(type)){
-		    		 amount=(Long)amount/10000;//到金额元
-		    	 }
+	    		 amount=(Long)amount/100000;//到金额分
 	    	}
+	    	double aimAmount=0.0;
+	    	 if("wan".equals(type)){
+	    		 aimAmount=MathUtil.div((long)amount, 10000, 4);
+	    	 }
 	    	 DecimalFormat myformat = new DecimalFormat();
 	    	 if("wan".equals(type)){
 	    		 myformat.applyPattern(WAN_FORMAT);
+	    		 return myformat.format(aimAmount);
 	    	 }else{
 	    		 myformat.applyPattern(YUAN_FORMAT);
 	    	 }

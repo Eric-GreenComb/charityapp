@@ -76,7 +76,7 @@ public class AppController extends BaseController{
 		List<DonorContribution> donorHisList =new ArrayList<DonorContribution>();
 		List<DonorContribution> donorHisTempList=user.getContributions();
 		int len=donorHisTempList.size();
-		for(int i=len-1;i>0;i--){
+		for(int i=len-1;i>=0;i--){
 			donorHisList.add(donorHisTempList.get(i));
 			if(donorHisList.size()>10){
 				break;
@@ -103,12 +103,15 @@ public class AppController extends BaseController{
 		User user =SessionUtils.getUserFromSession();
 		List<DonorContribution> conList=user.getContributions();
 		DonorContribution donorContribution=new DonorContribution();
-		for(DonorContribution dct :conList){
-			if(donorid.equals(dct.getDonorid())){
-				donorContribution=dct;
-				break;
+		if(null!=conList){
+			for(DonorContribution dct :conList){
+				if(donorid.equals(dct.getDonorid())){
+					donorContribution=dct;
+					break;
+				}
 			}
 		}
+		
 		
 		List<DonorTrack>  trackings= new ArrayList<DonorTrack>();
 		for(DonorTrack dt :user.getTrackings()){
@@ -193,7 +196,6 @@ public class AppController extends BaseController{
    	public String queryContributeGo(@RequestParam(value = "smartContractAddr", required = false, defaultValue = "smartContractAddr") String smartContractAddr,
    			@RequestParam(value = "donateYuan", required = false, defaultValue = "100") String donateYuan,
 			Model model) {
-//   		model.addAttribute("heigh", heigh);
 		SmartContractExt smartContractExt=this.apiService.querySmartContractExt(smartContractAddr);
 		SmartContractTrack  smartContractTrack =this.apiService.querySmartContractTrack(smartContractAddr);
 		model.addAttribute("smartContractExt", smartContractExt);
@@ -217,7 +219,6 @@ public class AppController extends BaseController{
 		User user =SessionUtils.getUserFromSession();
 		List<DonorContribution> contributionsList=user.getContributions();
 		Map<String,DonorContribution> dcMap  = new HashMap<String,DonorContribution>();
-//		DonorContribution donorContribution=new DonorContribution();
 		for(DonorContribution dct :contributionsList){
 			DonorContribution donorContribution=null;
 			if(dcMap.containsKey(dct.getSmartContractAddr())){
@@ -236,7 +237,6 @@ public class AppController extends BaseController{
 		}
 		contributionsList=new ArrayList<DonorContribution>();
 		for (String key : dcMap.keySet()) {
-			   //System.out.println("key= "+ key + " and value= " + dcMap.get(key));
 			   contributionsList.add(dcMap.get(key));
 		}
 		model.addAttribute("contributionsList", contributionsList);
