@@ -27,15 +27,15 @@
         <div class="section">
             <ul class="newsAll mui-table-view">
             	<#list contributionsList as contribution>
-	                <li class="mui-table-view-cell mui-row" id="${contribution.smartContractAddr}">
+	                <li class="mui-table-view-cell mui-row" id="${contribution.smartContractAddr}" donateYuan="${contribution.smartContractExt.validTotalYuan?if_exists}">
 	                    <div class="mui-col-xs-4 newsMask">
 	                        <img src="${system.basePath}/img/index/news01.png" alt="" class="img-responsive maskPic"/>
 	                        <p class="maskImg"></p>
-	                        <p class="maskTxt">共<span>${contribution.donorNumber}[fake]</span>份爱心</p>
+	                        <p class="maskTxt">共<span>${contribution.smartContractExt.donateNumber?if_exists}</span>份爱心</p>
 	                    </div>
 	                    <div class="mui-col-xs-8 newsDel">
 	                        <p class="newsTitle">${contribution.smartContractName}</p>
-	                        <p class="newsTxt">已筹集善款<span> 100000.00[fake] </span>元</p>
+	                        <p class="newsTxt">已筹集善款<span> ${contribution.smartContractExt.validTotalYuan?if_exists} </span>元</p>
 	                        <div class="newsMoney">
 	                            <p>我的捐款<span> ${contribution.amountStr} </span>元</p>
 	                            <p>我已捐款<span> ${contribution.donorNumber} </span>次</p>
@@ -44,72 +44,7 @@
 	                    <div class="traceIng traceStatus">筹集中</div>
 	                </li>
                 </#list>
-                <!-- 
-                <li class="mui-table-view-cell mui-row">
-                    <div class="mui-col-xs-4 newsMask">
-                        <img src="${system.basePath}/img/index/news02.png" alt="" class="img-responsive maskPic"/>
-                        <p class="maskImg"></p>
-                        <p class="maskTxt">共<span>1234</span>份爱心</p>
-                    </div>
-                    <div class="mui-col-xs-8 newsDel">
-                        <p class="newsTitle">宁夏母亲水窖项目</p>
-                        <p class="newsTxt">已筹集善款<span> 100000.00 </span>元</p>
-                        <div class="newsMoney">
-                            <p>我的捐款<span> 1000.00 </span>元</p>
-                            <p>我已捐款<span> 22 </span>次</p>
-                        </div>
-                    </div>
-                    <div class="traceEnd traceStatus">已结束</div>
-                </li>
-                <li class="mui-table-view-cell mui-row">
-                    <div class="mui-col-xs-4 newsMask">
-                        <img src="${system.basePath}/img/index/news01.png" alt="" class="img-responsive maskPic"/>
-                        <p class="maskImg"></p>
-                        <p class="maskTxt">共<span>1234</span>份爱心</p>
-                    </div>
-                    <div class="mui-col-xs-8 newsDel">
-                        <p class="newsTitle">宁夏母亲水窖项目</p>
-                        <p class="newsTxt">已筹集善款<span> 100000.00 </span>元</p>
-                        <div class="newsMoney">
-                            <p>我的捐款<span> 1000.00 </span>元</p>
-                            <p>我已捐款<span> 22 </span>次</p>
-                        </div>
-                    </div>
-                    <div class="traceIng traceStatus">筹集中</div>
-                </li>
-                <li class="mui-table-view-cell mui-row">
-                    <div class="mui-col-xs-4 newsMask">
-                        <img src="${system.basePath}/img/index/news02.png" alt="" class="img-responsive maskPic"/>
-                        <p class="maskImg"></p>
-                        <p class="maskTxt">共<span>1234</span>份爱心</p>
-                    </div>
-                    <div class="mui-col-xs-8 newsDel">
-                        <p class="newsTitle">宁夏母亲水窖项目</p>
-                        <p class="newsTxt">已筹集善款<span> 100000.00 </span>元</p>
-                        <div class="newsMoney">
-                            <p>我的捐款<span> 1000.00 </span>元</p>
-                            <p>我已捐款<span> 22 </span>次</p>
-                        </div>
-                    </div>
-                    <div class="traceEnd traceStatus">已结束</div>
-                </li>
-                <li class="mui-table-view-cell mui-row">
-                    <div class="mui-col-xs-4 newsMask">
-                        <img src="${system.basePath}/img/index/news01.png" alt="" class="img-responsive maskPic"/>
-                        <p class="maskImg"></p>
-                        <p class="maskTxt">共<span>1234</span>份爱心</p>
-                    </div>
-                    <div class="mui-col-xs-8 newsDel">
-                        <p class="newsTitle">宁夏母亲水窖项目</p>
-                        <p class="newsTxt">已筹集善款<span> 100000.00 </span>元</p>
-                        <div class="newsMoney">
-                            <p>我的捐款<span> 1000.00 </span>元</p>
-                            <p>我已捐款<span> 22 </span>次</p>
-                        </div>
-                    </div>
-                    <div class="traceIng traceStatus">筹集中</div>
-                </li>
-                -->
+               
             </ul>
         </div>
     </div>
@@ -127,7 +62,8 @@
 
     $('.newsAll').on('tap','li',function(){
     	  var smartContractAddr = this.getAttribute("id");
-        //window.location.href="${system.basePath}/app/queryDonorDeatail?smartContractAddr="+smartContractAddr;
+    	  var donateYuan = this.getAttribute("donateYuan");
+        window.location.href="${system.basePath}/app/queryContributeGo?smartContractAddr="+smartContractAddr+"&donateYuan="+donateYuan;
     
           //window.location.href="mine_contributeGo.html";
 		  //window.location.href="mine_contributeGoNull.html";

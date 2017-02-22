@@ -20,15 +20,16 @@
             <div class='contributeMoney' id="closeContributeMoney">
                 <div class="mui-row contributeMoneyDiv">
                     <p class="mui-col-xs-3 contributeMoneyTxt">捐款金额</p>
-                    <p class="mui-col-xs-9 contributeMoneyMuch contributeMoneyTxt"><input type="number" placeholder="输入1元以上的捐款金额"/>元</p>
+                    <p class="mui-col-xs-9 contributeMoneyMuch contributeMoneyTxt"><input type="number" id="donorAmount" placeholder="输入1元以上的捐款金额"/>元</p>
                 </div>
                 <div class="mui-row contributeMoneyDiv">
                     <p class="mui-col-xs-3"></p>
-                    <p class="mui-col-xs-9 conDu">可捐款额度为<span> 5000 </span>元</p>
+                    <p class="mui-col-xs-9 conDu">可捐款额度为<span> ${SmartContractExt.canDonateNumberStr?if_exists} </span>元</p>
+                   
                 </div>
             </div>
             <div class="foot" id="closeFoot">
-                <button id="enter">确认捐款</button>
+                <button id="enter" >确认捐款</button>
             </div>
         </div>
     </div>
@@ -49,7 +50,7 @@
             <!--top-->
             <div class="goTop">
                 <img src="${system.basePath}/img/mine/goDel01.png" alt=""/>
-                <p class="goTopMask over">宁夏母亲水窖项目</p>
+                <p class="goTopMask over">${SmartContractExt.smartContract.name?if_exists}</p>
                 <p class="raise"><img src="${system.basePath}/img/mine/raiseIng.png" alt=""/></p>
             </div>
             <!--money-->
@@ -60,11 +61,11 @@
                 </dl>
                 <dl class="mui-col-xs-4">
                     <dt>已筹金额</dt>
-                    <dd><span class="alreadyMoney">521</span>万元</dd>
+                    <dd><span class="alreadyMoney">${SmartContractExt.validTotalStr?if_exists}</span>万元</dd>
                 </dl>
                 <dl class="mui-col-xs-4">
                     <dt>目标金额</dt>
-                    <dd><span class="allMoney">1000</span>万元</dd>
+                    <dd><span class="allMoney">${SmartContractExt.smartContract.goalStr?if_exists}</span>万元</dd>
                 </dl>
             </div>
             <!--简介-->
@@ -83,14 +84,7 @@
                             <div id="scroll1" class="mui-scroll-wrapper tab">
                                 <div class="mui-scroll">
                                     <div class='bookDel'>
-                                        <p>干旱缺水是世界性的问题，中国西部是地球上主要干旱带之一，由于中国社会转型期的社会流动，妇女成为西部贫困干旱地区农村的主要劳动力，她们不得不每日往返几里、几十里山路找回生命水。</p>
-                                        <p>“母亲水窖”是一项集中供水工程，是中国妇女发展基金会2001年开始实施的慈善项目，重点帮助西部地区老百姓特别是妇女摆脱因严重缺水带来的贫困和落后。</p>
-                                        <p>“母亲水窖”是一项集中供水工程，是中国妇女发展基金会2001年开始实施的慈善项目，重点帮助西部地区老百姓特别是妇女摆脱因严重缺水带来的贫困和落后。</p>
-                                        <p>“母亲水窖”是一项集中供水工程，是中国妇女发展基金会2001年开始实施的慈善项目，重点帮助西部地区老百姓特别是妇女摆脱因严重缺水带来的贫困和落后。</p>
-                                        <p>“母亲水窖”是一项集中供水工程，是中国妇女发展基金会2001年开始实施的慈善项目，重点帮助西部地区老百姓特别是妇女摆脱因严重缺水带来的贫困和落后。</p>
-                                        <p>“母亲水窖”是一项集中供水工程，是中国妇女发展基金会2001年开始实施的慈善项目，重点帮助西部地区老百姓特别是妇女摆脱因严重缺水带来的贫困和落后。</p>
-                                        <p>“母亲水窖”是一项集中供水工程，是中国妇女发展基金会2001年开始实施的慈善项目，重点帮助西部地区老百姓特别是妇女摆脱因严重缺水带来的贫困和落后。</p>
-                                        <p>“1”是一项集中供水工程，是中国妇女发展基金会2001年开始实施的慈善项目，重点帮助西部地区老百姓特别是妇女摆脱因严重缺水带来的贫困和落后。</p>
+                                        <p>${SmartContractExt.smartContract.name?if_exists}${SmartContractExt.smartContract.remark?if_exists}</p>
                                     </div>
                                 </div>
                             </div>
@@ -101,11 +95,11 @@
                                     <ul class="traceUl ">
                                         <li class="over">
                                             <span class="lf">基金会：</span>
-                                            <span class="rt">${smartContract.partyA?if_exists}</span>
+                                            <span class="rt">${SmartContractExt.smartContract.partyA?if_exists}</span>
                                         </li>
                                         <li class="over">
                                             <span class="lf">基金管理费：</span>
-                                            <span class="rt">千分之${smartContract.fundManangerFee?if_exists}</span>
+                                            <span class="rt">千分之${SmartContractExt.smartContract.fundManangerFee?if_exists}</span>
                                         </li>
                                         <li class="over">
                                             <span class="lf">捐献渠道：</span>
@@ -113,15 +107,15 @@
                                         </li>
                                         <li class="over">
                                             <span class="lf">渠道服务费：</span>
-                                            <span class="rt">千分之${smartContract.channelFee?if_exists}</span>
+                                            <span class="rt">千分之${SmartContractExt.smartContract.channelFee?if_exists}</span>
                                         </li>
                                         <li class="over">
                                             <span class="lf">生效时间：</span>
-                                            <span class="rt">${smartContract.createTimeStr?if_exists}</span>
+                                            <span class="rt">${SmartContractExt.smartContract.createTimeStr?if_exists}</span>
                                         </li>
                                         <li class="over">
                                             <span class="lf">结束时间：</span>
-                                            <span class="rt">${smartContract.endTimeStr?if_exists}</span>
+                                            <span class="rt">${SmartContractExt.smartContract.endTimeStr?if_exists} </span>
                                         </li>
                                     </ul>
                                 </div>
@@ -154,10 +148,32 @@
         window.history.back(-1);
     });
     $('#enter').on('tap',function(){
-        window.location.href="succeed.html";
+        //window.location.href="succeed.html";确认捐款
+        var donorAmount=$("#donorAmount").val();
+        //alert("donorAmount="+donorAmount);
+        if(isPositiveNum(donorAmount)){
+       		  window.location.href="${system.basePath}/app/donate?donorAmount="+donorAmount;
+        }else{
+        	alert("不是数字,请重新填写正整数的金额")  
+        	$("#donorAmount").val(100);  	
+        }
+        
     });
+    
+    
+    
+    function blurNum(donateNum){
+    	if(isPositiveNum(donateNum)){
+			alert("不是数字")    	
+    	}else{
+    		donateNum.value=1; 
+    	}
+    }
 
-
+		function isPositiveNum(s){//是否为正整数  
+		    var re = /^[0-9]*[1-9][0-9]*$/ ;  
+		    return re.test(s)  
+		} 
 
     (function($) {
         $('.mui-scroll-wrapper').scroll({
@@ -174,8 +190,8 @@ window.onload=function(){
 }
 
 //    水滴
-var yi=parseFloat($('.alreadyMoney').html()),
-    all=parseFloat($('.allMoney').html());
+var yi=parseFloat($('.alreadyMoney').html().replace(/,/g,"")),
+    all=parseFloat($('.allMoney').html().replace(/,/g,""));
 $('.newsPer').html((yi/all*100).toFixed(2)+'%');
 function shui(){
     var per=yi/all*100;

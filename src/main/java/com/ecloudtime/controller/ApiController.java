@@ -13,6 +13,7 @@ import com.ecloudtime.model.Account;
 import com.ecloudtime.model.Contract;
 import com.ecloudtime.model.SmartContract;
 import com.ecloudtime.model.SmartContractExt;
+import com.ecloudtime.model.SysDonorTransRel;
 import com.ecloudtime.model.User;
 import com.ecloudtime.service.ApiService;
 import com.ecloudtime.service.BlockInfoService;
@@ -100,7 +101,7 @@ public class ApiController extends BaseController{
 	}
     @ApiOperation(value="donated",notes="requires noting")
     @RequestMapping(value="/donated",method=RequestMethod.GET)
-    public String donated(@RequestParam(value="donorName", required=false, defaultValue="donor01") String donorName,
+    public SysDonorTransRel donated(@RequestParam(value="donorName", required=false, defaultValue="donor01") String donorName,
     		@RequestParam(value="donorAmount", required=false, defaultValue="100") String donorAmount,
     		Model model){
     	//String donorName,String donorAmount

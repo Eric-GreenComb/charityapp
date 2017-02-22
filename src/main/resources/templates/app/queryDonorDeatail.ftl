@@ -21,7 +21,7 @@
             <div class="maskTxt">
                 <div class="txtTitle">
                     <p class="title">微公益捐款凭证</p>
-                    <p class="pzH">凭证号(哈希[需要转换])：<span>${processDonored.donorUUID}</span></p>
+                    <p class="pzH">凭证号(哈希[需要转换])：<span>${processDonored.donorUUID?if_exists}</span></p>
                 </div>
             </div>
             <!--ul-->
@@ -32,11 +32,11 @@
                 </li>
                 <li class=" over">
                     <span class="lf">收款方</span>
-                    <span class="rt">${processDonored.smartContractName}</span>
+                    <span class="rt">${processDonored.smartContractName?if_exists}</span>
                 </li>
                 <li class=" over">
                     <span class="lf">捐款时间</span>
-                    <span class="rt">${processDonored.donorTimeStr}</span>
+                    <span class="rt">${processDonored.donorTimeStr?if_exists}</span>
                 </li>
             </ul>
             <!--ul-->

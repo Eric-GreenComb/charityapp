@@ -17,6 +17,8 @@ import com.ecloudtime.model.DonorTrack;
 import com.ecloudtime.model.DonorTrackDetail;
 import com.ecloudtime.model.ProcessDonored;
 import com.ecloudtime.model.SmartContract;
+import com.ecloudtime.model.SmartContractExt;
+import com.ecloudtime.model.SmartContractTrack;
 import com.ecloudtime.model.SysDonorTransRel;
 import com.ecloudtime.model.Transaction;
 import com.ecloudtime.model.User;
@@ -151,7 +153,6 @@ public class AppController extends BaseController{
    		
    		SysDonorTransRel donorTransRel=this.commonService.findDonorTransRelByTxid(txid);
 		DonorTrackDetail donorTrackDetail =(DonorTrackDetail)this.cacheManager.getCacheObjectByKey("donorTrackDetail_"+donorid);
-//		this.cacheManager.putObjectToCache("donorTrackDetail_"+donorid, donorTrackDetail);
    		model.addAttribute("transaction", transaction);
    		model.addAttribute("donorTrackDetail", donorTrackDetail);
    		model.addAttribute("donorTransRel", donorTransRel);
@@ -160,6 +161,12 @@ public class AppController extends BaseController{
 	    return "app/queryDonorTransDeatail";  
 	}
 	
+	/**
+	 * 查询区块详情
+	 * @param heigh
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("/blockDetail")
    	@ApiOperation(value="blockDetail",notes="requires login Name default user01")
    	public String blockDetail(@RequestParam(value = "heigh", required = false, defaultValue = "0") int heigh,
@@ -172,6 +179,27 @@ public class AppController extends BaseController{
    		}*/
    		model.addAttribute("blockInfo", blockInfo);
    		return "app/appBlockDetail";
+   	}
+	
+	
+	/**
+	 * 善款去向
+	 * @param smartContractAddr
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/queryContributeGo")
+   	@ApiOperation(value="queryContributeGo",notes="requires login Name default user01")
+   	public String queryContributeGo(@RequestParam(value = "smartContractAddr", required = false, defaultValue = "smartContractAddr") String smartContractAddr,
+   			@RequestParam(value = "donateYuan", required = false, defaultValue = "100") String donateYuan,
+			Model model) {
+//   		model.addAttribute("heigh", heigh);
+		SmartContractExt smartContractExt=this.apiService.querySmartContractExt(smartContractAddr);
+		SmartContractTrack  smartContractTrack =this.apiService.querySmartContractTrack(smartContractAddr);
+		model.addAttribute("smartContractExt", smartContractExt);
+		model.addAttribute("smartContractTrack", smartContractTrack);
+		model.addAttribute("donateYuan", donateYuan);
+   		return "app/queryContributeGo";
    	}
 	
 	
@@ -198,10 +226,11 @@ public class AppController extends BaseController{
 				donorContribution=dct.clone();
 				donorContribution.setAmount(0);
 				donorContribution.setDonorNumber(0);
+				donorContribution.setSmartContractExt(apiService.querySmartContractExt(dct.getSmartContractAddr()));
 			}
 			donorContribution.setAmount(donorContribution.getAmount()+dct.getAmount());
 			donorContribution.setDonorNumber(donorContribution.getDonorNumber()+1);
-			donorContribution.setSmartContract(this.apiService.querySmartContract(dct.getSmartContractAddr()));
+//			donorContribution.setSmartContract(this.apiService.querySmartContract(dct.getSmartContractAddr()));
 			//这个查询 合约的 需要修改   --todo
 			dcMap.put(dct.getSmartContractAddr(), donorContribution);
 		}
@@ -226,9 +255,21 @@ public class AppController extends BaseController{
 			Model model) {
 		String userName=SessionUtils.getUserNameFromSession();
 		User user =SessionUtils.getUserFromSession();
-		SmartContract smartContract =(SmartContract)this.apiService.querySmartContract(smartContractAddr);
-		model.addAttribute("smartContract", smartContract);
+		SmartContractExt SmartContractExt =this.apiService.querySmartContractExt(smartContractAddr);
+//		SmartContract smartContract =(SmartContract)this.apiService.querySmartContract(smartContractAddr);
+		model.addAttribute("SmartContractExt", SmartContractExt);
 		return "app/querySmartContract";
+	}
+	
+	@RequestMapping("/donate")
+	@ApiOperation(value="donate",notes="requires login Name")
+	public String donate(@RequestParam(value = "donorAmount", required = false, defaultValue = "donorAmount") String donorAmount,
+			Model model) {
+		String donorName=SessionUtils.getUserNameFromSession();//User user =SessionUtils.getUserFromSession();
+		String msg ="error";
+		SysDonorTransRel donorRel=this.apiService.donated(donorName, donorAmount);
+		model.addAttribute("donorRel", donorRel);
+		return "app/donateInfo";
 	}
 	
 	/**
@@ -238,8 +279,8 @@ public class AppController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping("/queryBargain")
-	@ApiOperation(value="queryItemDetail",notes="requires login Name")
-	public String queryItemDetail(@RequestParam(value = "itemid", required = false, defaultValue = "itemid") String itemid,
+	@ApiOperation(value="queryBargain",notes="requires login Name")
+	public String queryBargain(@RequestParam(value = "itemid", required = false, defaultValue = "itemid") String itemid,
 			Model model) {
 		String userName=SessionUtils.getUserNameFromSession();
 		User user =SessionUtils.getUserFromSession();

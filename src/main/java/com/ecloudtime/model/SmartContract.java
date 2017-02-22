@@ -4,9 +4,21 @@ import com.ecloudtime.utils.MoneyUtil;
 
 public class SmartContract extends SmartContractGo{
 
-	private String goalStr;//目标金额
+	private String goalStr;//目标金额 万元
+	private String goalYuan;//目标金额 元
 	private String pic;
 	
+	public String getGoalYuan() {
+		if(null!=getGoal()&&0!=getGoal()){
+    		return MoneyUtil.ccToMoneyFormat(getGoal(),"yuan");
+    	}
+		return goalYuan;
+	}
+
+	public void setGoalYuan(String goalYuan) {
+		this.goalYuan = goalYuan;
+	}
+
 	public String getGoalStr() {
 		if(null!=getGoal()&&0!=getGoal()){
     		return MoneyUtil.ccToMoneyFormat(getGoal(),"wan");

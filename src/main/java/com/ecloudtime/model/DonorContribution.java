@@ -17,6 +17,8 @@ public class DonorContribution implements Cloneable{
 	private String smartContractAddr;
 	
 	private SmartContract smartContract;
+	
+	private SmartContractExt  smartContractExt;
 
 	private long amount;
 	
@@ -104,6 +106,14 @@ public class DonorContribution implements Cloneable{
 
 	public void setSmartContract(SmartContract smartContract) {
 		this.smartContract = smartContract;
+	}
+	
+	public SmartContractExt getSmartContractExt() {
+		return smartContractExt;
+	}
+
+	public void setSmartContractExt(SmartContractExt smartContractExt) {
+		this.smartContractExt = smartContractExt;
 	}
 
 	public DonorContribution clone(){

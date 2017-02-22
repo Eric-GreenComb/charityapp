@@ -12,8 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.ecloudtime.mapper.CommonMapper;
-import com.ecloudtime.model.SmartContract;
 import com.ecloudtime.model.SmartContractExt;
 import com.ecloudtime.model.User;
 import com.ecloudtime.service.ApiService;
@@ -64,7 +62,7 @@ public class LoginController extends BaseController{
 		    }
 			
 			SessionUtils.putUserInfoToSession(user);
-			return index(userName,model);
+			return index(model);
 		}
 		
 		return "login";
@@ -72,10 +70,7 @@ public class LoginController extends BaseController{
 	
 	@RequestMapping("/index")
 	@ApiOperation(value="index",notes="requires login Name default user01")
-	public String index(@RequestParam(value = "name", required = false, defaultValue = "donor01") String name,
-			Model model) {
-		model.addAttribute("name", name);
-//		User user =apiService.queryDonor(name);
+	public String index(Model model) {
 		User user =SessionUtils.getUserFromSession();
 		if(null==user.getName())user.setName("donor01");
 		model.addAttribute("user", user);

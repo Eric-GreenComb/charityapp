@@ -24,6 +24,7 @@ import com.ecloudtime.model.ProcessDonored;
 import com.ecloudtime.model.ProcessDrawed;
 import com.ecloudtime.model.SmartContract;
 import com.ecloudtime.model.SmartContractExt;
+import com.ecloudtime.model.SmartContractHistory;
 import com.ecloudtime.model.SmartContractTrack;
 import com.ecloudtime.model.SysDonorTransRel;
 import com.ecloudtime.model.TX;
@@ -35,6 +36,7 @@ import com.ecloudtime.utils.DateUtil;
 import com.ecloudtime.utils.HttpRequestUtils;
 import com.ecloudtime.utils.MoneyUtil;
 import com.ecloudtime.utils.RSASignatureUtil;
+import com.ecloudtime.utils.SessionUtils;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -285,7 +287,9 @@ public class ApiService {
 		JSONObject jsonResponse = (JSONObject) httpService.httpPostQuery(ccBaseUrl, chaincodeName, "querySmartContractTrack", args);
 		if (null != jsonResponse) {
 			// 填充內容
-			smartContractTrack = (SmartContractTrack) JSONObject.toBean(jsonResponse, SmartContractTrack.class);
+			Map<String, Class> classMap = new HashMap<String, Class>();
+			classMap.put("trans", SmartContractHistory.class);
+			smartContractTrack = (SmartContractTrack) JSONObject.toBean(jsonResponse, SmartContractTrack.class,classMap);
 		}
 		return smartContractTrack;
 	}
@@ -348,6 +352,15 @@ public class ApiService {
 		return channel;
 	}
 
+	public SmartContractExt querySmartContractExt(String smartAddr){
+		List<String> args = new ArrayList<String>();
+	    args.add(smartAddr);
+	    JSONObject jsonResponse = (JSONObject) httpService.httpPostQuery(ccBaseUrl, chaincodeName, "querySmartContractExt", args);
+	    SmartContractExt smartContractExt = (SmartContractExt) JSONObject.toBean(jsonResponse, SmartContractExt.class);
+		return smartContractExt;
+	}
+	
+	
 	//查询首页的 合约信息表
 	public List<SmartContractExt> querySmartContractExts(String smartAddrs){
 		List<SmartContractExt> list = new ArrayList<SmartContractExt>();
@@ -369,6 +382,7 @@ public class ApiService {
 		}
 		return list;
 	}
+	
 	
 	public List<SmartContract> querySmartContracts(
 			@RequestParam(value = "name", required = false, defaultValue = "smartcontract01") String name) {
@@ -536,13 +550,13 @@ _smartContractAddr := args[3] //smartContractAddr 合约地址
 _base64TxData := args[4]      //tx --》json————》base64
 _base64SourcSign := args[5]   // 用donor的私钥签名
 	 */
-	public String donated(String donorName,String donorAmount) {
+	public SysDonorTransRel donated(String donorName,String donorAmount) {
 		
 		String txidmsg = "error";
 		String smartContractName="smartcontract01";//捐款合约 限定
 		String cebBankAddr=cebbankArgs;//中央银行
 		String donorAddr=this.commonService.findDonorAddrByName(donorName);
-		if(StringUtils.isEmpty(donorAddr))return "";
+		if(StringUtils.isEmpty(donorAddr))return new SysDonorTransRel();
 		String donorUUID=this.commonService.getDonorUuid();//生成的捐款id
 		String smartContractAddr=this.commonService.findSmartContractAddrByName(smartContractName);
 		//1.捐款时,先查询银行的钱数
@@ -599,8 +613,10 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		donorRel.setBlockHeight(jsonObject.getString("height"));
 		donorRel.setBlockHash(jsonObject.getString("currentBlockHash"));
 		this.commonService.saveTxidDonorIdRefInfo(donorRel);//保存donorId和交易id的关系信息
-		
-		return txidmsg;
+		User user =this.queryDonor(donorAddr);
+		user.setName(donorName);
+		SessionUtils.putUserInfoToSession(user);
+		return donorRel;
 	}
 	
 	/**

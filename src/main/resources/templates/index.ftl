@@ -53,7 +53,7 @@
                 <ul class="newsAll mui-table-view">
                 
                 	<#list smartcontracts as smt>
-						 <li class="mui-table-view-cell mui-row">
+						 <li class="mui-table-view-cell mui-row" id="${smt.addr?if_exists}">
 	                        <div class="mui-col-xs-4 newsMask">
 	                            <img src="${smt.pic?if_exists}" alt="" class="img-responsive maskPic"/>
 	                            <p class="maskImg"></p>
@@ -109,16 +109,19 @@ window.onload = function(){
         
     });
 
-
+//str2.replace(/,/g,"")
 function shui(){
     var li=$('.newsAll li');
     for(var i=0;i<li.length;i++){
         var yi=parseFloat(($(li[i]).find('.newsMoney p:first-child span')).html()),
-                all=parseFloat(($(li[i]).find('.newsMoney p:last-child span')).html());
+                all=parseFloat(($(li[i]).find('.newsMoney p:last-child span')).html().replace(/,/g,""));
         var per=(yi/all*100).toFixed(2);
         ($(li[i]).find('.newsPer')).text(per);
         var perNum= ($(li[i]).find('.newsPer')).text();
-//    console.log(per)
+    console.log("yi="+yi)
+    console.log("all="+all)
+    console.log("per="+per)
+    console.log("perNum="+perNum)
 
         if( perNum==0 ){
             $(li[i]).find('.newsImg img').attr('src','img/index/per_0.png');

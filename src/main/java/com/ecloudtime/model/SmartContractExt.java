@@ -10,19 +10,76 @@ public class SmartContractExt  {
 	    uint64 donateNumber = 5;
 	    SmartContract smartContract = 6;*/
 	
-	private String addr;
-	private long balance;
-	private long total;
-	private long validTotal;
-	private long donateNumber;
+	private String addr;//合约的地址
+	private long balance;//合约的余额
+	private long total;//总捐款
+	private long validTotal;//已筹集的捐款
+	private long donateNumber;//合约的总捐款爱心数量
 	private SmartContract smartContract;
-	private String pic;
+	private String canDonateNumberStr;//该合约还可以捐款的钱数
+	private String channelFeeStr;//合约的总渠道费
+	private String fundFeeStr;//合约的总基金费
+	private String pic;//合约的存储图片地址
+	private String totalStr;//总捐款 万元
+	private String totalYuan;//总捐款 元
+	private String validTotalStr;//已筹集善款  万元
+	private String validTotalYuan;//已筹集善款 元
 	
-	private String validTotalStr;
+	public String getTotalStr() {
+		if(0!=this.getTotal()){
+    		return MoneyUtil.ccToMoneyFormat(getTotal(),"wan");
+    	}
+		return totalStr;
+	}
+	public void setTotalStr(String totalStr) {
+		this.totalStr = totalStr;
+	}
+	public String getTotalYuan() {
+		if(0!=this.getTotal()){
+    		return MoneyUtil.ccToMoneyFormat(getTotal(),"yuan");
+    	}
+		return totalYuan;
+	}
+	public void setTotalYuan(String totalYuan) {
+		this.totalYuan = totalYuan;
+	}
+	public String getChannelFeeStr() {
+		return channelFeeStr;
+	}
+	public void setChannelFeeStr(String channelFeeStr) {
+		this.channelFeeStr = channelFeeStr;
+	}
+	public String getFundFeeStr() {
+		return fundFeeStr;
+	}
+	public void setFundFeeStr(String fundFeeStr) {
+		this.fundFeeStr = fundFeeStr;
+	}
+	public String getCanDonateNumberStr() {
+		if(0!=smartContract.getGoal()&&smartContract.getGoal()>this.getValidTotal()){
+			long canDonateNumber=smartContract.getGoal()-this.getValidTotal();
+			return MoneyUtil.ccToMoneyFormat(canDonateNumber,"yuan");
+		}
+		
+		return "--";
+	}
+	public void setCanDonateNumberStr(String canDonateNumberStr) {
+		this.canDonateNumberStr = canDonateNumberStr;
+	}
 	
-	public String getValidTotalStr() {
+	
+	public String getValidTotalYuan() {
 		if(0!=this.getValidTotal()){
     		return MoneyUtil.ccToMoneyFormat(getValidTotal(),"yuan");
+    	}
+		return validTotalYuan;
+	}
+	public void setValidTotalYuan(String validTotalYuan) {
+		this.validTotalYuan = validTotalYuan;
+	}
+	public String getValidTotalStr() {
+		if(0!=this.getValidTotal()){
+    		return MoneyUtil.ccToMoneyFormat(getValidTotal(),"wan");
     	}
 		return validTotalStr;
 	}
