@@ -27,7 +27,13 @@ public class LoginController extends BaseController{
 	
 	 @Autowired
 	 private CommonService commonService;
-	
+	 
+	 @RequestMapping("/")
+		@ApiOperation(value="/",notes="requires login Name")
+		public String loginDirect(@RequestParam(value = "name", required = false, defaultValue = "name") String name,
+				Model model) {
+			return login(name,model);
+		}
 	
 	@RequestMapping("/403")
 	@ApiOperation(value="login",notes="requires login Name")

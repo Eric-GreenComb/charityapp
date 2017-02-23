@@ -15,7 +15,7 @@ import java.util.regex.Matcher;
 	    private static final String[] U1 = {"", "拾", "佰", "仟"};      
 	    private static final String[] U2 = {"", "万", "亿"};   
 	    private static final String YUAN_FORMAT="##,###.00";
-	    private static final String WAN_FORMAT="##,###.0";
+	    private static final String WAN_FORMAT="##,###0.00";
 	    
 	        
 	    /**   
@@ -159,7 +159,7 @@ import java.util.regex.Matcher;
 	public static String getMoneyFromPayload(String payload) {
 //		payload=Base64Util.getFromBase64(payload);
 		String money = "";
-		String regEx = ":::(\\d+):::";
+		String regEx = ":::(\\-?[1-9]\\d+):::";
 		// String s = "count000dfdfsdffaaaa1";
 		// s=":::1000:::_wwwww:::2000:::";
 		Pattern pat = Pattern.compile(regEx);

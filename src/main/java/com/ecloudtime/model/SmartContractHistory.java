@@ -1,12 +1,24 @@
 package com.ecloudtime.model;
 
+import com.ecloudtime.utils.MoneyUtil;
+
 public class SmartContractHistory {
 	private String bargainName;
 	private String bargainAddr;
 	private String type;
 	private long amount;
+	private String amountStr;
 	private int timestamp;
 	
+	public String getAmountStr() {
+		if(0!=getAmount()){
+    		return MoneyUtil.ccToMoneyFormat(getAmount(),"yuan");
+    	}
+		return amountStr;
+	}
+	public void setAmountStr(String amountStr) {
+		this.amountStr = amountStr;
+	}
 	public String getBargainName() {
 		return bargainName;
 	}

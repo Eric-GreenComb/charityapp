@@ -40,10 +40,12 @@
                     <p class="pzTitle">上一区块</p>
                     <p class="pzDel">${blockInfo.previousBlockHash?if_exists}</p>
                 </li>
-                <li class="mui-table-view-cell over">
-                    <p class="pzTitle">UUID</p>
-                    <p class="pzDel">000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f[fake]</p>
-                </li>
+                <!-- 
+	                <li class="mui-table-view-cell over">
+	                    <p class="pzTitle">UUID</p>
+	                    <p class="pzDel">000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f[fake]</p>
+	                </li>
+                -->
             </ul>
         </div>
     </div>

@@ -44,7 +44,7 @@
     color:#6c6c6c;
 }
 .giftMoney{
-    font-size:18px;
+    font-size:14px;
     color:#fbbc05;
     text-align:right;
 }
@@ -54,7 +54,7 @@
     vertical-align: middle;
 }
 
-/**********************详情********************/
+/**********************璇︽儏********************/
 .section.delSec{
     margin:70px 0 0 0;
 }
@@ -102,7 +102,7 @@
 }
 
 
-/*凭证*/
+/*鍑瘉*/
 .closeCon{
     text-align: center;
 }
@@ -185,7 +185,7 @@
 }
 
 
-/*捐款详情*/
+/*鎹愭璇︽儏*/
 .giftDel.mui-table-view:after{
     background:#efefef;
 }
@@ -227,7 +227,7 @@
     line-height:27px;
 }
 
-/*区块详情*/
+/*鍖哄潡璇︽儏*/
 .pzDelUl{
     margin:15px;
     background:#FAFAFA;
@@ -275,7 +275,7 @@
     line-height:16px;
 }
 
-/*流程图*/
+/*娴佺▼鍥�*/
 .giftDel li.moneyIcon{
     padding:10px 40px 10px 20px;
     margin-bottom:50px;

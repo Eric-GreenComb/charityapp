@@ -55,10 +55,10 @@
             <!--最新交易信息-->
             <div class="newsAll">
                 <p class="nodeTxt">最新交易信息</p>
-                <p class="newsTitle"><span>交易ID</span><span>交易时间</span><span>交易金额</span></p>
+                <p class="newsTitle"><span>交易ID</span><span>交易时间</span><span>交易金额&yen;</span></p>
                 <ul class="newsUl">
                 	<#list transList as trans>、
-                		<li class="newsInfo"><a href="${system.basePath}/explorer/transDetail?txid=${trans.txid}">${trans.txid?substring(0,20)}</a><span>${trans.tranGenTime?substring(10)}</span><span>90.00&yen;</span></li>
+                		<li class="newsInfo"><a href="javascript:goTransDetail('${trans.txid}','${trans.transMoney?if_exists}');">${trans.txid?substring(0,20)}</a><span>${trans.tranGenTime?substring(10)}</span><span>${trans.transMoney?if_exists}</span></li>
                 	</#list>
                 </ul>
             </div>
@@ -83,6 +83,13 @@
 <script src="${system.basePath}/js/common_pc.js"></script>
 <script>
 
+	function goTransDetail(txid,transMoney){
+		if("--"==transMoney){
+			return ;
+		}else{
+			window.location.href="${system.basePath}/explorer/transDetail?txid="+txid;
+		}
+	}
 
 	function queryCurrentPeerStatus(peerUrl){
 		var postData =  {"url":peerUrl,tm:new Date().getTime()};
@@ -98,7 +105,7 @@
 					$("#peer1_high").html(data.height);
 					$("#peer2_high").html(data.height);
 					$("#peer3_high").html(data.height);
-					$("#peer4_high").html(data.height-1);
+					$("#peer4_high").html(data.height);
 					
 					var peer1_high =$("#peer1_high").html();
 					var peer2_high =$("#peer2_high").html();

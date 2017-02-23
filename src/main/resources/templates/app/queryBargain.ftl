@@ -39,19 +39,19 @@
             </div>
             <!--icon-->
             <div class="rateIcon mui-row">
-                <p class="mui-col-xs-3 rateHT">
+                <p class="mui-col-xs-3 rateHT" id="${bargainAddr?if_exists}">
                     <img src="${system.basePath}/img/common/rate_htIcon.png" alt=""/>
                     <span>工程合同</span>
                 </p>
-                <p class="mui-col-xs-3 rateIMGS">
+                <p class="mui-col-xs-3 rateIMGS" id="${bargainAddr?if_exists}">
                     <img src="${system.basePath}/img/common/rate_sgIcon.png" alt=""/>
                     <span>施工图集</span>
                 </p>
-                <p class="mui-col-xs-3 rateJL">
+                <p class="mui-col-xs-3 rateJL" id="${bargainAddr?if_exists}">
                     <img src="${system.basePath}/img/common/rate_tkIcon.png" alt=""/>
                     <span>提款记录</span>
                 </p>
-                <p class="mui-col-xs-3 rateBG">
+                <p class="mui-col-xs-3 rateBG" id="${bargainAddr?if_exists}">
                     <img src="${system.basePath}/img/common/rate_ysIcon.png" alt=""/>
                     <span>验收报告</span>
                 </p>
@@ -109,8 +109,9 @@
         window.location.href="${system.basePath}/app/queryBargainImages";
     });
     $('.rateJL').on('tap',function(){
+    	var bargainAddr = this.getAttribute("id");
         //window.location.href="mine_contributeRate_drawing.html";
-        window.location.href="${system.basePath}/app/queryBargainDraw";
+        window.location.href="${system.basePath}/app/queryBargainDraw?bargainAddr="+bargainAddr;
     });
     $('.rateBG').on('tap',function(){
        // window.location.href="mine_contributeRate_contract.html";

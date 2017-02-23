@@ -17,6 +17,11 @@ public class DonorTrackDetail {
 	private long contractAmount;//基金管理账户
 	private String contractAmountStr;
 	
+	private long drawAmount;//提款金额
+	private String drawAmountStr;
+	private long drawContractAmount;//提款 合约
+	private String drawContractAmountStr;
+	
 	//donate :0    draw :1  channel:2   fund:3
 	public DonorTrackDetail(List<DonorTrack> dclist) {
 		super();
@@ -26,8 +31,8 @@ public class DonorTrackDetail {
 				this.setContractAmount(dt.getAmount());
 				this.setDonorid(dt.getDonorid());
 			}else if("1".equals(dt.getType())){
-				this.setDonorAmount(dt.getDonorAmount());
-				this.setContractAmount(dt.getAmount());
+				this.setDrawAmount(dt.getDonorAmount());
+				this.setDrawContractAmount(dt.getAmount());
 				this.setDrawid(dt.getDrawid());
 			}else if("2".equals(dt.getType())){
 				this.setChannelAmount(dt.getAmount());
@@ -36,7 +41,46 @@ public class DonorTrackDetail {
 			}
 		}
 	}
+	
 
+	public long getDrawContractAmount() {
+		return drawContractAmount;
+	}
+
+	public void setDrawContractAmount(long drawContractAmount) {
+		this.drawContractAmount = drawContractAmount;
+	}
+
+	public String getDrawContractAmountStr() {
+		if(0!=getDrawContractAmount()){
+    		return MoneyUtil.ccToMoneyFormat(getDrawContractAmount(),"yuan");
+    	}
+		return drawContractAmountStr;
+	}
+
+	public void setDrawContractAmountStr(String drawContractAmountStr) {
+		this.drawContractAmountStr = drawContractAmountStr;
+	}
+
+	public long getDrawAmount() {
+		return drawAmount;
+	}
+
+	public void setDrawAmount(long drawAmount) {
+		this.drawAmount = drawAmount;
+	}
+
+	public String getDrawAmountStr() {
+		if(0!=getDrawAmount()){
+    		return MoneyUtil.ccToMoneyFormat(getDrawAmount(),"yuan");
+    	}
+		return drawAmountStr;
+	}
+
+	public void setDrawAmountStr(String drawAmountStr) {
+		this.drawAmountStr = drawAmountStr;
+	}
+	
 	public String getDonorid() {
 		return donorid;
 	}

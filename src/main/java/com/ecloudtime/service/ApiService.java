@@ -16,10 +16,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ecloudtime.model.Account;
 import com.ecloudtime.model.Bargain;
+import com.ecloudtime.model.BargainHistory;
+import com.ecloudtime.model.BargainTrack;
 import com.ecloudtime.model.Channel;
 import com.ecloudtime.model.Contract;
 import com.ecloudtime.model.DonorContribution;
 import com.ecloudtime.model.DonorTrack;
+import com.ecloudtime.model.DonorTrackDetail;
 import com.ecloudtime.model.Foundation;
 import com.ecloudtime.model.ProcessDonored;
 import com.ecloudtime.model.ProcessDrawed;
@@ -27,7 +30,7 @@ import com.ecloudtime.model.SmartContract;
 import com.ecloudtime.model.SmartContractExt;
 import com.ecloudtime.model.SmartContractHistory;
 import com.ecloudtime.model.SmartContractTrack;
-import com.ecloudtime.model.SysDonorTransRel;
+import com.ecloudtime.model.SysDonorDrawTransRel;
 import com.ecloudtime.model.TX;
 import com.ecloudtime.model.TX_TXIN;
 import com.ecloudtime.model.TX_TXOUT;
@@ -457,6 +460,32 @@ public class ApiService {
 	}
 	
 	
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public BargainTrack queryBargainTrack(@RequestParam(value = "name", required = false, defaultValue = "bargain01") String name) {
+		BargainTrack bargain = new BargainTrack();
+		List<String> args = new ArrayList<String>();
+		if ("bargain01".equals(name)) {
+			args.add(fund01Args);
+		} else {
+			args.add(name);
+		}
+		JSONObject jsonResponse = (JSONObject) httpService.httpPostQuery(ccBaseUrl, chaincodeName, "queryBargainTrack", args);
+		if (null != jsonResponse) {
+			// 填充內容
+			Map<String, Class> classMap = new HashMap<String, Class>();
+			classMap.put("trans", BargainHistory.class);
+			bargain = (BargainTrack) JSONObject.toBean(jsonResponse, BargainTrack.class,classMap);
+		}
+		return bargain;
+	}
+	
+	
+	
+	
 	
 	
 	/**
@@ -686,13 +715,13 @@ _smartContractAddr := args[3] //smartContractAddr 合约地址
 _base64TxData := args[4]      //tx --》json————》base64
 _base64SourcSign := args[5]   // 用donor的私钥签名
 	 */
-	public SysDonorTransRel donated(String donorName,String donorAmount) {
+	public SysDonorDrawTransRel donated(String donorName,String donorAmount) {
 		
 		String txidmsg = "error";
 		String smartContractName="smartcontract01";//捐款合约 限定
 		String cebBankAddr=cebbankArgs;//中央银行
 		String donorAddr=this.commonService.findDonorAddrByName(donorName);
-		if(StringUtils.isEmpty(donorAddr))return new SysDonorTransRel();
+		if(StringUtils.isEmpty(donorAddr))return new SysDonorDrawTransRel();
 		String donorUUID=this.commonService.getDonorUuid();//生成的捐款id
 		String smartContractAddr=this.commonService.findSmartContractAddrByName(smartContractName);
 		//1.捐款时,先查询银行的钱数
@@ -736,19 +765,21 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		args.add(smartContractAddr);//args[3] //合约地址
 		args.add(donorTx);// args[4]      //tx --》json————》base64
 		args.add(donorSign);// args[5]   // 用donor的私钥签名
-//		args.add(":::"+donorAmount+":::");// args[6]   // :::1000:::
+		args.add(":::"+donorAmount+":::");// args[6]   // :::1000:::
 		
 		txidmsg = (String)httpService.httpPostInvoke(ccBaseUrl, chaincodeName, "donated", args);
 //		INSERT INTO sys_trans_rel (trans_id, txid, block_height, tran_sign, contract_id) VALUES ('', '', '', '', '');
-		SysDonorTransRel donorRel=new SysDonorTransRel();
+		SysDonorDrawTransRel donorRel=new SysDonorDrawTransRel();
 		donorRel.setContractId(smartContractAddr);//合约id
 		donorRel.setTransId(donorUUID);
 		donorRel.setTxid(txidmsg);
 		donorRel.setTranSign(donorSign);
+		donorRel.setDonorAddr(donorAddr);
+		donorRel.setType("1");//1为捐款
 		JSONObject jsonObject=blockInfoService.queryCurrentPeerStatus();
 		donorRel.setBlockHeight(jsonObject.getString("height"));
 		donorRel.setBlockHash(jsonObject.getString("currentBlockHash"));
-		this.commonService.saveTxidDonorIdRefInfo(donorRel);//保存donorId和交易id的关系信息
+		this.commonService.saveTxidDonorDrawIdRefInfo(donorRel);//保存donorId和交易id的关系信息
 		putDonateToSession(donorName, donorAddr, donorUUID);
 		
 		return donorRel;
@@ -835,10 +866,39 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		  tx.setTimestamp(DateUtil.getUnixTime());
 		  tx.setTxin(txinList);
 		  tx.setTxout(txoutList);
-		  tx.setInputData(":::"+donorAmount+":::");
+//		  tx.setInputData(":::"+donorAmount+":::");//捐款备注
 		 return JSONObject.fromObject(tx).toString();
 	}
 	
+	
+	/**
+	 * @param donorUUID
+	 * @param donorName
+	 * @param donorAmount
+	 * @return
+	 */
+	public String getDrawTx(String drawUUID,String smartContractAddr,String drawAmount,String bargainAddr){
+		  //获取txin  输入信息
+		  TX_TXIN txin= new TX_TXIN();
+		  txin.setAddr(smartContractAddr);
+		  List<TX_TXIN> txinList = new ArrayList<TX_TXIN>();
+		  txinList.add(txin);
+		  //提款合同
+		  TX_TXOUT txoutDraw = new TX_TXOUT();
+		  txoutDraw.setAddr(bargainAddr);
+		  txoutDraw.setValue(MoneyUtil.moneyToCcFormat(drawAmount));//捐款之后剩下的余额
+		  txoutDraw.setAttr(smartContractAddr+","+drawUUID);
+		  List<TX_TXOUT> txoutList = new ArrayList<TX_TXOUT>();
+		  txoutList.add(txoutDraw);
+		  TX tx = new TX();
+		  tx.setFounder(smartContractAddr);
+		  tx.setVersion(txversion);
+		  tx.setTimestamp(DateUtil.getUnixTime());
+		  tx.setTxin(txinList);
+		  tx.setTxout(txoutList);
+		  tx.setInputData(smartContractAddr+","+drawAmount+","+bargainAddr);//捐款备注
+		 return JSONObject.fromObject(tx).toString();
+	}
 	public String getCebBankTx(String donorUuid,String donorAddr,String donorAmount){
 		String cebBankAddr=cebbankArgs;//
 		Account cebBank =this.queryAccount(cebbankArgs);
@@ -902,7 +962,7 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 	
 	
 
-	public String drawed(@RequestParam(value = "name", required = false, defaultValue = "contract01") String name) {
+	public String drawedTest(@RequestParam(value = "name", required = false, defaultValue = "contract01") String name) {
 		List<String> args = new ArrayList<String>();
 		String msg = "error";
 		args.add(fund01Args);
@@ -914,6 +974,61 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		}
 		return msg;
 	}
+	
+
+	/**
+	 * 
+	 * @param foundAddr
+	 * @param drawAmount
+	 * @param bargainAddr
+	 * @return
+    _sourceAddr := args[0]   // 基金账户id fund01
+	_drawUUID := args[1]    //提款 id
+	_base64TxData := args[2]  //提款 tx
+	_base64SourcSign := args[3] //签名 用foud01的私钥签名
+	extinfo := args[4] //备注
+	 */
+	public SysDonorDrawTransRel drawed(@RequestParam(value = "fundName", required = false, defaultValue = "fund01") String fundName
+			,@RequestParam(value = "drawAmount", required = false, defaultValue = "100") String drawAmount
+			,@RequestParam(value = "smartContractName", required = false, defaultValue = "smartcontract01") String smartContractName
+			,@RequestParam(value = "bargainName", required = false, defaultValue = "bargain01") String bargainName) {
+		
+		String fundAddr= "fund01:25ab580a2093776ca2e1dd1775e96dfec5f1ffbcc9565129351cb330cf0712d7";	//args[0]
+		String drawUUID=this.commonService.getDonorUuid();//生成提款的uuid args[1]
+		String smartContractAddr="smartcontract01:1d54a8713923af1718e8eeabec3e4d8596dbbdf2da3f69ea23aeb8c7a5ab73d8";
+		String bargainAddr="bargain01:8fcc58ea7ed212f7c1ba359d15bea144e67c390044d953797548cf67fd62534a";
+		String drawTx=Base64Util.getBase64(getDrawTx(drawUUID,smartContractAddr,drawAmount,bargainAddr));
+		String drawSign="";
+		try {
+			drawSign=RSASignatureUtil.signWithKeyPath(drawUUID+drawTx, "draw");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		List<String> args = new ArrayList<String>();
+		args.add(fundAddr);
+		args.add(drawUUID);
+		args.add(drawTx);
+		args.add(drawSign);
+		args.add(":::-"+drawAmount+":::");// args[6]   // :::1000:::
+		String txidmsg = (String)httpService.httpPostInvoke(ccBaseUrl, chaincodeName, "drawed", args);
+		
+		SysDonorDrawTransRel drawRel=new SysDonorDrawTransRel();
+		drawRel.setContractId(smartContractAddr);//合约id
+		drawRel.setTransId(drawUUID);
+		drawRel.setTxid(txidmsg);
+		drawRel.setTranSign(drawSign);
+		drawRel.setDonorAddr(fundAddr);
+		drawRel.setType("2");//1为捐款 2为提款
+		JSONObject jsonObject=blockInfoService.queryCurrentPeerStatus();
+		drawRel.setBlockHeight(jsonObject.getString("height"));
+		drawRel.setBlockHash(jsonObject.getString("currentBlockHash"));
+		this.commonService.saveTxidDonorDrawIdRefInfo(drawRel);//保存donorId和交易id的关系信息
+		String userName=SessionUtils.getUserNameFromSession();
+//		putDonateToSession(userName, fundAddr, drawUUID);//将提款记录存入缓存中 需要重写
+		
+		return drawRel;
+	}
+	 
 
 	public String destroycoinbase(
 			@RequestParam(value = "name", required = false, defaultValue = "bargain01") String name) {
@@ -950,7 +1065,24 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		return treaty;
 	}*/
 	
-	
+	public void putTrackDetailToSession(String donorid,String donorAddr){
+		User user =SessionUtils.getUserFromSession();
+		if(null==user||null==user.getAddr()){
+			user=this.queryDonor(donorAddr);
+			SessionUtils.putUserInfoToSession(user);
+		}
+		List<DonorContribution> conList=user.getContributions();
+		List<DonorTrack>  trackings= new ArrayList<DonorTrack>();
+		if(null!=user.getTrackings()){
+			for(DonorTrack dt :user.getTrackings()){
+				if(donorid.equals(dt.getDonorid())){
+					trackings.add(dt);
+				}
+			}
+		}
+		DonorTrackDetail donorTrackDetail =new DonorTrackDetail(trackings);
+		 this.cacheManager.putObjectToCache("donorTrackDetail_"+donorid, donorTrackDetail);
+	}
 	
 	
 	/*********************************** 分割线 ***********************************************/

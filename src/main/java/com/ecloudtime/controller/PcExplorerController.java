@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ecloudtime.model.BlockHighGen;
 import com.ecloudtime.model.BlockInfo;
-import com.ecloudtime.model.SysDonorTransRel;
+import com.ecloudtime.model.DonorTrackDetail;
+import com.ecloudtime.model.SmartContract;
+import com.ecloudtime.model.SysDonorDrawTransRel;
 import com.ecloudtime.model.Transaction;
 import com.ecloudtime.service.ApiService;
 import com.ecloudtime.service.BlockInfoService;
@@ -77,9 +79,20 @@ public class PcExplorerController extends BaseController{
    			Model model) {
    		model.addAttribute("txid", txid);
    		Transaction transaction =blockInfoService.queryTransactionByTxId(txid);
-   		
-//   		SysDonorTransRel donorTransRel=this.commonService.findDonorTransRelByTxid(txid);
+   		SysDonorDrawTransRel donorTransRel=this.commonService.findDonorTransRelByTxid(txid);
+   		if(null!=donorTransRel){
+   			DonorTrackDetail donorTrackDetail =(DonorTrackDetail)this.cacheManager.getCacheObjectByKey("donorTrackDetail_"+donorTransRel.getTransId());
+   			if(null==donorTrackDetail||null==donorTrackDetail.getDonorid()){
+   				this.apiService.putTrackDetailToSession(donorTransRel.getTransId(),donorTransRel.getDonorAddr());
+   				donorTrackDetail =(DonorTrackDetail)this.cacheManager.getCacheObjectByKey("donorTrackDetail_"+donorTransRel.getTransId());
+   			}
+   			model.addAttribute("donorTrackDetail", donorTrackDetail);
+   		}
+   		SmartContract smartContract=this.apiService.querySmartContract(donorTransRel.getContractId());
+   		model.addAttribute("smartContract", smartContract);
    		model.addAttribute("transaction", transaction);
+   		model.addAttribute("donorTransRel", donorTransRel);
    		return "explorer/transDetail";
    	}
+    
 }

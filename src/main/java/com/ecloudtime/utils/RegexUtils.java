@@ -194,4 +194,10 @@ public class RegexUtils {
 	}
 	
 
+	public static void main(String[] args) {
+		RegexUtils ru = new RegexUtils();
+		System.out.println(ru.checkDigit("-100"));
+		System.out.println(ru.checkDigit("1000"));
+		System.out.println(ru.checkDigit("1000.1"));
+	}
 }

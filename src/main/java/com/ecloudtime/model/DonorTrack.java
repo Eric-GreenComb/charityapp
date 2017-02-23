@@ -1,5 +1,7 @@
 package com.ecloudtime.model;
 
+import com.ecloudtime.utils.MoneyUtil;
+
 public class DonorTrack {
   
 	private String donorid;//捐款id
@@ -11,12 +13,24 @@ public class DonorTrack {
 	private String accountAddr;
 
 	private long amount;
+	private String amountStr;
 	
 	private long donorAmount;//捐款总数
 
 	private int timestamp;
 	
 	private String type;//donate :0    draw :1  channel:2   fund:3
+	
+	public String getAmountStr() {
+		if(0!=getAmount()){
+    		return MoneyUtil.ccToMoneyFormat(getAmount(),"yuan");
+    	}
+		return amountStr;
+	}
+
+	public void setAmountStr(String amountStr) {
+		this.amountStr = amountStr;
+	}
 
 	public String getAccountName() {
 		return accountName;

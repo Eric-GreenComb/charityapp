@@ -11,7 +11,7 @@ public class User {
     private String addr;
     private String type;
     private String balance;
-    private int total; //我已捐赠的款
+    private long total; //我已捐赠的款
     private String totalStr;
     private List<DonorContribution> contributions ;
 
@@ -69,11 +69,11 @@ public class User {
 		this.addr = addr;
 	}
 
-	public int getTotal() {
+	public long getTotal() {
 		return total;
 	}
 
-	public void setTotal(int total) {
+	public void setTotal(long total) {
 		this.total = total;
 	}
 

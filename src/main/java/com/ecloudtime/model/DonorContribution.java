@@ -1,5 +1,8 @@
 package com.ecloudtime.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.ecloudtime.utils.DateUtil;
 import com.ecloudtime.utils.MoneyUtil;
 
@@ -124,7 +127,6 @@ public class DonorContribution implements Cloneable{
 				e.printStackTrace();
 				}
 		return o; 
-		} 
-	
+		}
 
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.ecloudtime.model.Bargain;
 import com.ecloudtime.model.SmartContract;
-import com.ecloudtime.model.SysDonorTransRel;
+import com.ecloudtime.model.SysDonorDrawTransRel;
 
 public interface CommonMapper {
 
@@ -17,10 +17,10 @@ public interface CommonMapper {
 	
 	public String findSmartContractAddrByName(String name);//根据名称 查询addr
 	
-	public void saveTxidDonorIdRefInfo(SysDonorTransRel donorRel);
+	public void saveTxidDonorDrawIdRefInfo(SysDonorDrawTransRel donorRel);
 	
-	public SysDonorTransRel findDonorTransRelByDonorid(String donorid);
-	public SysDonorTransRel findDonorTransRelByTxid(String txid);
+	public SysDonorDrawTransRel findDonorTransRelByDonorid(String donorid);
+	public SysDonorDrawTransRel findDonorTransRelByTxid(String txid);
 	
 //	public Bargain findBargainInfo();//查询合同信息
 	

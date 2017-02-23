@@ -77,7 +77,7 @@ public class RSASignatureUtil {
     		filepath+="cebbankpkcs8_private.pem";
     	}else if("donor".equals(keyPath)){
     		filepath+="donor01pkcs8_private.pem";
-    	}else if("fund".equals(keyPath)){
+    	}else if("fund".equals(keyPath)||"draw".equals(keyPath)){
     		filepath+="fund01pkcs8_private.pem";
     	}	
     	String privateKey = loadPrivateKeyByFile(filepath);

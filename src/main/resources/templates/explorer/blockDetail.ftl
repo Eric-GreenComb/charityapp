@@ -31,11 +31,27 @@
             <p class="partInfo"><span>世界态哈希</span><span>${blockInfo.stateHash?if_exists}</span></p>
             <p class="partInfo"><span>上一区块</span><span>${blockInfo.previousBlockHash?if_exists}</span></p>
         </div>
+        
+        <div class="partYi">
+        	<#list blockInfo.transactions?if_exists as trans>
+        		<p class="partInfo"><span>包含交易ID</span><a href="javascript:goTransDetail('${trans.txid?if_exists}','${trans.transMoney?if_exists}');" class="color">${trans.txid?if_exists?substring(0,20)}</a></p>
+                <p class="partInfo"><span>交易时间</span><span>${trans.tranGenTime?if_exists}</span></p>
+       		 </#list>
+        </div>
     </div>
 </div>
 
 
 <script src="${system.basePath?if_exists}/js/jquery-1.11.3.js"></script>
 <script src="${system.basePath?if_exists}/js/common_pc.js"></script>
+<script>
+function goTransDetail(txid,transMoney){
+		if("--"==transMoney){
+			return ;
+		}else{
+			window.location.href="${system.basePath}/explorer/transDetail?txid="+txid;
+		}
+	}
+</script>
 </body>
 </html>

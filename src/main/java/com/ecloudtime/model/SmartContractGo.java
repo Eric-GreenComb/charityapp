@@ -18,11 +18,12 @@ public class SmartContractGo {
 	private String channelAddr;
 	private String channelName;
 	private int channelFee;
-	private int createTimestamp;
+	private int createTimestamp;//创建时间
 	private String createTimeStr;
-	private int utilTimestamp;
+	private int utilTimestamp;//生效时间
+	private String utilTimeStr;
+	private int terminationTimestamp;//失效时间
 	private String endTimeStr;
-	private int terminationTimestamp;
 	private String foundation;
 	private String attachhash;
 	private int status;
@@ -34,17 +35,27 @@ public class SmartContractGo {
 		}
 		return createTimeStr;
 	}
+	
 	public String getEndTimeStr() {
+		if(0!=terminationTimestamp){
+			return DateUtil.getDateFromUnixTime(terminationTimestamp);
+		}
+		return endTimeStr;
+	}
+	
+	public String getUtilTimeStr() {
 		if(0!=utilTimestamp){
 			return DateUtil.getDateFromUnixTime(utilTimestamp);
 		}
-		return endTimeStr;
+		return utilTimeStr;
 	}
 
 	public void setCreateTimeStr(String createTimeStr) {
 		this.createTimeStr = createTimeStr;
 	}
-
+	public void setUtilTimeStr(String utilTimeStr) {
+		this.utilTimeStr = utilTimeStr;
+	}
 
 	public void setEndTimeStr(String endTimeStr) {
 		this.endTimeStr = endTimeStr;

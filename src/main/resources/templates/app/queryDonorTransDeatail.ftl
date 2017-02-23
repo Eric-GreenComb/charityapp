@@ -78,8 +78,7 @@
     $('.uuid').on('tap',function(){
         //window.history.back(-1);
         var height = this.getAttribute("id");
-        alert(2)
-        window.location.href="${system.basePath}/app/blockDetail?heigh="+height;
+        window.location.href="${system.basePath}/app/appBlockDetail?heigh="+height;
     });
     mui('#offCanvasContentScroll').scroll();
 

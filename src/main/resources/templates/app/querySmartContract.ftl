@@ -35,6 +35,12 @@
     </div>
 </div>
 
+<div class="maskDonate" id="maskDonate">
+    <div class="maskBack">
+        <div class="maskWhite" id="maskWhite"></div>
+    </div>
+</div>
+
 <!--head-->
 <div class="header">
     <!--微公益-->
@@ -138,7 +144,9 @@
     <button id="lookPz">我要捐款</button>
 </div>
 
-
+<div id="progressBar" class="mui-progressbar mui-progressbar-infinite">
+	<span></span>
+</div>
 <script src="${system.basePath}/js/jquery-1.11.3.js"></script>
 <script src="${system.basePath}/js/mui.min.js"></script>
 <script>
@@ -148,13 +156,11 @@
         window.history.back(-1);
     });
     $('#enter').on('tap',function(){
-        //window.location.href="succeed.html";确认捐款
         var donorAmount=$("#donorAmount").val();
-        //alert("donorAmount="+donorAmount);
         if(isPositiveNum(donorAmount)){
-       		  window.location.href="${system.basePath}/app/donate?donorAmount="+donorAmount;
+       		 window.location.href="${system.basePath}/app/donate?donorAmount="+donorAmount;
         }else{
-        	alert("不是数字,请重新填写正整数的金额")  
+        	mui.alert("不是数字,请重新填写正整数的金额")  
         	$("#donorAmount").val(100);  	
         }
         

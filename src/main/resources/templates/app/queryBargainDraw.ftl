@@ -28,30 +28,16 @@
         <div class="section">
             <div class="drawingAll">
                 <p class="drawingTxt">累计提款</p>
-                <p class="drawingMon"><span>10000.00</span>元</p>
+                <p class="drawingMon"><span>${bargainTrack.totalStr?if_exists}</span>元</p>
             </div>
             <!--ul-->
             <ul class="drawingDel">
-                <li class="over">
-                   <p class="lf">2016.12.1</p>
-                   <p class="rt"><span>10000.00</span>元</p>
-                </li>
-                <li class="over">
-                    <p class="lf">2016.12.1</p>
-                    <p class="rt"><span>10000.00</span>元</p>
-                </li>
-                <li class="over">
-                    <p class="lf">2016.12.1</p>
-                    <p class="rt"><span>10000.00</span>元</p>
-                </li>
-                <li class="over">
-                    <p class="lf">2016.12.1</p>
-                    <p class="rt"><span>10000.00</span>元</p>
-                </li>
-                <li class="over">
-                    <p class="lf">2016.12.1</p>
-                    <p class="rt"><span>10000.00</span>元</p>
-                </li>
+               <#list bargainTrack.trans as track>
+               		 <li class="over">
+	                   <p class="lf">${track.timestampStr?if_exists?substring(0,10)}</p>
+	                   <p class="rt"><span>${track.amountStr?if_exists}</span>元</p>
+               		 </li>
+               </#list>
             </ul>
         </div>
     </div>

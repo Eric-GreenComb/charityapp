@@ -11,15 +11,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ecloudtime.model.BargainTrack;
 import com.ecloudtime.model.BlockInfo;
 import com.ecloudtime.model.DonorContribution;
 import com.ecloudtime.model.DonorTrack;
 import com.ecloudtime.model.DonorTrackDetail;
 import com.ecloudtime.model.ProcessDonored;
-import com.ecloudtime.model.SmartContract;
 import com.ecloudtime.model.SmartContractExt;
 import com.ecloudtime.model.SmartContractTrack;
-import com.ecloudtime.model.SysDonorTransRel;
+import com.ecloudtime.model.SysDonorDrawTransRel;
 import com.ecloudtime.model.Transaction;
 import com.ecloudtime.model.User;
 import com.ecloudtime.service.ApiService;
@@ -112,7 +112,6 @@ public class AppController extends BaseController{
 			}
 		}
 		
-		
 		List<DonorTrack>  trackings= new ArrayList<DonorTrack>();
 		for(DonorTrack dt :user.getTrackings()){
 			if(donorid.equals(dt.getDonorid())){
@@ -122,8 +121,8 @@ public class AppController extends BaseController{
 		ProcessDonored processDonored =this.apiService.queryProcessDonored(donorid);
 		
 		donorContribution.setSmartContract(this.apiService.querySmartContract(donorContribution.getSmartContractAddr()));
-		
 		model.addAttribute("donorContribution", donorContribution);
+		model.addAttribute("smartContractTrack", this.apiService.querySmartContractTrack(donorContribution.getSmartContractAddr()));
 		
 		model.addAttribute("trackings", trackings);
 		model.addAttribute("processDonored", processDonored);
@@ -134,7 +133,6 @@ public class AppController extends BaseController{
 //		donorTransRel=this.commonService.findDonorTransRel(donorTransRel);
 //		model.addAttribute("donorTransRel", this.commonService.findDonorTransRel(new SysDonorTransRel(donorid)));
 //		model.addAttribute("donorTransRel", donorTransRel);
-		
 		return "app/queryDonorDeatail";
 	}
 	
@@ -144,18 +142,24 @@ public class AppController extends BaseController{
 			@RequestParam(value = "type", required = false, defaultValue = "type") String type,
 			Model model) {
 		String txid="";
+		SysDonorDrawTransRel donorTransRel=null;//this.commonService.findDonorTransRelByDonorid(donorid);
 		if("donor".equals(type)){
-			SysDonorTransRel donorTransRel=this.commonService.findDonorTransRelByDonorid(donorid);
+			donorTransRel=this.commonService.findDonorTransRelByDonorid(donorid);
 			if(null==donorTransRel)return "app/queryDonorTransDeatail";
 			txid=donorTransRel.getTxid();
-		}else{
+		}else{//提款
 			
 		}
 		model.addAttribute("txid", txid);
    		Transaction transaction =blockInfoService.queryTransactionByTxId(txid);
    		
-   		SysDonorTransRel donorTransRel=this.commonService.findDonorTransRelByTxid(txid);
+//      SysDonorTransRel donorTransRel=this.commonService.findDonorTransRelByTxid(txid);
 		DonorTrackDetail donorTrackDetail =(DonorTrackDetail)this.cacheManager.getCacheObjectByKey("donorTrackDetail_"+donorid);
+		if(null==donorTrackDetail){
+			User user =SessionUtils.getUserFromSession();
+			this.apiService.putTrackDetailToSession(donorid,user.getAddr());
+			donorTrackDetail =(DonorTrackDetail)this.cacheManager.getCacheObjectByKey("donorTrackDetail_"+donorid);
+		}
    		model.addAttribute("transaction", transaction);
    		model.addAttribute("donorTrackDetail", donorTrackDetail);
    		model.addAttribute("donorTransRel", donorTransRel);
@@ -170,9 +174,9 @@ public class AppController extends BaseController{
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping("/blockDetail")
-   	@ApiOperation(value="blockDetail",notes="requires login Name default user01")
-   	public String blockDetail(@RequestParam(value = "heigh", required = false, defaultValue = "0") int heigh,
+	@RequestMapping("/appBlockDetail")
+   	@ApiOperation(value="appBlockDetail",notes="requires login Name default user01")
+   	public String appBlockDetail(@RequestParam(value = "heigh", required = false, defaultValue = "0") int heigh,
    			Model model) {
    		model.addAttribute("heigh", heigh);
    		int cacheHigh=this.cacheManager.getCacheBlockHigh();
@@ -267,9 +271,28 @@ public class AppController extends BaseController{
 			Model model) {
 		String donorName=SessionUtils.getUserNameFromSession();//User user =SessionUtils.getUserFromSession();
 		String msg ="error";
-		SysDonorTransRel donorRel=this.apiService.donated(donorName, donorAmount);
+		SysDonorDrawTransRel donorRel=this.apiService.donated(donorName, donorAmount);
 		model.addAttribute("donorRel", donorRel);
 		return "app/donateInfo";
+	}
+	
+	@RequestMapping("/draw")
+	@ApiOperation(value="draw",notes="requires login Name")
+	public String draw(@RequestParam(value = "donorAmount", required = false, defaultValue = "donorAmount") String donorAmount,
+			Model model) {
+		String donorName=SessionUtils.getUserNameFromSession();//User user =SessionUtils.getUserFromSession();
+		String msg ="error";
+		/*@RequestParam(value = "fundName", required = false, defaultValue = "fund01") String fundName
+		,@RequestParam(value = "drawAmount", required = false, defaultValue = "100") String drawAmount
+		,@RequestParam(value = "smartContractName", required = false, defaultValue = "smartcontract01") String smartContractName
+		,@RequestParam(value = "bargainName", required = false, defaultValue = "bargain01") String bargainName*/
+		String fundName="fund01";
+		String smartContractName="";
+		String bargainName="";
+		String drawAmount="100";
+		SysDonorDrawTransRel drawRel=this.apiService.drawed(fundName, drawAmount,smartContractName,bargainName);
+		model.addAttribute("drawRel", drawRel);
+		return "app/drawInfo";
 	}
 	
 	/**
@@ -280,21 +303,24 @@ public class AppController extends BaseController{
 	 */
 	@RequestMapping("/queryBargain")
 	@ApiOperation(value="queryBargain",notes="requires login Name")
-	public String queryBargain(@RequestParam(value = "itemid", required = false, defaultValue = "itemid") String itemid,
+	public String queryBargain(@RequestParam(value = "bargainName", required = false, defaultValue = "bargain01") String bargainName,
 			Model model) {
 		String userName=SessionUtils.getUserNameFromSession();
 		User user =SessionUtils.getUserFromSession();
-	
+		String bargainAddr="bargain01:8fcc58ea7ed212f7c1ba359d15bea144e67c390044d953797548cf67fd62534a";
+		model.addAttribute("bargainAddr", bargainAddr);
 		return "app/queryBargain";
 	}
 	
 	@RequestMapping("/queryBargainDraw")
 	@ApiOperation(value="queryBargainDraw",notes="requires login Name")
-	public String queryBargainDraw(@RequestParam(value = "donorid", required = false, defaultValue = "donorid") String donorid,
+	public String queryBargainDraw(@RequestParam(value = "bargainAddr", required = false, defaultValue = "bargainAddr") String bargainAddr,
 			Model model) {
 		String userName=SessionUtils.getUserNameFromSession();
 		User user =SessionUtils.getUserFromSession();
+		BargainTrack bargainTrack =this.apiService.queryBargainTrack(bargainAddr);
 		
+		model.addAttribute("bargainTrack", bargainTrack);
 		return "app/queryBargainDraw";
 	}
 	

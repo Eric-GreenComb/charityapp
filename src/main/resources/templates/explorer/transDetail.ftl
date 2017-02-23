@@ -13,18 +13,26 @@
         <p class="dealTitle">合约详情</p>
         <p class="maskColor"></p>
         <ul class="maskUl">
-            <li><p>捐款合约ID：<span>300001</span></p></li>
-            <li><p>捐款合约名称：<span>宁夏母亲水窖项目</span></p></li>
-            <li><p>基金会：<span>中国妇女基金会母亲水窖基金委员会</span></p></li>
+            <li><p>捐款合约ID：<span>${donorTransRel.contractIdStr?if_exists}</span></p></li>
+            <li><p>捐款合约名称：<span>${smartContract.name?if_exists}</span></p></li>
+            <li><p>基金会：<span>${smartContract.fundName?if_exists}</span></p></li>
         </ul>
         <ul class="maskUl">
-            <li><p>捐款金额限制：<span>无限制</span></p></li>
-            <li><p>渠道服务费：<span>1%</span></p></li>
-            <li><p>基金管理费：<span>2%</span></p></li>
+            <li><p>捐款金额限制：<span><#if smartContract.type??>无限制<#elseif  smartContract.type?if_exists ='0'>金额限制 <#else>时间限制</#if></span></p></li>
+            <li><p>渠道服务费：<span>0.${smartContract.channelFee?if_exists}%</span></p></li>
+            <li><p>基金管理费：<span>0.${smartContract.fundManangerFee?if_exists}%</span></p></li>
         </ul>
         <ul class="maskUl">
-            <li><p>合约生效时间：<span>2016年1月1日</span></p></li>
-            <li><p>合约维护时间：<span>2016年1月1日</span></p></li>
+            <li><p>合约生效时间：<span>
+            <#if smartContract.utilTimeStr?? > 
+            	${smartContract.createTimeStr?if_exists?substring(0,10)}
+			<#elseif smartContract.utilTimeStr?? && smartContract.utilTimeStr?length gt 10>
+				${smartContract.utilTimeStr?if_exists?substring(0,10)}
+			<#else>
+				${smartContract.createTimeStr?if_exists?substring(0,10)}
+            </#if>
+            </span></p></li>
+            <li><p>合约失效时间：<span><#if smartContract.endTimeStr?? && smartContract.endTimeStr?length gt 10>  ${smartContract.endTimeStr?if_exists?substring(0,10)}  </#if></span></p></li>
         </ul>
     </div>
     <p class="close"><img src="${system.basePath}/img/common_pc/closeIcon.png" alt=""/></p>
@@ -52,21 +60,36 @@
         <div class="partYi">
             <p class="partName">交易信息</p>
             <p class="partInfo"><span>交易ID</span><span class="color">${transaction.txid?if_exists}</span></p>
-            <p class="partInfo"><span>交易金额</span><span>90.00 &yen;</span><span>交易已确认</span></p>
-            <p class="partInfo"><span>所在区块(stateHash)</span><a href="#" class="color">a49929f1ac2999e809997a49929f1ac2999e809997</a></p>
+            <p class="partInfo"><span>交易金额</span><span>${transaction.transMoney?if_exists} &yen;</span><span>交易已确认</span></p>
+            <p class="partInfo"><span>所在区块(stateHash)</span><a href="javascript:goBlockDetail('${donorTransRel.blockHeight?if_exists}');" class="color">${donorTransRel.blockHash?if_exists}</a></p>
             <p class="partInfo"><span>接收时间</span><span>${transaction.tranGenTime?if_exists}</span></p>
-            <p class="partInfo"><span>合约ID</span><span class="color" id="contractId">2919239123[fake]</span></p>
+            <p class="partInfo"><span>合约ID</span><span class="color" id="contractId">${donorTransRel.contractIdStr?if_exists}</span></p>
         </div>
         <!--tu-->
         <div class="moneyAll">
-            <span class="jkr">捐款人标识</span>
-            <span>90.00&yen;</span>
-            <img src="${system.basePath}/img/common_pc/zhuan.png" alt="" class="zhuan"/>
-            <ul class="dealMoney">
-                <li><span class="lf">合约账户</span><span class="rt">87.00&yen;</span></li>
-                <li><span class="lf">基金管理费账户</span><span class="rt">1.00&yen;</span></li>
-                <li><span class="lf">渠道账户</span><span class="rt">2.00&yen;</span></li>
-            </ul>
+        	<#if donorTransRel.type?if_exists='1'>
+		        	 <span class="jkr">捐款人标识</span>
+		            <span>${donorTrackDetail.donorAmountStr?if_exists}&yen;</span>
+		            <img src="${system.basePath}/img/common_pc/zhuan.png" alt="" class="zhuan"/>
+		            <ul class="dealMoney">
+		                <li><span class="lf">合约账户</span><span class="rt">${donorTrackDetail.contractAmountStr?if_exists}&yen;</span></li>
+		                <li><span class="lf">基金管理费账户</span><span class="rt">${donorTrackDetail.fundAmountStr?if_exists}&yen;</span></li>
+		                <li><span class="lf">渠道账户</span><span class="rt">${donorTrackDetail.channelAmountStr?if_exists}&yen;</span></li>
+		            </ul>
+        	<#else >
+        	
+		        	 <span class="jkr">合约账户</span>
+		            <span>${transaction.transMoney?if_exists}</span>
+		            <img src="${system.basePath}/img/common_pc/zhuan.png" alt="" class="zhuan"/>
+		            <ul class="dealMoney">
+		                <li><span class="jkr"></span><span class="rt"></span></li>
+		                <li><span class="jkr">合同账户</span><span class="rt">${transaction.transMoney?if_exists?replace('-','')} &yen;</span></li>
+		                <li><span class="jkr"></span><span class="rt"></span></li>
+		            </ul>
+        	
+        	</#if>
+        
+           
         </div>
         <!--序列化信息-->
         <div class="partXlh">
@@ -78,6 +101,11 @@
 
 
 <script src="${system.basePath}/js/jquery-1.11.3.js"></script>
-<script src="${system.basePath}/js/common.js"></script>
+<script src="${system.basePath}/js/common_pc.js"></script>
+<script>
+function goBlockDetail(height){
+	window.location.href="${system.basePath}/explorer/blockDetail?heigh="+height;
+}
+</script>
 </body>
 </html>

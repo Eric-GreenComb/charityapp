@@ -15,7 +15,7 @@ import com.ecloudtime.model.Contract;
 import com.ecloudtime.model.Foundation;
 import com.ecloudtime.model.SmartContract;
 import com.ecloudtime.model.SmartContractExt;
-import com.ecloudtime.model.SysDonorTransRel;
+import com.ecloudtime.model.SysDonorDrawTransRel;
 import com.ecloudtime.model.User;
 import com.ecloudtime.service.ApiService;
 import com.ecloudtime.service.BlockInfoService;
@@ -117,17 +117,25 @@ public class ApiController extends BaseController{
 	}
     @ApiOperation(value="donated",notes="requires noting")
     @RequestMapping(value="/donated",method=RequestMethod.GET)
-    public SysDonorTransRel donated(@RequestParam(value="donorName", required=false, defaultValue="donor01") String donorName,
+    public SysDonorDrawTransRel donated(@RequestParam(value="donorName", required=false, defaultValue="donor01") String donorName,
     		@RequestParam(value="donorAmount", required=false, defaultValue="100") String donorAmount,
     		Model model){
     	//String donorName,String donorAmount
     	return apiService.donated(donorName,donorAmount);
     }
 	
+	@ApiOperation(value="drawedTest",notes="requires noting")
+    @RequestMapping(value="/drawedTest",method=RequestMethod.GET)
+    public String drawedTest(@RequestParam(value="name", required=false, defaultValue="contract01") String name, Model model){
+		return apiService.drawedTest(name);
+	}
 	@ApiOperation(value="drawed",notes="requires noting")
-    @RequestMapping(value="/drawed",method=RequestMethod.GET)
-    public String drawed(@RequestParam(value="name", required=false, defaultValue="contract01") String name, Model model){
-		return apiService.drawed(name);
+	@RequestMapping(value="/drawed",method=RequestMethod.GET)
+	public SysDonorDrawTransRel drawed(@RequestParam(value = "fundName", required = false, defaultValue = "fund01") String fundName
+			,@RequestParam(value = "drawAmount", required = false, defaultValue = "100") String drawAmount
+			,@RequestParam(value = "smartContractName", required = false, defaultValue = "smartcontract01") String smartContractName
+			,@RequestParam(value = "bargainName", required = false, defaultValue = "bargain01") String bargainName){
+		return apiService.drawed(fundName,drawAmount,smartContractName,bargainName);
 	}
 	
 	

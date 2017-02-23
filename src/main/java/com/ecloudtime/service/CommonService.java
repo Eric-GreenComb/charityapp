@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ecloudtime.mapper.CommonMapper;
 import com.ecloudtime.model.SmartContract;
-import com.ecloudtime.model.SysDonorTransRel;
+import com.ecloudtime.model.SysDonorDrawTransRel;
 
 @Service
 public class CommonService {
@@ -24,16 +24,16 @@ public class CommonService {
 		 
 		 return UUID.randomUUID().toString();
 	 }
-	 public void saveTxidDonorIdRefInfo(SysDonorTransRel donorRel){
-		 commonMapper.saveTxidDonorIdRefInfo(donorRel);
+	 public void saveTxidDonorDrawIdRefInfo(SysDonorDrawTransRel donorRel){
+		 commonMapper.saveTxidDonorDrawIdRefInfo(donorRel);
 	 }
 	 
-	 public SysDonorTransRel findDonorTransRelByDonorid(String donorid){
-		 return (SysDonorTransRel)this.commonMapper.findDonorTransRelByDonorid(donorid);
+	 public SysDonorDrawTransRel findDonorTransRelByDonorid(String donorid){
+		 return (SysDonorDrawTransRel)this.commonMapper.findDonorTransRelByDonorid(donorid);
 	 }
 	 
-	public SysDonorTransRel findDonorTransRelByTxid(String txid){
-		return (SysDonorTransRel)this.commonMapper.findDonorTransRelByTxid(txid);
+	public SysDonorDrawTransRel findDonorTransRelByTxid(String txid){
+		return (SysDonorDrawTransRel)this.commonMapper.findDonorTransRelByTxid(txid);
 	}
 	 
 	 /**
@@ -54,6 +54,7 @@ public class CommonService {
 	 {
 		 return commonMapper.findContractInfo(contract);
 	 }
+	 
 	 
 	 public List<SmartContract> findContractInfoList(){
 		 List<SmartContract> list=commonMapper.findContractInfoList();
