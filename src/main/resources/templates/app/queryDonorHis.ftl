@@ -102,7 +102,7 @@ function goback(){
         var ul, str, i;
         ul =$("#offCanvasContentScroll .newsAll");
         for (i=0; i<3; i++) {
-            str=$('<li class="mui-table-view-cell mui-row"><div class="mui-col-xs-4 newsMask"><img src="img/index/news02.png" alt="" class="img-responsive maskPic"/><p class="maskImg"></p><p class="maskTxt">共<span>1234</span>份爱心</p></div><div class="mui-col-xs-7 newsDel"><p class="newsTitle">宁夏母亲水窖项目</p><p class="newsTxt">项目简介项目简介项目简介项目简介罕见的反馈个梵蒂冈</p><div class="newsMoney"><p>已筹<span>1000</span>万元</p><p>目标<span>2000</span>万元</p></div></div><div class="mui-col-xs-1"><img src="img/index/per_10.png" alt="" class="img-responsive"/><span class="newsPer">10%</span></div></li>');
+         //   str=$('<li class="mui-table-view-cell mui-row"><div class="mui-col-xs-4 newsMask"><img src="img/index/news02.png" alt="" class="img-responsive maskPic"/><p class="maskImg"></p><p class="maskTxt">共<span>1234</span>份爱心</p></div><div class="mui-col-xs-7 newsDel"><p class="newsTitle">宁夏母亲水窖项目</p><p class="newsTxt">项目简介项目简介项目简介项目简介罕见的反馈个梵蒂冈</p><div class="newsMoney"><p>已筹<span>1000</span>万元</p><p>目标<span>2000</span>万元</p></div></div><div class="mui-col-xs-1"><img src="img/index/per_10.png" alt="" class="img-responsive"/><span class="newsPer">10%</span></div></li>');
             ul.append(str);
         }
 //      this.endPullupToRefresh(true);

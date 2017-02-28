@@ -21,6 +21,12 @@
         <p class="headerTitle">我的捐赠项目</p>
     </div>
 </div>
+
+<div class="nullView">
+    <img src="${system.basePath}/img/common/contributeNull.png" alt="" style="width:113px;"/>
+    <p class="nullView_zi">您还没有参与任何公益项目~</p>
+    <p class="nullAct"><a href="#"><button class="btn">我要捐款</button></a></p>
+</div>
 <!--section-->
 <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
     <div class="mui-scroll">

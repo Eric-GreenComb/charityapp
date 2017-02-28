@@ -52,7 +52,7 @@
     height: 42px;
 }
 
-/**************ÁÆÄ‰ªã****************/
+/**************ºÚΩÈ****************/
 .mui-content.briefAll{
     margin-top:14px;
     box-shadow:0 -1px 0 0 #efefef, 0 1px 0 0 #efefef;
@@ -113,7 +113,7 @@
 .mui-scroll-wrapper.tab{
    bottom:15px;
 }
-/*ÂêàÁ∫¶*/
+/*∫œ‘º*/
 .contract{
     margin:14px 0;
     box-shadow:0 -1px 0 0 #efefef, 0 1px 0 0 #efefef;
@@ -207,4 +207,30 @@
     height: 100%;
 }
 
-
+/*»∑»œæËøÓmask*/
+.enterMask{
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 200;
+    background-color: rgba(0,0,0,0.1);
+    text-align: center;
+    width:100%;
+}
+#enterMask span {
+    position:absolute;
+    top:42%;
+    color:#fff;
+    display:inline-block;
+    text-align: center;
+    width:100%;
+    left:0;
+}
+#enterMask img{
+    width:25px;
+    height:25px;
+    margin-right:10px;
+}

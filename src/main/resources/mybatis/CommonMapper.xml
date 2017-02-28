@@ -58,14 +58,14 @@
 		</if>
   </select>
   
-    <select id="findDonorAddrByName" resultType="String" parameterType="string">
+    <select id="findDonorAddrById" resultType="String" parameterType="string">
     select addr from sys_user
     	where 1=1
 		<if test="_parameter != null and  _parameter != ''">
-			and name = #{_parameter}
+			and id = #{_parameter}
 		</if>
   </select>
-    <select id="findSmartContractAddrByName" resultType="String" parameterType="string">
+    <select id="findSmartContractAddrById" resultType="String" parameterType="string">
     select addr from sys_contract
     	where 1=1
 		<if test="_parameter != null and  _parameter != ''">

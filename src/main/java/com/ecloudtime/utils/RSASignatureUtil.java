@@ -11,8 +11,21 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
-public class RSASignatureUtil {  
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
+@Service
+public class RSASignatureUtil {  
+	
+	private static Logger logger = LoggerFactory.getLogger(HttpRequestUtils.class); // 日志记录
+
+	@Value("${chaincode.des.rsapath}")
+	private String rsapath;
+	
+	@Value("${chaincode.des.rsapath2}")
+	private String rsapath2;
     /** 
      * 签名算法 
      */  
@@ -26,7 +39,7 @@ public class RSASignatureUtil {
      * @return 是否成功 
      * @throws Exception 
      */  
-    public static String loadPrivateKeyByFile(String path) throws Exception {  
+    public static String loadPrivateKeyByFile(String path,String filename) throws Exception {  
         try {  
             BufferedReader br = new BufferedReader(new FileReader(path));  
             String readLine = null;  
@@ -70,21 +83,49 @@ public class RSASignatureUtil {
         }  
     }      
 
-    public static String signWithKeyPath(String content, String keyPath)throws Exception{
-    	String filepath=System.getProperty("user.dir")+File.separator+"rsakey"+File.separator;
+    public  String signWithKeyPath(String content, String keyPath)throws Exception{
+    	/*File fielRoot = new File(System.getProperty("user.dir"));
+    	String filepath=fielRoot.getParent()+File.separator+"rsakey"+File.separator;*/
+    	File fielRoot= new File(rsapath);
+    	if(!fielRoot.exists()){
+    		fielRoot=new File(rsapath2);
+    	}
+    	String filepath=fielRoot+File.separator;
+    	String filename="";
     	if("cebBank".equals(keyPath)){
 //    		"donor01pkcs8_private.pem";
-    		filepath+="cebbankpkcs8_private.pem";
-    	}else if("donor".equals(keyPath)){
-    		filepath+="donor01pkcs8_private.pem";
-    	}else if("fund".equals(keyPath)||"draw".equals(keyPath)){
-    		filepath+="fund01pkcs8_private.pem";
+    		filename="cebbankpkcs8_private.pem";
+    	}else if("donor01".equals(keyPath)){
+    		filename="donor01pkcs8_private.pem";
+	    }else if("donor02".equals(keyPath)){
+	    	filename="donor02pkcs8_private.pem";
+	    }else if("donor03".equals(keyPath)){
+	    	filename="donor03pkcs8_private.pem";
+	    }else if("donor04".equals(keyPath)){
+	    	filename="donor04pkcs8_private.pem";
+	    }else if("donor05".equals(keyPath)){
+	    	filename="donor05pkcs8_private.pem";
+	    }else if("donor06".equals(keyPath)){
+	    	filename="donor06pkcs8_private.pem";
+	    }else if("donor07".equals(keyPath)){
+	    	filename="donor07pkcs8_private.pem";
+	    }else if("donor08".equals(keyPath)){
+	    	filename="donor08pkcs8_private.pem";
+	    }else if("donor09".equals(keyPath)){
+	    	filename="donor09pkcs8_private.pem";
+	    }else if("donor10".equals(keyPath)){
+	    	filename="donor10pkcs8_private.pem";
+	    }
+    	else if("fund".equals(keyPath)||"draw".equals(keyPath)){
+    		filename="fund01pkcs8_private.pem";
     	}	
-    	String privateKey = loadPrivateKeyByFile(filepath);
+    	filepath+=filename;
+    	logger.info("filepath:"+filepath+" filename="+filename);
+    	String privateKey = loadPrivateKeyByFile(filepath,filename);
     	return sign(content,privateKey);
     }
     
-    public static String sign(String content, String privateKey)  
+    public  String sign(String content, String privateKey)  
     {  
         try   
         {  
@@ -106,7 +147,7 @@ public class RSASignatureUtil {
         return null;  
     } 
 
-    public static boolean doCheck(String content, String sign, String publicKey)  
+    public  boolean doCheck(String content, String sign, String publicKey)  
     {  
         try   
         {  
@@ -145,8 +186,8 @@ public class RSASignatureUtil {
 //        System.out.println( System.getProperty("java.class.path")); 
         System.out.println(System.getProperty("user.dir")); */
 		
-    	String filepath=System.getProperty("user.dir")+File.separator+"rsakey"+File.separator+"donor01pkcs8_private.pem";
-        String key = loadPrivateKeyByFile(filepath);
+    	String filepath=new File(System.getProperty("user.dir")).getParent()+File.separator+"rsakey"+File.separator+"donor01pkcs8_private.pem";
+        String key = loadPrivateKeyByFile(filepath,"donor01pkcs8_private.pem");
 
         System.out.println(key);
   
@@ -154,16 +195,16 @@ public class RSASignatureUtil {
           
         System.out.println("---------------私钥签名过程------------------");  
         String content = "用于签名的原始数据";  
-
+        RSASignatureUtil rs = new RSASignatureUtil();
         // key = "MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAJ0DWxqG4kkQYPoJMbvmpy+vjsgQ17DemzIcGnU9OYwPmhfmSywVKlmrFVyGgFlOjSHJK5+x3oqkET5YbTOviGjoy/uV4Ec0jCCjS3IFc59vMHV5a3yir8o3dwInmnuNBKnaPFTl10dreeAhtcmDF7hZ/tYnnG9KdrODOSDE/pTRAgMBAAECgYBt+9LOQxuxWHLF0rjuyUPlSFF43StpbpVBxaPW6fssnCUxhpSznWPcCdZdyK2RYU/FEdin9X1Qmlql1GUyJkwjL6v+vMlN9o4AkYqzOVJnu6vHRgLB/BP78C1b7MHn+l+SPyLApBe/daeY9XZfOlD/S4Enjrvg4DsDfXnkouYWAQJBAM37rGhzn9IRi/C9wNjhLXwuRz6ubD9dF2TC1lIuZDXzFVt9f9PXxvsrwKWsTayK/SkN1MIA22q9SmmaAQvXP/ECQQDDI5vPkPa6UHjZ3FVEkG6DgmD847WJZNgmtNb/dARPwqnmOQrYZAarDZ3E+Fq/uVFDTtGEjJtfqpQhkk76x4LhAkAE4yrVE6FAJ8BtRuNTggxFPQfdud/BpSDP+DuDmawxB4KDODgXO7Bx9zjL9YmmRWn6VmSs8b5DCxi/5rKNqF7RAkBZw5CR+8ozTH87IGqs3o+nuRrqWckRSa1QqNFZs0GkexRyjfzaK7ERkHLpv6DnHtUt1Bz3D0MNz8bSZp4kKBChAkBq/2Lwf1Q35280F6Hd9t98WY2XKIvXjskvNfDlxRkV0L/U6fvKp5S2fRXmxDpMvShYqmoAbC3WYz3C6Tp1kF7r";
-        String signstr = sign(content,key);  
+        String signstr = rs.sign(content,key);  
         System.out.println("签名原串："+content);  
         System.out.println("签名串：");
         System.out.println(signstr);  
         System.out.println();  
         filepath=System.getProperty("user.dir")+File.separator+"rsakey"+File.separator+"donor01public.pem";
         System.out.println("---------------公钥校验签名------------------");  
-        System.out.println("验签结果："+RSASignatureUtil.doCheck(content, signstr, loadPublicKeyByFile(filepath)));  
+        System.out.println("验签结果："+rs.doCheck(content, signstr, loadPublicKeyByFile(filepath)));  
         
         System.out.println();  
           

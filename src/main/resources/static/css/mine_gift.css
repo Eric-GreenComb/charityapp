@@ -44,7 +44,7 @@
     color:#6c6c6c;
 }
 .giftMoney{
-    font-size:14px;
+    font-size:18px;
     color:#fbbc05;
     text-align:right;
 }
@@ -54,7 +54,7 @@
     vertical-align: middle;
 }
 
-/**********************璇︽儏********************/
+/**********************详情********************/
 .section.delSec{
     margin:70px 0 0 0;
 }
@@ -102,7 +102,7 @@
 }
 
 
-/*鍑瘉*/
+/*凭证*/
 .closeCon{
     text-align: center;
 }
@@ -185,7 +185,7 @@
 }
 
 
-/*鎹愭璇︽儏*/
+/*捐款详情*/
 .giftDel.mui-table-view:after{
     background:#efefef;
 }
@@ -227,7 +227,7 @@
     line-height:27px;
 }
 
-/*鍖哄潡璇︽儏*/
+/*区块详情*/
 .pzDelUl{
     margin:15px;
     background:#FAFAFA;
@@ -275,10 +275,10 @@
     line-height:16px;
 }
 
-/*娴佺▼鍥�*/
+/*流程图*/
 .giftDel li.moneyIcon{
     padding:10px 40px 10px 20px;
-    margin-bottom:50px;
+    margin-bottom:10px;
 }
 .moneyIcon{
     position:relative;
@@ -296,39 +296,48 @@
     left:4%;
 }
 .qd{
-    top:23%;
-    left:29%;
+    top:24%;
+    left:41%;
 }
 .jjgl{
     top:84%;
-    left:26%;
+    left:38%;
 }
 .qkl{
     top:56%;
-    left:41%;
+    left:42%;
 }
 .xm{
     width:72px;
 }
-.xm01{
+.lxIcon-3 .xm01{
     top:14%;
     right:5%;
 }
-.xm02{
+.lxIcon-3 .xm02{
     top:54%;
     right:5%;
 }
-.xm03{
+.lxIcon-3 .xm03{
     top:92%;
+    right:5%;
+}
+.lxIcon-2 .xm01{
+    top:27%;
+    right:5%;
+}
+.lxIcon-2 .xm02{
+    top:84%;
+    right:5%;
+}
+.lxIcon-1 .xm02{
+    top:54%;
     right:5%;
 }
 .lxTxt p{
     margin-bottom:1px;
     color:#9b9b9b;
     text-align: center;
-}
-.lxTxt p:first-child{
-    font-size:12px;
 }
 .lxTxt p{
     font-size:10px;
@@ -349,19 +358,47 @@
 }
 .lj01{
     top:45%;
-    left:28%;
+    left:20%;
 }
-.lj02{
+.lxIcon-3 .lj02{
     top:13%;
     left:63%;
 }
-.lj03{
+.lxIcon-3 .lj03{
      top:45%;
      left:63%;
 }
-.lj04{
-      top:71%;
-      left:63%;
+.lxIcon-3 .lj04{
+    top:71%;
+    left:63%;
+}
+.lxIcon-2 .lj02{
+    top:22%;
+    left:63%;
+}
+.lxIcon-2 .lj03{
+    top:66%;
+    left:63%;
+}
+.lxIcon-1 .lj03{
+    top:45%;
+    left:63%;
+}
+.lxIcon-0 .lj01{
+    top:45%;
+    left:26%;
+}
+.lxIcon-0 .qd {
+    top: 24%;
+    left: 54%;
+}
+.lxIcon-0 .jjgl {
+    top: 84%;
+    left: 52%;
+}
+.lxIcon-0 .qkl {
+    top: 56%;
+    right: -29%;
 }
 /*pzIcon*/
 .pzIcon{

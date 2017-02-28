@@ -29,7 +29,7 @@
         <!--alert-->
         <p class="alertCon"><span class="errorAlert"><img src="img/common/errorAlert.png" alt=""/>密码错误！</span></p>
         <!--denglu -->
-        <p class="btnCon"><a href="${system.basePath}/login_login"><button class="btn loginBtn">登录</button></a></p>
+        <p class="btnCon"><a href="#"><button class="btn loginBtn">登录</button></a></p>
         <!--看看-->
         <p class="kan"><a href="${system.basePath}/index">我是访客，随便看看&gt;&gt;</a></p>
     </div>
@@ -40,8 +40,14 @@
 <script>
     console.log( $('.loginYi input').val() );
     $('.section').css('height',window.screen.height +'px');
+    
+    
+    $('.loginBtn').bind("click", function(){  
+	   var userName =$("#userName").val();
+        window.location.href="${system.basePath}/login_login?userName="+userName;
+	}); 
 
-
+//${system.basePath}/login_login
     $('.loginYi input').blur(function(){
         if($('.loginYi input').val()){
             $('.alertCon').css('display','block');

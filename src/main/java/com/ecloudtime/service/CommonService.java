@@ -41,13 +41,13 @@ public class CommonService {
 	  * @param name
 	  * @return
 	  */
-	 public String findDonorAddrByName(String name){
+	 public String findDonorAddrById(String name){
 		 
-		 return (String)this.commonMapper.findDonorAddrByName(name);
+		 return (String)this.commonMapper.findDonorAddrById(name);
 	 } 
-	 public String findSmartContractAddrByName(String name){
+	 public String findSmartContractAddrById(String name){
 		 
-		 return (String)this.commonMapper.findSmartContractAddrByName(name);
+		 return (String)this.commonMapper.findSmartContractAddrById(name);
 	 } 
 	 
 	 public SmartContract findContractInfo(SmartContract contract)//查询合约信息

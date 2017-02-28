@@ -6,7 +6,7 @@
 
     <groupId>com.ecloudtime.framework</groupId>
     <artifactId>charityapp</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -148,10 +148,10 @@
               <version>${version.shiro}</version>
           </dependency>
           
-           <!-- devtools¿ÉÒÔÊµÏÖÈÈ²¿Êð¡£devtools»á¼àÌýclasspathÏÂµÄÎÄ¼þ±ä¶¯£¬²¢ÇÒ»áÁ¢¼´ÖØÆôÓ¦ÓÃ£¨·¢ÉúÔÚ±£´æÊ±»ú£©£¬
-			           ×¢Òâ£ºÒòÎªÆä²ÉÓÃµÄÐéÄâ»ú»úÖÆ£¬¸ÃÏîÖØÆôÊÇºÜ¿ìµÄÈç¹ûÉèÖÃSpringApplication.setRegisterShutdownHook(false)£¬Ôò×Ô¶¯ÖØÆô½«²»Æð×÷ÓÃ¡£
-			           ÉèÖÃ spring.devtools.restart.enabled ÊôÐÔÎªfalse£¬¿ÉÒÔ¹Ø±Õ¸ÃÌØÐÔ¡£
-			           optional=true,ÒÀÀµ²»»á´«µÝ£¬
+           <!-- devtoolsï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½È²ï¿½ï¿½ï¿½devtoolsï¿½ï¿½ï¿½ï¿½ï¿½classpathï¿½Âµï¿½ï¿½Ä¼ï¿½ï¿½ä¶¯ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú±ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+			           ×¢ï¿½â£ºï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÇºÜ¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SpringApplication.setRegisterShutdownHook(false)ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¡ï¿½
+			           ï¿½ï¿½ï¿½ï¿½ spring.devtools.restart.enabled ï¿½ï¿½ï¿½ï¿½Îªfalseï¿½ï¿½ï¿½ï¿½ï¿½Ô¹Ø±Õ¸ï¿½ï¿½ï¿½ï¿½Ô¡ï¿½
+			           optional=true,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á´«ï¿½Ý£ï¿½
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -181,6 +181,26 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            
+            <plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-jar-plugin</artifactId>
+			    <configuration>
+			        <source>1.8</source>
+			        <target>1.8</target>
+			        <archive>
+			            <manifest>
+			                <mainClass>com.ecloudtime.Application</mainClass>
+			                <addClasspath>true</addClasspath>
+			            <classpathPrefix>lib/</classpathPrefix>
+			            </manifest>
+			
+			        </archive>
+			        <classesDirectory>
+			        </classesDirectory>
+			    </configuration>
+			</plugin>
+			
         </plugins>
     </build>
 

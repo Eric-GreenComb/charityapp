@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,7 @@ import com.ecloudtime.service.BlockInfoService;
 import com.ecloudtime.service.CacheManager;
 import com.ecloudtime.service.CommonService;
 import com.ecloudtime.service.HttpService;
+import com.ecloudtime.utils.DateUtil;
 import com.ecloudtime.utils.SessionUtils;
 import com.wordnik.swagger.annotations.ApiOperation;
 
@@ -73,17 +75,21 @@ public class AppController extends BaseController{
 		model.addAttribute("name", userName);
 		if(null==userName)userName="donor01";
 		User user =apiService.queryDonor(userName);
-		List<DonorContribution> donorHisList =new ArrayList<DonorContribution>();
 		List<DonorContribution> donorHisTempList=user.getContributions();
-		int len=donorHisTempList.size();
-		for(int i=len-1;i>=0;i--){
-			donorHisList.add(donorHisTempList.get(i));
-			if(donorHisList.size()>10){
-				break;
+		List<DonorContribution> donorHisList =new ArrayList<DonorContribution>();
+		if(null!=donorHisTempList&&donorHisTempList.size()>0){
+			int len=donorHisTempList.size();
+			for(int i=len-1;i>=0;i--){
+				donorHisList.add(donorHisTempList.get(i));
+				if(donorHisList.size()>10){
+					break;
+				}
 			}
 		}
-		
 		model.addAttribute("donorHisList", donorHisList);
+		if(0==donorHisList.size()){
+			return "app/queryDonorHisNull";
+		}
 		return "app/queryDonorHis";
 	}
 	
@@ -122,7 +128,7 @@ public class AppController extends BaseController{
 		
 		donorContribution.setSmartContract(this.apiService.querySmartContract(donorContribution.getSmartContractAddr()));
 		model.addAttribute("donorContribution", donorContribution);
-		model.addAttribute("smartContractTrack", this.apiService.querySmartContractTrack(donorContribution.getSmartContractAddr()));
+//		model.addAttribute("smartContractTrack", this.apiService.querySmartContractTrack(donorContribution.getSmartContractAddr()));
 		
 		model.addAttribute("trackings", trackings);
 		model.addAttribute("processDonored", processDonored);
@@ -143,26 +149,31 @@ public class AppController extends BaseController{
 			Model model) {
 		String txid="";
 		SysDonorDrawTransRel donorTransRel=null;//this.commonService.findDonorTransRelByDonorid(donorid);
-		if("donor".equals(type)){
-			donorTransRel=this.commonService.findDonorTransRelByDonorid(donorid);
-			if(null==donorTransRel)return "app/queryDonorTransDeatail";
-			txid=donorTransRel.getTxid();
-		}else{//提款
-			
-		}
+		donorTransRel=this.commonService.findDonorTransRelByDonorid(donorid);
+		if(null==donorTransRel)return "app/queryDonorTransDeatail";
+		txid=donorTransRel.getTxid();
 		model.addAttribute("txid", txid);
    		Transaction transaction =blockInfoService.queryTransactionByTxId(txid);
+   		model.addAttribute("transaction", transaction);
+   		model.addAttribute("donorTransRel", donorTransRel);
+		if("donor".equals(type)){
+			DonorTrackDetail donorTrackDetail =(DonorTrackDetail)this.cacheManager.getCacheObjectByKey("donorTrackDetail_"+donorid);
+			if(null==donorTrackDetail||null==donorTrackDetail.getDonorid()){
+				User user =SessionUtils.getUserFromSession();
+				this.apiService.putTrackDetailToSession(donorid,user.getAddr());
+				donorTrackDetail =(DonorTrackDetail)this.cacheManager.getCacheObjectByKey("donorTrackDetail_"+donorid);
+			}
+			model.addAttribute("donorTrackDetail", donorTrackDetail);
+		}else{//提款
+			model.addAttribute("donorTrackDetail", new DonorTrackDetail());
+		}
+		
    		
 //      SysDonorTransRel donorTransRel=this.commonService.findDonorTransRelByTxid(txid);
-		DonorTrackDetail donorTrackDetail =(DonorTrackDetail)this.cacheManager.getCacheObjectByKey("donorTrackDetail_"+donorid);
-		if(null==donorTrackDetail){
-			User user =SessionUtils.getUserFromSession();
-			this.apiService.putTrackDetailToSession(donorid,user.getAddr());
-			donorTrackDetail =(DonorTrackDetail)this.cacheManager.getCacheObjectByKey("donorTrackDetail_"+donorid);
-		}
-   		model.addAttribute("transaction", transaction);
-   		model.addAttribute("donorTrackDetail", donorTrackDetail);
-   		model.addAttribute("donorTransRel", donorTransRel);
+		
+   		
+   		
+   		
 		
 		
 	    return "app/queryDonorTransDeatail";  
@@ -223,27 +234,33 @@ public class AppController extends BaseController{
 		User user =SessionUtils.getUserFromSession();
 		List<DonorContribution> contributionsList=user.getContributions();
 		Map<String,DonorContribution> dcMap  = new HashMap<String,DonorContribution>();
-		for(DonorContribution dct :contributionsList){
-			DonorContribution donorContribution=null;
-			if(dcMap.containsKey(dct.getSmartContractAddr())){
-				donorContribution=(DonorContribution)dcMap.get(dct.getSmartContractAddr());
-			}else{
-				donorContribution=dct.clone();
-				donorContribution.setAmount(0);
-				donorContribution.setDonorNumber(0);
-				donorContribution.setSmartContractExt(apiService.querySmartContractExt(dct.getSmartContractAddr()));
+		if(null!=contributionsList){
+			for(DonorContribution dct :contributionsList){
+				DonorContribution donorContribution=null;
+				if(dcMap.containsKey(dct.getSmartContractAddr())){
+					donorContribution=(DonorContribution)dcMap.get(dct.getSmartContractAddr());
+				}else{
+					donorContribution=dct.clone();
+					donorContribution.setAmount(0);
+					donorContribution.setDonorNumber(0);
+					donorContribution.setSmartContractExt(apiService.querySmartContractExt(dct.getSmartContractAddr()));
+				}
+				donorContribution.setAmount(donorContribution.getAmount()+dct.getAmount());
+				donorContribution.setDonorNumber(donorContribution.getDonorNumber()+1);
+//				donorContribution.setSmartContract(this.apiService.querySmartContract(dct.getSmartContractAddr()));
+				//这个查询 合约的 需要修改   --todo
+				dcMap.put(dct.getSmartContractAddr(), donorContribution);
 			}
-			donorContribution.setAmount(donorContribution.getAmount()+dct.getAmount());
-			donorContribution.setDonorNumber(donorContribution.getDonorNumber()+1);
-//			donorContribution.setSmartContract(this.apiService.querySmartContract(dct.getSmartContractAddr()));
-			//这个查询 合约的 需要修改   --todo
-			dcMap.put(dct.getSmartContractAddr(), donorContribution);
 		}
+		
 		contributionsList=new ArrayList<DonorContribution>();
 		for (String key : dcMap.keySet()) {
 			   contributionsList.add(dcMap.get(key));
 		}
 		model.addAttribute("contributionsList", contributionsList);
+		if(0==contributionsList.size()){
+			return "app/queryDonatedContractNull";
+		}
 		return "app/queryDonatedContract";
 	}
 	
@@ -268,11 +285,52 @@ public class AppController extends BaseController{
 	@RequestMapping("/donate")
 	@ApiOperation(value="donate",notes="requires login Name")
 	public String donate(@RequestParam(value = "donorAmount", required = false, defaultValue = "donorAmount") String donorAmount,
+			@RequestParam(value = "smartContractAddr", required = false, defaultValue = "smartContract01") String smartContractAddr,
 			Model model) {
 		String donorName=SessionUtils.getUserNameFromSession();//User user =SessionUtils.getUserFromSession();
 		String msg ="error";
-		SysDonorDrawTransRel donorRel=this.apiService.donated(donorName, donorAmount);
+		SysDonorDrawTransRel donorRel=this.apiService.donated(donorName, donorAmount,smartContractAddr);
 		model.addAttribute("donorRel", donorRel);
+		return ccpaySuccess(donorAmount,smartContractAddr,donorRel.getTransId(),model);
+	}
+	
+	/**
+	 * 
+	 * @param donorAmount
+	 * @param smartContractAddr
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/ccpay")
+	@ApiOperation(value="ccpay",notes="requires login Name")
+	public String ccpay(@RequestParam(value = "donorAmount", required = false, defaultValue = "donorAmount") String donorAmount,
+			@RequestParam(value = "smartContractAddr", required = false, defaultValue = "smartContract01") String smartContractAddr,
+			Model model) {
+		SmartContractExt  smartContractExt =this.apiService.querySmartContractExt(smartContractAddr);
+		model.addAttribute("smartContractExt", smartContractExt);
+		Random random = new Random();
+		model.addAttribute("orderNum", DateUtil.getDaysyyyyMMddHHmmss()+random.nextInt(1000));
+		model.addAttribute("donorAmount", donorAmount);
+		model.addAttribute("smartContractAddr", smartContractAddr);
+		return "app/ccpay";
+	}
+	
+	@RequestMapping("/ccpaySuccess")
+	@ApiOperation(value="ccpaySuccess",notes="requires login Name")
+	public String ccpaySuccess(@RequestParam(value = "donorAmount", required = false, defaultValue = "donorAmount") String donorAmount,
+			@RequestParam(value = "smartContractAddr", required = false, defaultValue = "smartContract01") String smartContractAddr,
+			@RequestParam(value = "donorid", required = false, defaultValue = "donorid") String donorid,
+			Model model) {
+		model.addAttribute("donorAmount", donorAmount);
+		model.addAttribute("smartContractAddr", smartContractAddr);
+		model.addAttribute("donorid", donorid);
+		return "app/ccpaySuccess";
+	}
+	@RequestMapping("/donateInfo")
+	@ApiOperation(value="donateInfo",notes="requires login Name")
+	public String donateInfo(@RequestParam(value = "donorid", required = false, defaultValue = "donorid") String donorid,
+			Model model) {
+		model.addAttribute("donorid", donorid);
 		return "app/donateInfo";
 	}
 	

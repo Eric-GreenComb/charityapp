@@ -21,7 +21,7 @@
             <div class="maskTxt">
                 <div class="txtTitle">
                     <p class="title">微公益捐款凭证</p>
-                    <p class="pzH">凭证号：<span>${processDonored.donorUUID?if_exists[0..20]}</span></p>
+                    <p class="pzH">公益链凭证号(哈希):<span>${processDonored.donorUUID?if_exists[0..20]}</span></p>
                 </div>
             </div>
             <!--ul-->
@@ -63,7 +63,7 @@
             </ul>
             <!--txt-->
             <div class="maskText">
-                感谢您参与 <u>宁夏母亲水窖项目</u>的捐款活动，此次捐款是由区块链技术支持，其捐款凭证号（哈希）是捐款唯一凭证，不可更改。
+                感谢您参与 <u>${processDonored.smartContractName?if_exists}</u>的捐款活动，此次捐款是由区块链技术支持，其捐款凭证号（哈希）是捐款唯一凭证，不可篡改。
             </div>
         </div>
     </div>
@@ -94,7 +94,7 @@
             <!--ul 凭证号-->
             <ul class="giftDel mui-table-view">
                 <li class="mui-table-view-cell over" id="PZHao">
-                    <span class="lf">凭证号</span>
+                    <span class="lf">公益链凭证号</span>
                     <span class="rt hao">${processDonored.donorUUID?if_exists}</span>
                 </li>
             </ul>
@@ -141,59 +141,63 @@
                     <span class="lf">资金流向</span>
                     <!--<span class="rt hao"></span>-->
                 </li>
-                <li class="moneyIcon">
-                    <p class="lxIcon"><img src="${system.basePath}/img/common/lxIcon.png" alt=""/></p>
+                <#if (donorTrackDetail.drawList?if_exists?size > 0)>
+                	 <li class="moneyIcon lxIcon-${donorTrackDetail.drawList?if_exists?size}">
+                    <p class="lxIcon"><img src="${system.basePath}/img/common/lxIcon-${donorTrackDetail.drawList?if_exists?size}.png" alt=""/></p>
                     <div class="lxTxt jk"><p>发起捐款</p><p>${donorTrackDetail.donorAmountStr?if_exists}¥</p></div>
                     <div class="lxTxt qd"><p>渠道账户</p><p>${donorTrackDetail.channelAmountStr?if_exists} ¥</p></div>
                     <div class="lxTxt jjgl"><p>基金管理账户</p><p>${donorTrackDetail.fundAmountStr?if_exists} ¥</p></div>
                     <div class="lxTxt qkl"><p>合约<br/>区块链账户</p><p>${donorTrackDetail.contractAmountStr?if_exists} ¥</p></div>
-                    <#if (smartContractTrack.trans?if_exists?size > 0)>
-	                    <#list smartContractTrack.trans as drawObj>
-	                    	<div class="lxTxt xm xm0${drawObj_index+1}"><p>${drawObj.bargainName?if_exists}</p><p>${drawObj.amountStr?if_exists} ¥</p><p></p></div>
+                    <#if (donorTrackDetail.drawList?if_exists?size > 0)>
+	                    <#list donorTrackDetail.drawList as drawObj>
+	                    	<div class="lxTxt xm xm0${drawObj_index+1}"><p>${drawObj.accountName?if_exists}</p><p>${drawObj.amountStr?if_exists} ¥</p><p></p></div>
 	                    </#list>
                     </#if>
-                    <!--
-                    <div class="lxTxt xm xm01"><p>工程项目名称</p><p>81.10 ¥</p><p>(工程状态)</p></div>
-                    <div class="lxTxt xm xm02"><p>工程项目名称</p><p>81.10 ¥</p><p>(工程状态)</p></div>
-                    <div class="lxTxt xm xm03"><p>工程项目名称</p><p>81.10 ¥</p><p>(工程状态)</p></div>
-                    -->
                     <div class="lj lj01" id="${donorTrackDetail.donorid?if_exists}" type="donor">1</div>
-                   
-                    <#if (smartContractTrack.trans?if_exists?size > 0)>
-	                    <#list smartContractTrack.trans as drawObj>
-	                    	<div class="lj lj0${drawObj_index+2}" id="${drawObj.bargainAddr?if_exists}" type="draw">${drawObj_index+2}</div>
+                    <#if (donorTrackDetail.drawList?if_exists?size > 0)>
+	                    <#list donorTrackDetail.drawList as drawObj>
+	                    	<div class="lj lj0${drawObj_index+2}" id="${drawObj.drawid?if_exists}" type="draw">${drawObj_index+2}</div>
 	                    </#list>
                     </#if>
-                    <!--
-                    <div class="lj lj02">2</div>
-                    <div class="lj lj03">3</div>
-                    <div class="lj lj04">4</div>
-                     -->
                 </li>
+                
+                
+                
+                
+                
+                
+                		 <#if (donorTrackDetail.drawList?if_exists?size = 4)>
+	                		 		 <!--1-->
+					                <li class="moneyIcon lxIcon-1">
+					                    <p class="lxIcon"><img src="${system.basePath}/img/common/lxIcon-0.png" alt=""/></p>
+					                    <div class="lxTxt jk"><p>发起捐款</p><p>${donorTrackDetail.donorAmountStr?if_exists}¥</p></div>
+					                    <div class="lxTxt qd"><p>渠道账户</p><p>${donorTrackDetail.channelAmountStr?if_exists} ¥</p></div>
+					                    <div class="lxTxt jjgl"><p>基金管理账户</p><p>${donorTrackDetail.fundAmountStr?if_exists} ¥</p></div>
+					                    <div class="lxTxt qkl"><p>合约<br/>区块链账户</p><p>${donorTrackDetail.contractAmountStr?if_exists} ¥</p></div>
+					                    <div class="lxTxt xm xm02"><p>工程项目名称</p><p>81.10 ¥</p><p>(工程状态)</p></div>
+					                    <div class="lj lj01">1</div>
+					                    <div class="lj lj03">2</div>
+					                </li>
+                		 <#elseif (donorTrackDetail.drawList?if_exists?size = 5)>
+                		        #22_22#
+                		 <#elseif (donorTrackDetail.drawList?if_exists?size = 6)>
+                		        #33_33#
+                		 </#if>
+                <#else>
+                 		 <!--0-->
+		                <li class="moneyIcon lxIcon-0">
+		                    <p class="lxIcon"><img src="${system.basePath}/img/common/lxIcon-0.png" alt=""/></p>
+		                    <div class="lxTxt jk"><p>发起捐款</p><p>${donorTrackDetail.donorAmountStr?if_exists}¥</p></div>
+		                    <div class="lxTxt qd"><p>渠道账户</p><p>${donorTrackDetail.channelAmountStr?if_exists} ¥</p></div>
+		                    <div class="lxTxt jjgl"><p>基金管理账户</p><p>${donorTrackDetail.fundAmountStr?if_exists} ¥</p></div>
+		                    <div class="lxTxt qkl"><p>合约<br/>区块链账户</p><p>${donorTrackDetail.contractAmountStr?if_exists} ¥</p></div>
+		                    <div class="lj lj01" id="${donorTrackDetail.donorid?if_exists}" type="donor">1</div>
+		                </li>
+                </#if>
+                
+                
+                
             </ul>
-            <!--ul-交易凭证
-            <ul class="giftDel mui-table-view giftDelHao">
-                <li class="mui-table-view-cell over">
-                    <span class="lf">交易凭证</span>
-                </li>
-                <li class="mui-table-view-cell over dealHao">
-                    <span class="lf deal"><b></b>Transaction 1 UUID</span>
-                    <span class="rt hao">675463058539461735613</span>
-                </li>
-                <li class="mui-table-view-cell over dealHao">
-                    <span class="lf deal"><b></b>Transaction 2 UUID</span>
-                    <span class="rt hao">673546783542386986</span>
-                </li>
-                <li class="mui-table-view-cell over dealHao">
-                    <span class="lf deal"><b></b>Transaction 3 UUID</span>
-                    <span class="rt hao">567365796385961347130473</span>
-                </li>
-                <li class="mui-table-view-cell over dealHao">
-                    <span class="lf deal"><b></b>Transaction 4 UUID</span>
-                    <span class="rt hao">5786596504712347898909</span>
-                </li>
-            </ul>
-            -->
         </div>
     </div>
 </div>

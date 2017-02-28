@@ -1,0 +1,252 @@
+#offCanvasContentScroll{
+    margin-top:44px;
+}
+.headerTitle{
+    font-size:22px;
+    color:#82837e;
+}
+.headerTop p.user{
+    position:absolute;
+    top:10px;
+    left:15px;
+}
+.headerTop p.user img{
+    width:30px;
+    height:30px;
+}
+.header .headerTop{
+    background:#E3E0D1;
+}
+/*浜戞敮浠�*/
+.payTop{
+    color:#6A1384;
+    font-size:24px;
+    letter-spacing: 2px;
+    background:#E3E0D1;
+    height:60px;
+    line-height:60px;
+    border-top:1px solid #82837e;
+    text-align: center;
+}
+/*section*/
+.payMoney{
+    padding:12px 15px;
+}
+.payHow{
+    color:#6A1384;
+    font-size: 34px;
+    font-weight:bolder;
+    text-align: center;
+}
+.payWhere{
+    text-align: right;
+    font-size:14px;
+    color:#000;
+    margin:0;
+}
+/*ul*/
+.mui-table-view:after,.mui-table-view:before{
+    background:none;
+}
+.goods{
+    background:#F5F5F5;
+}
+.goods li{
+    font-size:14px;
+    color:#000;
+}
+.goods .mui-table-view-cell:after{
+    background:none;
+}
+.goods .mui-table-view-cell{
+    padding:6px 15px ;
+}
+/*閾惰鍗�*/
+.arrowTop{
+    background:#E8E8E8;
+    text-align: center;
+    padding: 0;
+    margin:0;
+}
+.arrowTop img{
+    width:24px;
+    height:24px;
+}
+.cardTxt{
+    background:#A9A9A9;
+    padding: 4px 15px;
+    margin:0;
+    color:#fff;
+    letter-spacing: 1px;
+}
+.cardLogo{
+    margin:0;
+    color:#000;
+    font-size:20px;
+    padding:18px 15px 22px 15px;
+    border-bottom:1px solid #D5D5D5;
+    letter-spacing: 1px;
+}
+.cardLogo img{
+    width:50px;
+    vertical-align: middle;
+    margin-top:-8px;
+    margin-right:15px;
+}
+.cardUl .mui-table-view-cell:after{
+    right:15px;
+}
+.cardUl span.lf{
+    font-size:14px;
+    color:#000;
+}
+.cardUl span.rt{
+    font-size:14px;
+    color:#a0a0a0;
+}
+.cardUl span.rt input{
+    margin:0;
+    padding:0 0 0 15px;
+    height:21px;
+    width:100%;
+    border:none;
+    text-align: right;
+    background:none;
+}
+.cardUl span.rt.idCode{
+    text-align: right;
+}
+.cardUl span.rt.idCode{
+    width:70%;
+}
+.cardUl span.rt.idCode input{
+    width:40%;
+    padding:0;
+    margin-right:20px;
+}
+.idCodeTxt{
+    background:#E5A306;
+    color:#fff;
+    /*display: inline-block;*/
+    padding:8px;
+    border-radius: 4px;
+}
+.cardUl .mui-table-view-cell:last-child:after{
+ height:1px;
+}
+.cardUl .mui-table-view-cell:after{
+    background:#a0a0a0;
+}
+.mui-checkbox input[type=checkbox]:checked:before, .mui-radio input[type=radio]:checked:before{color:#6A1384;}
+.mui-checkbox.mui-left label{
+    padding-left:50px;
+    color:#000;
+}
+.confirmPay{
+    background:#e5a702;
+    border-radius:4px;
+    width:250px;
+    height:45px;
+    line-height: 45px;
+    color:#fff;
+    font-size:20px;
+    text-align: center;
+    margin: 30px auto;
+}
+/*tishi /*/
+.kind p{
+    font-size: 12px;
+    color:#3c3c3c;
+    padding:0 15px;
+    word-break: break-all;
+}
+.kind p:first-child{
+    margin-bottom:0px;
+}
+
+/*鏀粯鎴愬姛*/
+.payOK{
+    text-align: center;
+    margin: 60px auto;
+}
+.payMeg img{
+    width:100px;
+}
+.payMeg dd{
+    margin:20px 0 20px 0;
+    font-size:18px;
+    color:#4a4a4a;
+    text-align: center;
+    letter-spacing: 1px;
+}
+.yunLogo img{
+    width:130px;
+    margin-top:20px;
+}
+.bankImg{
+    margin-bottom:5px;
+    font-size: 12px;
+    color:#a0a0a0;
+}
+.bankImg .bankPhone,.bankPhone{
+    color:#0A6FF2;
+}
+
+
+
+/*maskBackCon*/
+.maskBackCon{
+    position:absolute;
+    bottom:0;
+    width:100%;height:156px;
+}
+.maskWhite{
+    width:100%;
+    height: 100%;
+}
+
+/*确认捐款mask*/
+.enterMask{
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 200;
+    background-color: rgba(0,0,0,0.1);
+    text-align: center;
+    width:100%;
+}
+#enterMask span {
+    position:absolute;
+    top:42%;
+    color:#fff;
+    display:inline-block;
+    text-align: center;
+    width:100%;
+    left:0;
+}
+#enterMask img{
+    width:25px;
+    height:25px;
+    margin-right:10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

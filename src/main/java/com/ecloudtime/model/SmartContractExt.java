@@ -121,7 +121,7 @@ public class SmartContractExt  {
 		if(0!=this.getValidTotal()){
     		return MoneyUtil.ccToMoneyFormat(getValidTotal(),"wan");
     	}
-		return validTotalStr;
+		return "0";
 	}
 	public void setValidTotalStr(String validTotalStr) {
 		this.validTotalStr = validTotalStr;

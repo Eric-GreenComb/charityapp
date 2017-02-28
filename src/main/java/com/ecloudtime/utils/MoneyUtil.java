@@ -14,8 +14,8 @@ import java.util.regex.Matcher;
 	    private static final String[] UNITS = {"元", "角", "分", "整"};      
 	    private static final String[] U1 = {"", "拾", "佰", "仟"};      
 	    private static final String[] U2 = {"", "万", "亿"};   
-	    private static final String YUAN_FORMAT="##,###.00";
-	    private static final String WAN_FORMAT="##,###0.00";
+	    private static final String YUAN_FORMAT="#,###.##";
+	    private static final String WAN_FORMAT="#,###.##";
 	    
 	        
 	    /**   
@@ -102,20 +102,15 @@ import java.util.regex.Matcher;
 	    	return Long.valueOf(amount)*1000*100;//
 	    }
 	    
-	    public static String ccToMoneyFormat(Object amount){
+	    public static String ccToMoneyFormat(long amount){
 	    	return ccToMoneyFormat(amount,"yuan");
 	    }
 	    
-	    public static String ccToMoneyFormat(Object amount,String type){
-	    	
-	    	if(amount instanceof Integer){
-	    		 amount=(Integer)amount/100000;//到金额分
-	    	}else if(amount instanceof Long){
-	    		 amount=(Long)amount/100000;//到金额分
-	    	}
+	    public static String ccToMoneyFormat(long amount,String type){
 	    	double aimAmount=0.0;
+	    	aimAmount=MathUtil.div((long)amount, 100000, 3);
 	    	 if("wan".equals(type)){
-	    		 aimAmount=MathUtil.div((long)amount, 10000, 4);
+	    		 aimAmount=MathUtil.div(aimAmount, 10000, 3);
 	    	 }
 	    	 DecimalFormat myformat = new DecimalFormat();
 	    	 if("wan".equals(type)){
@@ -124,7 +119,7 @@ import java.util.regex.Matcher;
 	    	 }else{
 	    		 myformat.applyPattern(YUAN_FORMAT);
 	    	 }
-	    	return myformat.format(amount);
+	    	return myformat.format(aimAmount);
 	    }
 	    
 	    
@@ -177,7 +172,7 @@ import java.util.regex.Matcher;
 	     * @param args  
 	     */    
 	    public static void main(String[] args) {    
-	      System.out.println(MoneyUtil.moneyFormat("123.2803"));    
+	  /*    System.out.println(MoneyUtil.moneyFormat("123.2803"));    
 	      System.out.println(MoneyUtil.convert("1000.00"));  
 	      System.out.println(MoneyUtil.ccToMoneyFormat(1000000000));  
 	      System.out.println(MoneyUtil.ccToMoneyFormat(99500000));  
@@ -186,8 +181,16 @@ import java.util.regex.Matcher;
 	      DecimalFormat myformat = new DecimalFormat();
 	      myformat.applyPattern(YUAN_FORMAT);
 	      System.out.println(myformat.format(11112345.12545));
-	      System.out.println(myformat.format(1000));
-	      
+	      System.out.println(myformat.format(1000));*/
+	      float num= (float)2/3;  
+	      DecimalFormat df = new DecimalFormat("#,###.##");//格式化小数  
+	      String s = df.format(num);//返回的是String类型  
+	      System.out.println("final="+s);
+	      System.out.println("final="+df.format(1000));
+	      System.out.println("final="+df.format(1000));
+	      System.out.println(MoneyUtil.ccToMoneyFormat(122783000,"yuan"));  
+	      System.out.println(MathUtil.div(122783000, 100000, 0));  
+	      System.out.println(MoneyUtil.ccToMoneyFormat(122783000,"yuan"));  
 	    }    
 	    
 	}  

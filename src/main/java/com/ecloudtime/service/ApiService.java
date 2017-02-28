@@ -49,8 +49,11 @@ import net.sf.json.JSONObject;
 public class ApiService {
 	private static Logger logger = LoggerFactory.getLogger(HttpRequestUtils.class); // 日志记录
 
+	
 	@Autowired
 	private HttpService httpService;
+	@Autowired
+	private RSASignatureUtil RSASignatureUtil;
 	@Autowired
 	private CommonService commonService;
 	
@@ -68,6 +71,11 @@ public class ApiService {
 
 	@Value("${chaincode.base.txversion}")
 	private int txversion;
+	
+	@Value("${chaincode.base.sleepTimeNumber}")
+	private int sleepTimeNumber;
+	@Value("${chaincode.base.maxCheckNumber}")
+	private int maxCheckNumber;
 	
 	@Value("${chaincode.base.smartcontract01Args}")
 	private String smartcontract01Args;
@@ -715,15 +723,15 @@ _smartContractAddr := args[3] //smartContractAddr 合约地址
 _base64TxData := args[4]      //tx --》json————》base64
 _base64SourcSign := args[5]   // 用donor的私钥签名
 	 */
-	public SysDonorDrawTransRel donated(String donorName,String donorAmount) {
+	public SysDonorDrawTransRel donated(String donorName,String donorAmount,String smartContractAddr) {
 		
 		String txidmsg = "error";
-		String smartContractName="smartcontract01";//捐款合约 限定
+//		String smartContractName="smartcontract01";//捐款合约 限定
 		String cebBankAddr=cebbankArgs;//中央银行
-		String donorAddr=this.commonService.findDonorAddrByName(donorName);
+		String donorAddr=this.commonService.findDonorAddrById(donorName);
 		if(StringUtils.isEmpty(donorAddr))return new SysDonorDrawTransRel();
 		String donorUUID=this.commonService.getDonorUuid();//生成的捐款id
-		String smartContractAddr=this.commonService.findSmartContractAddrByName(smartContractName);
+//		String smartContractAddr=this.commonService.findSmartContractAddrById(smartContractId);
 		//1.捐款时,先查询银行的钱数
 		String cebBangTx=Base64Util.getBase64(getCebBankTx(donorUUID,donorAddr,donorAmount));
 		//2.换币
@@ -736,12 +744,33 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		String messageIdChange=this.changeCoin(cebBankAddr, cebBangTx, cebSign);
 		//
 		try {
-			Thread.sleep(2000);
+			Thread.sleep(sleepTimeNumber);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		//需要判断  换币是否成功，
+		String donorTxTemp="";
+		int checkCount=0;
+		while("".equals(donorTxTemp)){
+			donorTxTemp=getDonorTx(donorUUID,donorAddr,donorAmount,smartContractAddr);
+			checkCount++;
+			if(checkCount>maxCheckNumber){
+				logger.info("error_donated_changCoin:执行循环超过"+checkCount+"遍成功换币失败，不走了！！【"+DateUtil.getTime()+"】");
+				break;
+			}
+			if("".equals(donorTxTemp)){
+				try {
+					logger.info("error_donated_changCoin:已经循环"+checkCount+"遍依然没有同步到最新捐款数据,休眠"+sleepTimeNumber+"毫秒之后继续搜索【"+DateUtil.getTime()+"】");
+					Thread.sleep(sleepTimeNumber);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}else{
+				logger.info("success_donated_changCoin:执行循环"+checkCount+"遍成功换币!【"+DateUtil.getTime()+"】");
+			}
+		}
 		//3.拼接donorTx
-		String donorTx=Base64Util.getBase64(getDonorTx(donorUUID,donorAddr,donorAmount,smartContractAddr));
+		String donorTx=Base64Util.getBase64(donorTxTemp);
 		
 		//4.捐款
 		 /*_sourceAddr := args[0]     //donorAddr
@@ -753,7 +782,7 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		  	*/		
 		String donorSign="";
 		try {
-			donorSign=RSASignatureUtil.signWithKeyPath(donorAddr+donorUUID+smartContractAddr+donorTx, "donor");
+			donorSign=RSASignatureUtil.signWithKeyPath(donorAddr+donorUUID+smartContractAddr+donorTx, donorName);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -766,8 +795,10 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		args.add(donorTx);// args[4]      //tx --》json————》base64
 		args.add(donorSign);// args[5]   // 用donor的私钥签名
 		args.add(":::"+donorAmount+":::");// args[6]   // :::1000:::
+//		args.add(":::"+donorAmount+","+donorAddr+":::");// args[6]   // :::1000:::
 		
 		txidmsg = (String)httpService.httpPostInvoke(ccBaseUrl, chaincodeName, "donated", args);
+		logger.info(txidmsg);
 //		INSERT INTO sys_trans_rel (trans_id, txid, block_height, tran_sign, contract_id) VALUES ('', '', '', '', '');
 		SysDonorDrawTransRel donorRel=new SysDonorDrawTransRel();
 		donorRel.setContractId(smartContractAddr);//合约id
@@ -793,6 +824,7 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 	private void putDonateToSession(String donorName, String donorAddr, String donorUUID) {
 		boolean checkFlag =true;
 		boolean isExist=false;
+		int checkCount=0;
 		while(checkFlag){
 			isExist=false;
 			User user =this.queryDonor(donorAddr);
@@ -806,15 +838,24 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 					}
 				}
 			}
-			if(isExist){
-				checkFlag=false;
-				SessionUtils.putUserInfoToSession(user);
-			}else{
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+			
+			if(checkCount<maxCheckNumber){
+				if(isExist){
+					this.logger.info("error_donated:成功从更新到用户最新捐款数据【"+DateUtil.getTime()+"】");
+					checkFlag=false;
+					SessionUtils.putUserInfoToSession(user);
+				}else{
+					try {
+						checkCount++;
+						this.logger.info("error_donated:已经循环"+checkCount+"遍依然没有同步到最新捐款数据,休眠两秒之后继续搜索【"+DateUtil.getTime()+"】");
+						Thread.sleep(sleepTimeNumber);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
+			}else{
+				checkFlag=false;
+				this.logger.info("error_donated:已经循环5遍依然没有同步到最新捐款数据【"+DateUtil.getTime()+"】");
 			}
 		}
 	}
@@ -1005,11 +1046,11 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 			e.printStackTrace();
 		}
 		List<String> args = new ArrayList<String>();
-		args.add(fundAddr);
-		args.add(drawUUID);
-		args.add(drawTx);
-		args.add(drawSign);
-		args.add(":::-"+drawAmount+":::");// args[6]   // :::1000:::
+		args.add(fundAddr);// 基金账户id fund01
+		args.add(drawUUID);//提款 id
+		args.add(drawTx);//提款 tx
+		args.add(drawSign);//签名 用foud01的私钥签名
+		args.add(":::-"+drawAmount+":::");// args[5]   // :::1000:::
 		String txidmsg = (String)httpService.httpPostInvoke(ccBaseUrl, chaincodeName, "drawed", args);
 		
 		SysDonorDrawTransRel drawRel=new SysDonorDrawTransRel();

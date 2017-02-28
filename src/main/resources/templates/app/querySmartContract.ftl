@@ -35,12 +35,10 @@
     </div>
 </div>
 
-<div class="maskDonate" id="maskDonate">
-    <div class="maskBack">
-        <div class="maskWhite" id="maskWhite"></div>
-    </div>
+<!--确认捐款mask-->
+<div class="mask enterMask" id="enterMask">
+    <span><img src="${system.basePath}/img/common/timg.gif" alt=""/>加载中，请稍后...</span>
 </div>
-
 <!--head-->
 <div class="header">
     <!--微公益-->
@@ -144,9 +142,6 @@
     <button id="lookPz">我要捐款</button>
 </div>
 
-<div id="progressBar" class="mui-progressbar mui-progressbar-infinite">
-	<span></span>
-</div>
 <script src="${system.basePath}/js/jquery-1.11.3.js"></script>
 <script src="${system.basePath}/js/mui.min.js"></script>
 <script>
@@ -155,16 +150,31 @@
     $('.user').on('tap',function(){
         window.history.back(-1);
     });
-    $('#enter').on('tap',function(){
-        var donorAmount=$("#donorAmount").val();
-        if(isPositiveNum(donorAmount)){
-       		 window.location.href="${system.basePath}/app/donate?donorAmount="+donorAmount;
-        }else{
-        	mui.alert("不是数字,请重新填写正整数的金额")  
-        	$("#donorAmount").val(100);  	
-        }
-        
-    });
+ 
+  $('#enter').on('tap',function(){
+       var donorAmount=$("#donorAmount").val();
+       var smartContractAddr='${SmartContractExt.smartContract.addr?if_exists}';
+       if(isPositiveNum(donorAmount)){
+     		 window.location.href="${system.basePath}/app/ccpay?donorAmount="+donorAmount+"&smartContractAddr="+smartContractAddr+"&tm="+new Date().getTime() ;
+       }else{
+      	 	mui.alert("不是数字,请重新填写正整数的金额")  
+       		$("#donorAmount").val(100);  	
+       }
+   });
+ 
+ 
+   // $('#enter').on('tap',function(){
+   // 	$('#enterMask').fadeIn();
+   //     var donorAmount=$("#donorAmount").val();
+   //     var smartContractAddr='${SmartContractExt.smartContract.addr?if_exists}';
+   //     if(isPositiveNum(donorAmount)){
+   //   		 window.location.href="${system.basePath}/app/ccpay?donorAmount="+donorAmount+"&smartContractAddr="+smartContractAddr+"&tm="+new Date().getTime() ;
+   //     }else{
+   //     	mui.alert("不是数字,请重新填写正整数的金额")  
+   //     	$("#donorAmount").val(100);  	
+   //     }
+   // });
+    
     
     
     
@@ -235,7 +245,7 @@ shui();
     //捐款打开
     var btn = document.getElementById("lookPz");
     btn.addEventListener('tap',function(){
-        $('.mask').fadeIn();
+       $('#mask').fadeIn();
     });
     //空白关闭
     var div=document.getElementById('maskWhite');

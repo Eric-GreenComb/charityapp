@@ -119,9 +119,10 @@ public class ApiController extends BaseController{
     @RequestMapping(value="/donated",method=RequestMethod.GET)
     public SysDonorDrawTransRel donated(@RequestParam(value="donorName", required=false, defaultValue="donor01") String donorName,
     		@RequestParam(value="donorAmount", required=false, defaultValue="100") String donorAmount,
+    		@RequestParam(value="smartContractId", required=false, defaultValue="smartContract01") String smartContractId,
     		Model model){
     	//String donorName,String donorAmount
-    	return apiService.donated(donorName,donorAmount);
+    	return apiService.donated(donorName,donorAmount,smartContractId);
     }
 	
 	@ApiOperation(value="drawedTest",notes="requires noting")

@@ -39,9 +39,8 @@
         window.history.back(-1);
     });
     $('#kanDel').on('click',function(){
-    	//alert(1)
         //window.location.href="mine_giftDel.html";
-        var donorid='${donorRel.transId?if_exists}';
+        var donorid='${donorid?if_exists}';
         window.location.href="${system.basePath}/app/queryDonorDeatail?donorid="+donorid+"&type=donor";
     });
     $('.footBack').on('click',function(){

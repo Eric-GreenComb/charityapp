@@ -13,9 +13,9 @@ public interface CommonMapper {
 	
 	public Bargain findBargainInfo();//查询合同信息
 	
-	public String findDonorAddrByName(String name);//根据名称 查询addr
+	public String findDonorAddrById(String name);//根据名称 查询addr
 	
-	public String findSmartContractAddrByName(String name);//根据名称 查询addr
+	public String findSmartContractAddrById(String name);//根据名称 查询addr
 	
 	public void saveTxidDonorDrawIdRefInfo(SysDonorDrawTransRel donorRel);
 	
