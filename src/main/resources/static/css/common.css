@@ -28,6 +28,7 @@ img{vertical-align: middle;}
     height:44px;
     left:0;
     top:0;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.24) ;
 }
 .headerTop{
     background:#9C27B0;
@@ -35,14 +36,18 @@ img{vertical-align: middle;}
     height:44px;
     text-align: center;
     overflow:hidden;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.24) ;
 }
 .headerTop p{
     margin:0;
     display: inline-block;
 }
 p.user{
-   float:left;
-    /*padding:0 5px 10px 5px;*/
+   /*float:left;*/
+    padding:12px;
+    position: absolute;
+    top: 0;
+    left: 15px;
 }
 .headerTop p.user img{
     width:11px;

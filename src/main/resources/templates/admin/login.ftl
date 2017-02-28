@@ -14,7 +14,7 @@
         <!--inputCon-->
         <div class="inputCon">
             <p class="loginYi loginYiName">
-                <input type="text" id="userName" placeholder="用户账号"/>
+                <input type="text" id="userName" id="userName" value="fund01" placeholder="用户账号"/>
             </p>
             <div class="inputLine"><span></span><p></p><span></span></div>
             <p class="loginYi">
@@ -30,5 +30,12 @@
 
 <script src="${system.basePath}/js/jquery-1.11.3.js"></script>
 <script src="${system.basePath}/js/admin/common_admin.js"></script>
+
+<script>
+ $('.loginBtn').bind("click", function(){  
+	   var userName =$("#userName").val();
+        window.location.href="${system.basePath}/admin/login_login?userName="+userName;
+	}); 
+</script>
 </body>
 </html>

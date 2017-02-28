@@ -442,6 +442,9 @@ public class ApiService {
 		if (null != jsonResponse) {
 			// 填充內容
 			fund = (Foundation) JSONObject.toBean(jsonResponse, Foundation.class);
+			Foundation fundTemp=this.commonService.findFoundByAddr(fund.getId());
+			fund.setContracts(fundTemp.getContracts());
+			fund.setName(fundTemp.getName());
 		}
 		return fund;
 	}
@@ -869,7 +872,7 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 	public String getDonorTx(String donorUUID,String donorAddr,String donorAmount,String smartContractAddr){
 		Account donorAccount =this.queryAccount(donorAddr);
 		Map<String, TX_TXOUT> txouts=donorAccount.getTxouts();
-		double donorMoneyCC=MoneyUtil.moneyToCcFormat(donorAmount);
+		long donorMoneyCC=MoneyUtil.moneyToCcFormat(donorAmount);
 		long  cebBankMoney=0;
 		TX_TXOUT txout=new TX_TXOUT();
 		String sourceTxHash="";

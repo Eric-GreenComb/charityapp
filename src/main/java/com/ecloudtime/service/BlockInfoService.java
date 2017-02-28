@@ -133,7 +133,29 @@ public class BlockInfoService {
 		if(null==blockHighList){
 			getNewerBlocks();
 		}
-		blockHighList= (List<BlockHighGen>)this.cacheManager.getCacheObjectByKey("blockHighList");
+		if(blockHighList.size()>0){
+			BlockHighGen blockHighGen=(BlockHighGen)blockHighList.get(0);
+			int cacheHigh=blockHighGen.getBlockHigh();
+//			cacheHigh=25;
+			int currentHigh=this.getCurrentHigh();
+			String url=nodeUrl+"/chain/blocks/";//http://192.168.31.100:7050/chain/blocks/7
+			
+			while(cacheHigh<currentHigh){
+				cacheHigh++;
+				BlockHighGen blockHigh=new BlockHighGen(cacheHigh);
+				BlockInfo blockInfo =queryBlockByHigh(url+cacheHigh);
+				if(null!=blockInfo){
+					blockHigh.setBlockGenTime(blockInfo.getBlockGenTime());
+					if(blockHighList.size()>newerListNumber){
+						blockHighList.remove(blockHighList.size()-1);
+					}
+					blockHighList.add(0, blockHigh);
+				}
+			}
+			this.cacheManager.putObjectToCache("blockHighList", blockHighList);
+		}
+		
+//		blockHighList= (List<BlockHighGen>)this.cacheManager.getCacheObjectByKey("blockHighList");
 		return blockHighList;
 	}
 	

@@ -2,6 +2,8 @@ package com.ecloudtime.model;
 
 import java.util.List;
 
+import com.ecloudtime.utils.MoneyUtil;
+
 public class Foundation {
 
 	/*
@@ -18,25 +20,53 @@ public class Foundation {
 */
 	
 	private String addr;
-	private String contract;
 	private String name;
 	private String id;
+	private String contracts;//contracts
 	private long total;
 	private long validTotal;
 	private long balance;
+	private String totalStr;
+	private String validTotalStr;
+	private String balanceStr;
+	
 	List<SmartContract> smartContracts;
 	List<FoundationFeeTrack> fees;
+	
+	public String getTotalStr() {
+		if(0!=total){
+    		return MoneyUtil.ccToMoneyFormat(total,"yuan");
+    	}
+		return "0";
+	}
+	public String getValidTotalStr() {
+		if(0!=validTotal){
+    		return MoneyUtil.ccToMoneyFormat(validTotal,"yuan");
+    	}
+		return "0";
+	}
+	public String getBalanceStr() {
+		if(0!=balance){
+    		return MoneyUtil.ccToMoneyFormat(balance,"yuan");
+    	}
+		return "0";
+	}
+	public void setTotalStr(String totalStr) {
+		this.totalStr = totalStr;
+	}
+	
+	public void setValidTotalStr(String validTotalStr) {
+		this.validTotalStr = validTotalStr;
+	}
+	
+	public void setBalanceStr(String balanceStr) {
+		this.balanceStr = balanceStr;
+	}
 	public String getAddr() {
 		return addr;
 	}
 	public void setAddr(String addr) {
 		this.addr = addr;
-	}
-	public String getContract() {
-		return contract;
-	}
-	public void setContract(String contract) {
-		this.contract = contract;
 	}
 	public String getName() {
 		return name;
@@ -79,6 +109,12 @@ public class Foundation {
 	}
 	public void setFees(List<FoundationFeeTrack> fees) {
 		this.fees = fees;
+	}
+	public String getContracts() {
+		return contracts;
+	}
+	public void setContracts(String contracts) {
+		this.contracts = contracts;
 	}
 	
 	

@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ecloudtime.mapper.CommonMapper;
+import com.ecloudtime.model.Foundation;
 import com.ecloudtime.model.SmartContract;
 import com.ecloudtime.model.SysDonorDrawTransRel;
+import com.ecloudtime.model.TransDetail;
 
 @Service
 public class CommonService {
@@ -70,6 +72,14 @@ public class CommonService {
 		 }
 		 sb.delete(sb.length()-1, sb.length());
 		 return sb.toString();
+	 }
+	 
+	 public Foundation findFoundByAddr(String foundId){
+		 return this.commonMapper.findFoundByAddr(foundId);
+	 }
+	 
+	 public List<TransDetail> findTransDetailsList(TransDetail transDetail){
+		 return this.commonMapper.findTransDetailsList(transDetail);
 	 }
 	 
 	 public static void main(String[] args) {

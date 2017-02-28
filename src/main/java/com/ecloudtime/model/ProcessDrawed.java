@@ -1,5 +1,8 @@
 package com.ecloudtime.model;
 
+import com.ecloudtime.utils.DateUtil;
+import com.ecloudtime.utils.MoneyUtil;
+
 public class ProcessDrawed {
 
 /*	DrawUUID          string `protobuf:"bytes,1,opt,name=drawUUID" json:"drawUUID,omitempty"`
@@ -16,13 +19,78 @@ public class ProcessDrawed {
 	
 	private String drawUUID;
 	private String smartContractAddr;
+	private String smartContractId;
+	private String smartContractName;
 	private String bargainAddr;
+	private String bargainId;
 	private String bargainName;
 	private long amount;
+	private String amountStr;
 	private String donorName;
 	private String acceptName;
 	private int timestamp;
+	private String drawTime;
 	private String remark;
+	
+	public String getDrawTime() {
+		if(0!=timestamp){
+			return DateUtil.getDateFromUnixTime(timestamp);
+		}
+		return drawTime;
+	}
+	
+	
+	
+	public String getSmartContractId() {
+		if(null!=smartContractAddr&&smartContractAddr.indexOf(":")!=-1){
+			return smartContractAddr.split(":")[0];
+		}
+		return smartContractId;
+	}
+
+	public String getBargainId() {
+		if(null!=bargainAddr&&bargainAddr.indexOf(":")!=-1){
+			return bargainAddr.split(":")[0];
+		}
+		return bargainId;
+	}
+
+
+	public String getAmountStr() {
+		if(0!=amount){
+    		return MoneyUtil.ccToMoneyFormat(amount,"yuan");
+    	}
+		return amountStr;
+	}
+
+
+
+	public void setAmountStr(String amountStr) {
+		this.amountStr = amountStr;
+	}
+
+
+
+	public void setBargainId(String bargainId) {
+		this.bargainId = bargainId;
+	}
+
+
+	public void setSmartContractId(String smartContractId) {
+		this.smartContractId = smartContractId;
+	}
+
+
+	public String getSmartContractName() {
+		return smartContractName;
+	}
+
+	public void setSmartContractName(String smartContractName) {
+		this.smartContractName = smartContractName;
+	}
+	public void setDrawTime(String drawTime) {
+		this.drawTime = drawTime;
+	}
 	public String getDrawUUID() {
 		return drawUUID;
 	}

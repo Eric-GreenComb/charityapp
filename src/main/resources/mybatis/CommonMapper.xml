@@ -104,4 +104,42 @@
 		</if>
   </select>
   
+   <resultMap id="transDetailMap" type="com.ecloudtime.model.TransDetail">
+		<result column="txid" property="txid" jdbcType="VARCHAR" />
+		<result column="trans_id" property="transId" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="trans_time" property="transTime" jdbcType="VARCHAR" />
+		<result column="contract_id" property="contractId" jdbcType="VARCHAR" />
+		<result column="contract_name" property="contractName" jdbcType="VARCHAR" />
+	</resultMap>
+  
+   <select id="findTransDetailsList" resultMap="transDetailMap" parameterType="com.ecloudtime.model.TransDetail">
+    select * from sys_fund_flow
+    	where 1=1
+		<if test="type != null and  type != ''">
+			and type = #{type}
+		</if>
+		<if test="transTime != null and  transTime != ''">
+			and trans_time = #{transTime}
+		</if>
+		<if test="contractId != null and  contractId != ''">
+			and contract_id = #{contractId}
+		</if>
+  </select>
+  
+  
+    <resultMap id="foundationMap" type="com.ecloudtime.model.Foundation">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="addr" property="addr" jdbcType="VARCHAR" />
+		<result column="contracts" property="contracts" jdbcType="VARCHAR" />
+	</resultMap>
+  
+    <select id="findFoundByAddr" resultMap="foundationMap"  parameterType="string">
+    select * from sys_foundation
+    	where 1=1
+		<if test="_parameter != null and  _parameter != ''">
+			and id = #{_parameter}
+		</if>
+  </select>
 </mapper>

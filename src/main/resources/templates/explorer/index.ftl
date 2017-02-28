@@ -33,22 +33,22 @@
                     <li class="nodeNewsYi">
                         <p class="nodeNewsYiQuan green" id="peer1"><span id="peer1_high">10006</span></p>
                         <p class="nodeNewsYiNew" id="peer1_address">192.168.31.100</p>
-                        <p class="nodeNewsYiDian" id="peer1_name">内部节点[1]</p>
+                        <p class="nodeNewsYiDian" id="peer1_name">光大银行</p>
                     </li>
                     <li class="nodeNewsYi">
                         <p class="nodeNewsYiQuan gray" id="peer2"><span id="peer2_high">10005</span></p>
                         <p class="nodeNewsYiNew" id="peer2_address">192.168.31.101</p>
-                        <p class="nodeNewsYiDian" id="peer2_name">内部节点[2]</p>
+                        <p class="nodeNewsYiDian" id="peer2_name">瑶瑶缴费</p>
                     </li>
                     <li class="nodeNewsYi">
                         <p class="nodeNewsYiQuan gray" id="peer3"><span id="peer3_high">10005</span></p>
                         <p class="nodeNewsYiNew" id="peer3_address">192.168.31.102</p>
-                        <p class="nodeNewsYiDian" id="peer3_name">内部节点[3]</p>
+                        <p class="nodeNewsYiDian" id="peer3_name">基金会</p>
                     </li>
                     <li class="nodeNewsYi">
                         <p class="nodeNewsYiQuan green" id="peer4"><span id="peer4_high">10006</span></p>
                         <p class="nodeNewsYiNew" id="peer4_address">192.168.31.103</p>
-                        <p class="nodeNewsYiDian" id="peer4_name">内部节点[4]</p>
+                        <p class="nodeNewsYiDian" id="peer4_name">施工方</p>
                     </li>
                 </ul>
             </div>
@@ -57,9 +57,11 @@
                 <p class="nodeTxt">最新交易信息</p>
                 <p class="newsTitle"><span>交易ID</span><span>交易时间</span><span>交易金额&yen;</span></p>
                 <ul class="newsUl">
-                	<#list transList as trans>、
-                		<li class="newsInfo"><a href="javascript:goTransDetail('${trans.txid}','${trans.transMoney?if_exists}');">${trans.txid?substring(0,20)}</a><span>${trans.tranGenTime?substring(10)}</span><span>${trans.transMoney?if_exists}</span></li>
-                	</#list>
+	                <#if (transList?if_exists?size > 0)>
+	                	<#list transList as trans>、
+	                		<li class="newsInfo"><a href="javascript:goTransDetail('${trans.txid}','${trans.transMoney?if_exists}');">${trans.txid?substring(0,20)}</a><span>${trans.tranGenTime?substring(10)}</span><span>${trans.transMoney?if_exists}</span></li>
+	                	</#list>
+	                </#if>
                 </ul>
             </div>
         </div>
@@ -69,9 +71,11 @@
                 <p class="nodeTxt partTxt">最新区块</p>
                 <ul class="partUl">
                     <li class="newsTitle"><span>区块高度</span><span>生成时间</span></li>
-                   	<#list blockHighList as blockHigh>
-                		<li class="newsInfo"><a href="${system.basePath}/explorer/blockDetail?heigh=${blockHigh.blockHigh}">${blockHigh.blockHigh}</a><span>${blockHigh.blockGenTime?substring(10)}</span></li>
-                	</#list>
+                     <#if (blockHighList?if_exists?size > 0)>
+		                   	<#list blockHighList as blockHigh>
+		                		<li class="newsInfo"><a href="${system.basePath}/explorer/blockDetail?heigh=${blockHigh.blockHigh}">${blockHigh.blockHigh}</a><span>${blockHigh.blockGenTime?substring(10)}</span></li>
+		                	</#list>
+                	</#if>
                 </ul>
             </div>
         </div>

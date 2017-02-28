@@ -23,7 +23,7 @@
     border-radius:0px 16px 16px 0px;
     height:40px;
     line-height: 40px;
-    padding:0 5px;
+    padding:0 5px 0 10px;
 }
 .mui-table-view-cell p.day{
     font-size:14px;
@@ -427,7 +427,9 @@
 }
 
 
-
+.newsAll li:first-child{
+    margin-top:12px;
+}
 
 
 
