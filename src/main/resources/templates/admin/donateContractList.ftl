@@ -191,31 +191,32 @@
                     <span class="conTime">创建日期</span>
                     <span class="conStatus">状态</span>
                 </li>
-                <li class="mineInfo">
-                    <span class="conID">AU000001</span>
-                    <span class="conName mineContract">宁夏母亲水窖</span>
-                    <span class="conMoney">0.00</span>
-                    <span class="conTime">2016.01.10</span>
-                    <span class="conStatus">未开始</span>
-                    <span class="rt delIcon contractDel"><img src="${system.basePath}/img/common_admin/delIcon.png" alt=""/></span>
-                    <span class="rt delIcon drawMoney"><img src="${system.basePath}/img/common_admin/con_tkIcon.png" alt=""/></span>
-                    <span class="rt delIcon">
-                        <a href="contribute_list.html"><img src="${system.basePath}/img/common_admin/con_hyDelIcon.png" alt=""/></a>
-                    </span>
-                </li>
-                <li class="mineInfo">
-                    <span class="conID">AU000001AU000001</span>
-                    <span class="conName mineContract">宁夏母亲水窖宁夏母亲水窖宁夏母亲水窖</span>
-                    <span class="conMoney">9999999999.00</span>
-                    <span class="conTime">2016.01.10</span>
-                    <span class="conStatus">未开始</span>
-                    <span class="rt delIcon contractDel"><img src="${system.basePath}/img/common_admin/delIcon.png" alt=""/></span>
-                    <span class="rt delIcon drawMoney"><img src="${system.basePath}/img/common_admin/con_tkIcon.png" alt=""/></span>
-                    <span class="rt delIcon">
-                        <a href="contribute_list.html"><img src="${system.basePath}/img/common_admin/con_hyDelIcon.png" alt=""/></a>
-                    </span>
-                </li>
-                
+                <!-- 
+		                <li class="mineInfo">
+		                    <span class="conID">AU000001</span>
+		                    <span class="conName mineContract">宁夏母亲水窖</span>
+		                    <span class="conMoney">0.00</span>
+		                    <span class="conTime">2016.01.10</span>
+		                    <span class="conStatus">未开始</span>
+		                    <span class="rt delIcon contractDel"><img src="${system.basePath}/img/common_admin/delIcon.png" alt=""/></span>
+		                    <span class="rt delIcon drawMoney"><img src="${system.basePath}/img/common_admin/con_tkIcon.png" alt=""/></span>
+		                    <span class="rt delIcon">
+		                        <a href="contribute_list.html"><img src="${system.basePath}/img/common_admin/con_hyDelIcon.png" alt=""/></a>
+		                    </span>
+		                </li>
+		                <li class="mineInfo">
+		                    <span class="conID">AU000001AU000001</span>
+		                    <span class="conName mineContract">宁夏母亲水窖宁夏母亲水窖宁夏母亲水窖</span>
+		                    <span class="conMoney">9999999999.00</span>
+		                    <span class="conTime">2016.01.10</span>
+		                    <span class="conStatus">未开始</span>
+		                    <span class="rt delIcon contractDel"><img src="${system.basePath}/img/common_admin/delIcon.png" alt=""/></span>
+		                    <span class="rt delIcon drawMoney"><img src="${system.basePath}/img/common_admin/con_tkIcon.png" alt=""/></span>
+		                    <span class="rt delIcon">
+		                        <a href="contribute_list.html"><img src="${system.basePath}/img/common_admin/con_hyDelIcon.png" alt=""/></a>
+		                    </span>
+		                </li>
+                -->
                 <#list smartContractExts as smartContractExt>
                 	 <li class="mineInfo">
 	                   <span class="conID">${smartContractExt.addr?if_exists}</span>

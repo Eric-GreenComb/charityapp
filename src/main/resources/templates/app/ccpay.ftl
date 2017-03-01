@@ -11,6 +11,20 @@
     <link href="${system.basePath}/css/pay.css" rel="stylesheet">
 </head>
 <body>
+
+<!--支付-->
+<div class="mask payMask">
+    <div class="maskBack">
+        <p class="payStatusOk">支付成功</p>
+        <p class="payOkDel">您已支付成功，请返回商户查看支付详情。</p>
+        <p class="payBtn" id="payBtn">确认</p>
+    </div>
+</div>
+
+<!--确认捐款mask-->
+<div class="mask enterMask" id="enterMask">
+    <span><img src="${system.basePath}/img/common/timg.gif" alt=""/><br/>支付中...</span>
+</div>
 <!--header-->
 <div class="header">
     <!--微公益-->
@@ -81,29 +95,48 @@
         </div>
     </div>
 </div>
-
-<!--确认捐款mask-->
-<div class="mask enterMask" id="enterMask">
-    <span><img src="${system.basePath}/img/common/timg.gif" alt=""/>支付中，请稍后...</span>
-</div>
+<input type="hidden" id="transId" value="">
 <script src="${system.basePath}/js/mui.min.js"></script>
 <script src="${system.basePath}/js/jquery-1.11.3.js"></script>
 
 <script>
 
+    var btn = document.getElementById("confirmPay"),
+    	closeBtn = document.getElementById("payBtn");
+    btn.addEventListener('tap',function(){
+    	 $('#enterMask').fadeIn();
+      	  donateMoney();
+    });
+    closeBtn.addEventListener('tap',function(){
+        $('.payMask').css('display','none');
+        var donorid=$("#transId").val();
+        window.location.href="${system.basePath}/app/donateInfo?donorid="+donorid+"&tm="+new Date().getTime() ;
+    });
 
-    // 跳转
-$('#confirmPay').on('tap',function(){
-    if( $('#cardAgree').prop("checked") ){
-    	$('#enterMask').fadeIn();
-    	var donorAmount='${donorAmount?if_exists}';
-        var smartContractAddr='${smartContractAddr?if_exists}';
-       	window.location.href="${system.basePath}/app/donate?donorAmount="+donorAmount+"&smartContractAddr="+smartContractAddr+"&tm="+new Date().getTime() ;
-       // window.location.href="payOK.html";
-    }else{
-        mui.alert("必须同意《云支付服务协议》")
-    }
-});
+	// 交易id
+	function donateMoney(){
+			var donorAmount='${donorAmount?if_exists}';
+       		var smartContractAddr='${smartContractAddr?if_exists}';
+		    var postData =  {"donorAmount":donorAmount,"smartContractAddr":smartContractAddr,tm:new Date().getTime()};
+			var donateMoneyUrl='${system.basePath}/app/donate';
+			$.ajax({
+				type: 'GET',
+				url: donateMoneyUrl,
+				data:postData,
+				dataType:'json',
+				cache: false,
+				async: true,//同步方法
+				success: function(data){
+					console.log(data)
+					if(data.transId){
+						$("#transId").val(data.transId)
+						 $('#enterMask').fadeOut();
+						 $('.payMask').css('display','block');
+					}
+				}
+			});
+	}
+
 $('.user').on('tap',function(){
     window.history.back(-1);
 });

@@ -10,6 +10,11 @@
 </head>
 
 <body>
+
+<!--确认捐款mask-->
+<div class="mask enterMask" id="enterMask">
+    <span><img src="img/common/timg.gif" alt=""/><br/>登录中...</span>
+</div>
 <!--section-->
 <div class="section">
     <div class="loginBack">
@@ -43,11 +48,11 @@
     
     
     $('.loginBtn').bind("click", function(){  
+    	  $('#enterMask').fadeIn();
 	   var userName =$("#userName").val();
         window.location.href="${system.basePath}/login_login?userName="+userName;
 	}); 
 
-//${system.basePath}/login_login
     $('.loginYi input').blur(function(){
         if($('.loginYi input').val()){
             $('.alertCon').css('display','block');

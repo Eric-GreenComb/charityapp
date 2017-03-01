@@ -27,14 +27,14 @@
                             <p><input type="text" placeholder="施工项目合同名称"/></p>
                         </div>
                         <div>
-                            <p>合同详情</p>
-                            <p><textarea name="" cols="30" rows="10" placeholder="对捐款项目的描述"></textarea></p>
-                        </div>
-                        <div>
                             <p>合同有效期</p>
                             <p class="timeKuang timeDur"><input type="text" id="timeDuring01" placeholder="起始时间"/></p>
                             <span>至</span>
                             <p class="timeKuang timeDur"><input type="text" id="timeDuring02" placeholder="截止日期"/></p>
+                        </div>
+                        <div>
+                            <p>合同详情</p>
+                            <p><textarea name="" cols="30" rows="10" placeholder="对捐款项目的描述"></textarea></p>
                         </div>
                     </div>
                     <div class="rt conRt conLf">
@@ -175,12 +175,13 @@
 <div class="section">
     <div class="container">
         <!--lf-->
-        <ul class="lf secLf">
+          <ul class="lf secLf">
             <li><a href="${system.basePath}/admin/index" ><img src="${system.basePath}/img/common_admin/accountIcon.png" alt=""/><span>账户概览</span></a></li>
             <li><a href="${system.basePath}/admin/myAccountBook" ><img src="${system.basePath}/img/common_admin/mineIcon.png" alt=""/><span>我的账本</span></a></li>
             <li><a href="${system.basePath}/admin/donateContractList" ><img src="${system.basePath}/img/common_admin/contributeIcon.png" alt=""/><span>捐献合约</span></a></li>
             <li><a href="${system.basePath}/admin/bargainItemList" class="curIcon"><img src="${system.basePath}/img/common_admin/contractIcon.png" alt=""/><span>施工合同</span></a></li>
         </ul>
+        
         <!--rt-->
         <div class="rt secRt">
             <!--账本详情-->
@@ -197,15 +198,20 @@
                     <span class="contractTime">合同有效期</span>
                     <span class="conStatus">状态</span>
                 </li>
-                <li class="mineInfo">
-                    <span class="contractID">AU000001AU000001</span>
-                    <span class="contractName">宁夏母亲水窖宁夏母亲水窖宁夏母亲水窖</span>
-                    <span class="conWhere">中国水利第三公司中国水利第三公司</span>
-                    <span class="contractTime">2016.01.10/2017.12.01</span>
-                    <span class="conStatus">未开始</span>
-                    <span class="rt delIcon contractDel"><img src="${system.basePath}/img/common_admin/delIcon.png" alt=""/></span>
-                    <span class="rt delIcon checkIcon"><img src="${system.basePath}/img/common_admin/checkIcon.png" alt=""/></span>
-                </li>
+               
+                
+                  <#list bargainList as bargain>
+                  	 <li class="mineInfo">
+	                    <span class="contractID">${bargain.addr?if_exists}</span>
+	                    <span class="contractName">${bargain.name?if_exists}</span>
+	                    <span class="conWhere">${bargain.partyB?if_exists}</span>
+	                    <span class="contractTime">${bargain.startTime?if_exists}/${bargain.endTime?if_exists}</span>
+	                    <span class="conStatus">${bargain.bargainStatus?if_exists}</span>
+	                    <span class="rt delIcon contractDel"><img src="${system.basePath}/img/common_admin/delIcon.png" alt=""/></span>
+	                    <span class="rt delIcon checkIcon"><img src="${system.basePath}/img/common_admin/checkIcon.png" alt=""/></span>
+	                </li>
+                </#list>
+                
             </ul>
         </div>
     </div>
@@ -213,7 +219,7 @@
 
 <script src="${system.basePath}/js/jquery-1.11.3.js"></script>
 <script src="${system.basePath}/js/admin/dateSelect.js"></script>
-<script src="${system.basePath}/js/common_admin.js"></script>
+<script src="${system.basePath}/js/admin/common_admin.js"></script>
 <script>
     //    colse
     $('.backBtn button.closeBtn').click(function(){
@@ -224,7 +230,7 @@
     });
     //    添加合同
     $('.addContract').click(function(){
-        $('#addCon').fadeIn();
+        //$('#addCon').fadeIn();
     });
     $('#file').change(function(){
         $(this).next().html($(this).val() );
@@ -232,7 +238,6 @@
     $('#conFile').change(function(){
         $(this).next().html($(this).val() );
     });
-
 
     //    合同详情
     $('.contractDel').click(function(){

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <link rel="stylesheet" href="css/mui.min.css">
+    <link rel="stylesheet" href="${system.basePath}/css/mui.min.css">
     <link href="${system.basePath}/css/common.css" rel="stylesheet">
     <link href="${system.basePath}/css/mine_contributeGo.css" rel="stylesheet">
     <link href="${system.basePath}/css/mine_contributeRate.css" rel="stylesheet">

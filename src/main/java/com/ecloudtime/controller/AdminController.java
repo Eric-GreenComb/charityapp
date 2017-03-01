@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ecloudtime.model.Bargain;
 import com.ecloudtime.model.Foundation;
 import com.ecloudtime.model.ProcessDonored;
 import com.ecloudtime.model.ProcessDrawed;
@@ -26,6 +27,7 @@ import com.ecloudtime.service.CacheManager;
 import com.ecloudtime.service.CommonService;
 import com.ecloudtime.service.HttpService;
 import com.ecloudtime.utils.SessionUtils;
+import com.github.pagehelper.PageHelper;
 import com.wordnik.swagger.annotations.ApiOperation;
 
 @Controller
@@ -114,6 +116,7 @@ public class AdminController extends BaseController{
     		Model model) {
     	String userName=SessionUtils.getUserNameFromSession();
     	TransDetail td = new TransDetail();
+    	PageHelper.startPage(1, 10);
     	List<TransDetail> transDetailList=this.commonService.findTransDetailsList(td);
     	
     	
@@ -148,7 +151,6 @@ public class AdminController extends BaseController{
     @ApiOperation(value="donateContractList",notes="requires login Name")
     public String donateContractList(Model model) {
     	String allContractStr=commonService.findAllSmartContractS();//查询数据
-		
 		List<SmartContractExt> smartContractExts= apiService.querySmartContractExts(allContractStr);
 		model.addAttribute("smartContractExts", smartContractExts);
 		
@@ -165,7 +167,9 @@ public class AdminController extends BaseController{
     public String bargainItemList(Model model) {
 //  		name="donor01";
     	String userName=SessionUtils.getUserNameFromSession();
-    	
+    	String bargainAddrs=this.commonService.findAllBargainS();
+    	List<Bargain> bargainList=this.apiService.queryBargains(bargainAddrs);
+    	model.addAttribute("bargainList", bargainList);
     	return "admin/bargainItemList";
     }
 }

@@ -133,7 +133,7 @@ public class BlockInfoService {
 		if(null==blockHighList){
 			getNewerBlocks();
 		}
-		if(blockHighList.size()>0){
+		if(null!=blockHighList&&blockHighList.size()>0){
 			BlockHighGen blockHighGen=(BlockHighGen)blockHighList.get(0);
 			int cacheHigh=blockHighGen.getBlockHigh();
 //			cacheHigh=25;

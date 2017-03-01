@@ -26,7 +26,7 @@
   </select>
   
   <select id="findBargainInfo" resultType="com.ecloudtime.model.Bargain">
-    select * from sys_contract
+    select * from sys_bargain
     	where 1=1
 		<if test="id != null and  id != ''">
 			and id = #{id}
@@ -34,6 +34,10 @@
 		<if test="addr != null and  addr != ''">
 			and addr = #{addr}
 		</if>
+  </select>
+  
+  <select id="findBargainList" resultType="com.ecloudtime.model.Bargain">
+   	 select * from sys_bargain
   </select>
   
   <select id="findTransInfo" resultMap="TransRelMap">

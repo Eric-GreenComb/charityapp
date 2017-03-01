@@ -12,16 +12,22 @@
 </head>
 <body>
 
+
+
+<!--head-->
+<div class="headerIndex">
+    <!--微公益-->
+    <div class="headerTopRen">
+        <!--<p class="userRen">用户<span>138****0921</span></p>-->
+        <p class="headerTitleRen">微公益</p>
+    </div>
+</div>
+
 <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
     <div class="mui-scroll">
         <div class="section">
             <!--head-->
-            <div class="headerIndex">
-                <!--微公益-->
-                <div class="headerTop">
-                    <p class="user">用户<span>${user.name?if_exists}</span></p>
-                    <p class="headerTitle">微公益</p>
-                </div>
+            <div >
                 <!--tree-->
                 <div class="headerTree">
                     <div class="headerTreeCon">

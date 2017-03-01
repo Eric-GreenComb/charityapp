@@ -669,6 +669,9 @@ public class DateUtil {
 		System.out.println(dateUtil.getDateFromUnixTime(1486697869));
 		System.out.println(dateUtil.getDateFromUnixTime(getUnixTime()));
 		System.out.println(dateUtil.getDateFromUnixTime(new Date().getTime()/1000));
+		System.out.println(dateUtil.compareDate("2017-01-01", "2017-01-02"));
+		System.out.println(dateUtil.compareDate("2017-01-01", "2016-01-02"));
+		System.out.println(dateUtil.compareDate("2017-01-01", "2016-01-01"));
 		
 	}
 }

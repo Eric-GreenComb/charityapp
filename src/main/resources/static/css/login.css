@@ -122,8 +122,10 @@ p{
     color:#9c27b0;
 }
 
-
-
+/*确认捐款*/
+.enterMask{
+    background-color: rgba(0,0,0,0.6);
+}
 
 
 

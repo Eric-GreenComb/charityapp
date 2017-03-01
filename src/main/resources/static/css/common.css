@@ -214,6 +214,36 @@ p.user{
     color:#fff;
 }
 
+/*确认捐款mask*/
+.enterMask{
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 200;
+    background-color: rgba(0,0,0,0.1);
+    text-align: center;
+    width:100%;
+}
+.enterMask span {
+    position:absolute;
+    top:25%;
+    color:#fff;
+    display:inline-block;
+    text-align: center;
+    width:100%;
+    left:0;
+    font-size: 16px;
+    letter-spacing: 1px;
+}
+.enterMask img{
+    width:100px;
+    height:100px;
+    margin-right:10px;
+}
+
 
 
 

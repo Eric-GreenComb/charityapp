@@ -54,13 +54,13 @@ public class BargainGo {
 		this.detail = detail;
 	}
 	public String getStartTime() {
-		return startTime;
+		return startTime.replace("-", ".");
 	}
 	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
 	public String getEndTime() {
-		return endTime;
+		return endTime.replace("-", ".");
 	}
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;

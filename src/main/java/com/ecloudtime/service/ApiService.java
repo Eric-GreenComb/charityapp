@@ -470,6 +470,26 @@ public class ApiService {
 		}
 		return bargain;
 	}
+	public List<Bargain> queryBargains(@RequestParam(value = "name", required = false, defaultValue = "bargain01") String name) {
+		List<Bargain> list = new ArrayList<Bargain>();
+		List<String> args = new ArrayList<String>();
+		if ("bargain01".equals(name)) {
+			args.add(fund01Args);
+		} else {
+			args.add(name);
+		}
+		JSONArray jsonResponse = (JSONArray) httpService.httpPostQuery(ccBaseUrl, chaincodeName, "queryBargains", args);
+		if (null != jsonResponse) {
+			Iterator<Object> it = jsonResponse.iterator();
+			while (it.hasNext()) {
+				JSONObject ob = (JSONObject) it.next();
+				this.logger.info("ob=" + ob.toString());
+				Bargain bargain = (Bargain) JSONObject.toBean(ob, Bargain.class);
+				list.add(bargain);
+			}
+		}
+		return list;
+	}
 	
 	
 	/**

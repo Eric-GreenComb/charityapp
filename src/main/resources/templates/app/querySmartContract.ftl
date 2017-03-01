@@ -13,7 +13,7 @@
 <body>
 
 <!--捐款-->
-<div class="mask" id="mask">
+<div class="mask conMask" id="mask">
     <div class="maskBack">
         <div class="maskWhite" id="maskWhite"></div>
         <div class="maskBackCon">
@@ -25,20 +25,20 @@
                 <div class="mui-row contributeMoneyDiv">
                     <p class="mui-col-xs-3"></p>
                     <p class="mui-col-xs-9 conDu">可捐款额度为<span> ${SmartContractExt.canDonateNumberStr?if_exists} </span>元</p>
-                   
                 </div>
             </div>
             <div class="foot" id="closeFoot">
-                <button id="enter" >确认捐款</button>
+                <button id="enter">确认捐款</button>
             </div>
         </div>
     </div>
 </div>
-
 <!--确认捐款mask-->
 <div class="mask enterMask" id="enterMask">
-    <span><img src="${system.basePath}/img/common/timg.gif" alt=""/>加载中，请稍后...</span>
+    <span><img src="${system.basePath}/img/common/timg.gif" alt=""/><br/>加载中...</span>
 </div>
+
+
 <!--head-->
 <div class="header">
     <!--微公益-->
@@ -53,7 +53,7 @@
         <div class="section">
             <!--top-->
             <div class="goTop">
-                <img src="${system.basePath}/${smartContract.pic?if_exists}" alt=""/>
+                <img src="${system.basePath}/img/mine/goDel01.png" alt=""/>
                 <p class="goTopMask over">${SmartContractExt.smartContract.name?if_exists}</p>
                 <p class="raise"><img src="${system.basePath}/img/mine/raiseIng.png" alt=""/></p>
             </div>
@@ -61,7 +61,7 @@
             <div class="mui-row delMoney">
                 <dl class="mui-col-xs-4">
                     <dt><img src="${system.basePath}/img/index/per_0.png" alt="" class="perHow"/></dt>
-                    <dd class="newsPer">10%</dd>
+                    <dd class="newsPer">10%【fake】</dd>
                 </dl>
                 <dl class="mui-col-xs-4">
                     <dt>已筹金额</dt>
@@ -88,9 +88,7 @@
                             <div id="scroll1" class="mui-scroll-wrapper tab">
                                 <div class="mui-scroll">
                                     <div class='bookDel'>
-                                        <p>
                                         <img src="${system.basePath}/${smartContract.detail?if_exists}" alt="" />
-                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +119,7 @@
                                         </li>
                                         <li class="over">
                                             <span class="lf">结束时间：</span>
-                                            <span class="rt">${SmartContractExt.smartContract.endTimeStr?if_exists} </span>
+                                            <span class="rt">${SmartContractExt.smartContract.endTimeStr?if_exists}</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -144,6 +142,7 @@
     <button id="lookPz">我要捐款</button>
 </div>
 
+
 <script src="${system.basePath}/js/jquery-1.11.3.js"></script>
 <script src="${system.basePath}/js/mui.min.js"></script>
 <script>
@@ -152,34 +151,19 @@
     $('.user').on('tap',function(){
         window.history.back(-1);
     });
+
+	$('#enter').on('tap',function(){
+		//$('#enterMask').fadeIn();
+	       var donorAmount=$("#donorAmount").val();
+	       var smartContractAddr='${SmartContractExt.smartContract.addr?if_exists}';
+	       if(isPositiveNum(donorAmount)){
+	     		 window.location.href="${system.basePath}/app/ccpay?donorAmount="+donorAmount+"&smartContractAddr="+smartContractAddr+"&tm="+new Date().getTime() ;
+	       }else{
+	      	 	mui.alert("不是数字,请重新填写正整数的金额")  
+	       		$("#donorAmount").val(100);  	
+	       }
+	   });
  
-  $('#enter').on('tap',function(){
-       var donorAmount=$("#donorAmount").val();
-       var smartContractAddr='${SmartContractExt.smartContract.addr?if_exists}';
-       if(isPositiveNum(donorAmount)){
-     		 window.location.href="${system.basePath}/app/ccpay?donorAmount="+donorAmount+"&smartContractAddr="+smartContractAddr+"&tm="+new Date().getTime() ;
-       }else{
-      	 	mui.alert("不是数字,请重新填写正整数的金额")  
-       		$("#donorAmount").val(100);  	
-       }
-   });
- 
- 
-   // $('#enter').on('tap',function(){
-   // 	$('#enterMask').fadeIn();
-   //     var donorAmount=$("#donorAmount").val();
-   //     var smartContractAddr='${SmartContractExt.smartContract.addr?if_exists}';
-   //     if(isPositiveNum(donorAmount)){
-   //   		 window.location.href="${system.basePath}/app/ccpay?donorAmount="+donorAmount+"&smartContractAddr="+smartContractAddr+"&tm="+new Date().getTime() ;
-   //     }else{
-   //     	mui.alert("不是数字,请重新填写正整数的金额")  
-   //     	$("#donorAmount").val(100);  	
-   //     }
-   // });
-    
-    
-    
-    
     function blurNum(donateNum){
     	if(isPositiveNum(donateNum)){
 			alert("不是数字")    	
@@ -192,6 +176,8 @@
 		    var re = /^[0-9]*[1-9][0-9]*$/ ;  
 		    return re.test(s)  
 		} 
+
+
 
     (function($) {
         $('.mui-scroll-wrapper').scroll({
@@ -208,8 +194,8 @@ window.onload=function(){
 }
 
 //    水滴
-var yi=parseFloat($('.alreadyMoney').html().replace(/,/g,"")),
-    all=parseFloat($('.allMoney').html().replace(/,/g,""));
+var yi=parseFloat($('.alreadyMoney').html()),
+    all=parseFloat($('.allMoney').html());
 $('.newsPer').html((yi/all*100).toFixed(2)+'%');
 function shui(){
     var per=yi/all*100;
@@ -244,10 +230,13 @@ function shui(){
 }
 shui();
 
+
     //捐款打开
     var btn = document.getElementById("lookPz");
     btn.addEventListener('tap',function(){
-       $('#mask').fadeIn();
+//        $('#mask'). slideDown();
+//        alert(1);
+        $('#mask').css({"top":0,"transition":'350ms'});
     });
     //空白关闭
     var div=document.getElementById('maskWhite');

@@ -13,6 +13,7 @@ public interface CommonMapper {
 
 	public SmartContract findContractInfo(SmartContract contract);//查询合约信息
 	public List<SmartContract> findContractInfoList();//查询合约信息
+	public List<Bargain> findBargainList();//查询合同信息
 	
 	public Bargain findBargainInfo();//查询合同信息
 	

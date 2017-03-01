@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ecloudtime.mapper.CommonMapper;
+import com.ecloudtime.model.Bargain;
 import com.ecloudtime.model.Foundation;
 import com.ecloudtime.model.FundFlow;
 import com.ecloudtime.model.SmartContract;
@@ -77,6 +78,21 @@ public class CommonService {
 		 sb.delete(sb.length()-1, sb.length());
 		 return sb.toString();
 	 }
+	 
+	 public String findAllBargainS(){
+		 List<Bargain> list=findBargainList();
+		 StringBuffer sb = new StringBuffer();
+		 for(Bargain bg :list){
+			 sb.append(bg.getAddr());
+			 sb.append(",");
+		 }
+		 sb.delete(sb.length()-1, sb.length());
+		 return sb.toString();
+	 }
+	 
+	 public List<Bargain> findBargainList(){
+		 return commonMapper.findBargainList();
+	 }//查询合约信息
 	 
 	 public Foundation findFoundByAddr(String foundId){
 		 return this.commonMapper.findFoundByAddr(foundId);

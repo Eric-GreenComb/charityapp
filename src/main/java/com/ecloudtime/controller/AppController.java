@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ecloudtime.model.BargainTrack;
 import com.ecloudtime.model.BlockInfo;
@@ -287,14 +288,16 @@ public class AppController extends BaseController{
 	
 	@RequestMapping("/donate")
 	@ApiOperation(value="donate",notes="requires login Name")
-	public String donate(@RequestParam(value = "donorAmount", required = false, defaultValue = "donorAmount") String donorAmount,
+	@ResponseBody
+	public Object donate(@RequestParam(value = "donorAmount", required = false, defaultValue = "donorAmount") String donorAmount,
 			@RequestParam(value = "smartContractAddr", required = false, defaultValue = "smartContract01") String smartContractAddr,
 			Model model) {
 		String donorName=SessionUtils.getUserNameFromSession();//User user =SessionUtils.getUserFromSession();
 		String msg ="error";
 		SysDonorDrawTransRel donorRel=this.apiService.donated(donorName, donorAmount,smartContractAddr);
 		model.addAttribute("donorRel", donorRel);
-		return ccpaySuccess(donorAmount,smartContractAddr,donorRel.getTransId(),model);
+		return donorRel;
+//		return ccpaySuccess(donorAmount,smartContractAddr,donorRel.getTransId(),model);
 	}
 	
 	/**

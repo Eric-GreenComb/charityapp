@@ -18,7 +18,7 @@
             </p>
             <div class="inputLine"><span></span><p></p><span></span></div>
             <p class="loginYi">
-                <input type="password" id="passWord" placeholder="密码"/>
+                <input type="password" id="passWord" value="000000" placeholder="密码"/>
             </p>
         </div>
         <!--alert-->
