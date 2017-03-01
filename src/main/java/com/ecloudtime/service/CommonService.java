@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ecloudtime.mapper.CommonMapper;
 import com.ecloudtime.model.Foundation;
+import com.ecloudtime.model.FundFlow;
 import com.ecloudtime.model.SmartContract;
 import com.ecloudtime.model.SysDonorDrawTransRel;
 import com.ecloudtime.model.TransDetail;
@@ -28,6 +29,9 @@ public class CommonService {
 	 }
 	 public void saveTxidDonorDrawIdRefInfo(SysDonorDrawTransRel donorRel){
 		 commonMapper.saveTxidDonorDrawIdRefInfo(donorRel);
+	 }
+	 public void saveFundFlowInfo(FundFlow fundFlow){
+		 commonMapper.saveFundFlowInfo(fundFlow);
 	 }
 	 
 	 public SysDonorDrawTransRel findDonorTransRelByDonorid(String donorid){

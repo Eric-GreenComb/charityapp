@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ecloudtime.model.Foundation;
 import com.ecloudtime.model.ProcessDonored;
 import com.ecloudtime.model.ProcessDrawed;
+import com.ecloudtime.model.SmartContractExt;
 import com.ecloudtime.model.TransDetail;
 import com.ecloudtime.service.ApiService;
 import com.ecloudtime.service.BlockInfoService;
@@ -111,7 +112,6 @@ public class AdminController extends BaseController{
     		@RequestParam(value = "smartContractId", required = false, defaultValue = "smartcontract01") String smartContractId,
     		@RequestParam(value = "transDate", required = false, defaultValue = "2017-01-01") String transDate,
     		Model model) {
-//  		name="donor01";
     	String userName=SessionUtils.getUserNameFromSession();
     	TransDetail td = new TransDetail();
     	List<TransDetail> transDetailList=this.commonService.findTransDetailsList(td);
@@ -147,9 +147,11 @@ public class AdminController extends BaseController{
     @RequestMapping("/donateContractList")
     @ApiOperation(value="donateContractList",notes="requires login Name")
     public String donateContractList(Model model) {
-//  		name="donor01";
-    	String userName=SessionUtils.getUserNameFromSession();
-    	
+    	String allContractStr=commonService.findAllSmartContractS();//查询数据
+		
+		List<SmartContractExt> smartContractExts= apiService.querySmartContractExts(allContractStr);
+		model.addAttribute("smartContractExts", smartContractExts);
+		
     	return "admin/donateContractList";
     }
     

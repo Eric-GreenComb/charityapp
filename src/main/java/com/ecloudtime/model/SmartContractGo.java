@@ -28,14 +28,15 @@ public class SmartContractGo {
 	private String attachhash;
 	private int status;
 	private String remark;
-	
+
 	public String getCreateTimeStr() {
 		if(0!=createTimestamp){
-			return DateUtil.getDateFromUnixTime(createTimestamp);
+//			return "2017-03-01 10:10:10";
+			return DateUtil.getDateFromUnixTime(createTimestamp).substring(0, 10);
 		}
 		return createTimeStr;
 	}
-	
+
 	public String getEndTimeStr() {
 		if(0!=terminationTimestamp){
 			return DateUtil.getDateFromUnixTime(terminationTimestamp);

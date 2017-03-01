@@ -23,7 +23,7 @@
             </p>
             <div class="inputLine"><span></span><p></p><span></span></div>
             <p class="loginYi">
-                <input type="password" id="passWord" placeholder="密码"/>
+                <input type="password" id="passWord" value="000000" placeholder="密码"/>
             </p>
         </div>
         <!--alert-->
@@ -31,7 +31,7 @@
         <!--denglu -->
         <p class="btnCon"><a href="#"><button class="btn loginBtn">登录</button></a></p>
         <!--看看-->
-        <p class="kan"><a href="${system.basePath}/index">我是访客，随便看看&gt;&gt;</a></p>
+        <p class="kan"><a href="${system.basePath}/login_login">我是访客，随便看看&gt;&gt;</a></p>
     </div>
 </div>
 

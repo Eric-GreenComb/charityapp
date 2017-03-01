@@ -11,24 +11,6 @@
 <body>
 
 
-private String donorUUID;
-	private String donorAddr;
-	private String smartContractAddr;
-	private String smartContractName;
-	private String fundName;
-	private String channelName;
-	private long amount;
-	private long smartContractAmount;
-	private long channelAmount;
-	private long fundAmount;
-	private int timestamp;
-	private String donorTimeStr;
-	private String remark;
-	
-	private String amountStr;
-	private String smartContractAmountStr;
-	private String channelAmountStr;
-	private String fundAmountStr;
 <!--捐款详情-->
 <div class="dealDel jkDel">
     <div class="maskAll">
@@ -38,7 +20,7 @@ private String donorUUID;
             <ul class="maskUl">
                 <li><p>时间：<span id="donor_donorTimeStr">2016.01.08  18:21</span></p></li>
                 <li><p>状态：<span class="mineStatus" id="donor_status">成功</span></p></li>
-                <li><p>施工合同名称：<span id="donor_status">宁夏母亲水窖项目-张家村水井10座</span></p></li>
+                <li><p>施工合同名称：<span id="donor_smartContractName">宁夏母亲水窖项目-张家村水井10座</span></p></li>
             </ul>
             <ul class="maskUl">
                 <li><p>捐款金额：<span id="donor_amountStr">1000</span></p></li>
@@ -116,7 +98,7 @@ private String donorUUID;
     <div class="container">
         <!--lf-->
         <ul class="lf secLf">
-             <li><a href="${system.basePath}/admin/index" ><img src="${system.basePath}/img/common_admin/accountIcon.png" alt=""/><span>账户概览</span></a></li>
+            <li><a href="${system.basePath}/admin/index" ><img src="${system.basePath}/img/common_admin/accountIcon.png" alt=""/><span>账户概览</span></a></li>
             <li><a href="${system.basePath}/admin/myAccountBook" class="curIcon"><img src="${system.basePath}/img/common_admin/mineIcon.png" alt=""/><span>我的账本</span></a></li>
             <li><a href="${system.basePath}/admin/donateContractList"><img src="${system.basePath}/img/common_admin/contributeIcon.png" alt=""/><span>捐献合约</span></a></li>
             <li><a href="${system.basePath}/admin/bargainItemList"><img src="${system.basePath}/img/common_admin/contractIcon.png" alt=""/><span>施工合同</span></a></li>
@@ -133,8 +115,8 @@ private String donorUUID;
                 <form action="">
                     <select id="type" class="selectpicker show-tick form-control">
                         <option>选择类型</option>
-                        <option>捐款</option>
-                        <option>提款</option>
+                        <option value="1">捐款</option>
+                        <option value="2">提款</option>
                     </select>
                     <select name="" id="contract" class="selectpicker show-tick form-control">
                         <option value="">选择合约</option>
@@ -142,7 +124,7 @@ private String donorUUID;
                         <option value="">宁夏母亲水窖</option>
                     </select>
                     <div class="timeKuang">
-                        <input type="text" id="date" placeholder="选择时间">
+                        <input type="text" id="transDate"  name="transDate" placeholder="选择时间">
                     </div>
                 </form>
             </div>
@@ -154,23 +136,24 @@ private String donorUUID;
                     <span class="mineMoney">金额</span>
                     <span class="mineContract">所属合约</span>
                 </li>
-                <li class="mineInfo">
-                    <span class="mineType">捐款</span>
-                    <span class="mineTime">2016.01.10 18:00</span>
-                    <span class="mineMoney addMon">+ 2,016.00</span>
-                    <span class="mineContract">宁夏母亲水窖宁夏母亲水窖宁夏母亲水窖宁夏母亲水窖宁夏母亲水窖</span>
-                    <span class="rt delIcon"><img src="${system.basePath}/img/common_admin/delIcon.png" alt=""/></span>
-                </li>
-              	
+                <!--
+	                <li class="mineInfo">
+	                    <span class="mineType">捐款</span>
+	                    <span class="mineTime">2016.01.10 18:00</span>
+	                    <span class="mineMoney addMon">+ 2,016.00</span>
+	                    <span class="mineContract">宁夏母亲水窖宁夏母亲水窖宁夏母亲水窖宁夏母亲水窖宁夏母亲水窖</span>
+	                    <span class="rt delIcon"><img src="${system.basePath}/img/common_admin/delIcon.png" alt=""/></span>
+	                </li>
+                -->
               	<#list transDetailList as transDetail>
               		 <li class="mineInfo">
 	                    <span class="mineType"><#if transDetail.type ='1'> 捐款 <#else> 提款</#if></span>
 	                    <span class="mineTime">${transDetail.transTime?if_exists}</span>
 	                    <span class="mineMoney addMon">+ 2,016.00</span>
 	                    <span class="mineContract">${transDetail.contractName?if_exists}</span>
-	                    <span class="rt delIcon"><img src="${system.basePath}/img/common_admin/delIcon.png" alt=""/></span>
+	                    <span class="rt delIcon <#if transDetail.type ='1'>jkIcon<#else>tkIcon</#if>" id="${transDetail.transId?if_exists}"><img src="${system.basePath}/img/common_admin/delIcon.png" alt=""/></span>
 	                </li>
-              	</#>
+              	</#list>
               
               
             </ul>
@@ -186,10 +169,12 @@ private String donorUUID;
 <script>
     
      $('.jkIcon').click(function(){
-        $('.jkDel').fadeIn();
+        var transId=$(this).attr("id");
+        queryTransDetail(transId,'1');
     });
     $('.tkIcon').click(function(){
-        $('.tkDel').fadeIn();
+        var transId=$(this).attr("id");
+        queryTransDetail(transId,'2')
     });
 
 
@@ -215,9 +200,30 @@ private String donorUUID;
 				success: function(data){
 					console.log(data)
 					if('1'==type){//捐款
+						$("#donor_donorTimeStr").html(data.donorTimeStr);
+						$("#donor_smartContractName").html(data.smartContractName);
+						$("#donor_amountStr").html(data.amountStr);
+						$("#donor_fundAmountStr").html(data.fundAmountStr);
+						$("#donor_channelAmountStr").html(data.channelAmountStr);
+						$("#donor_smartContractAmountStr").html(data.smartContractAmountStr);
+						$("#donor_donorAddr").html(data.donorAddr);
+						$("#donor_fundName").html(data.fundName);
+						$("#donor_donorUUID").html(data.donorUUID);
+						$("#donor_smartContractAddr").html(data.smartContractAddr);
+						$("#donor_remark").html(data.remark);
 					
+						$('.jkDel').fadeIn();
 					}else{//提款
-					
+						 $("#draw_drawTime").html(data.drawTime);
+						 $("#draw_bargainName").html(data.bargainName);
+						 $("#draw_donorName").html(data.donorName);
+						 $("#draw_contractName").html(data.smartContractName);
+						 $("#draw_amountStr").html(data.amountStr);
+						 $("#draw_drawUUID").html(data.drawUUID);
+						 $("#draw_bargainId").html(data.bargainId);
+						 $("#draw_remark").html(data.remark);
+						
+						 $('.tkDel').fadeIn();
 					}
 					
 				}
@@ -227,7 +233,7 @@ private String donorUUID;
 
 
 //    时间
-    $("#date").dateSelect();
+    $("#transDate").dateSelect();
 
 </script>
 </body>

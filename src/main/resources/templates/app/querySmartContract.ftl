@@ -53,7 +53,7 @@
         <div class="section">
             <!--top-->
             <div class="goTop">
-                <img src="${system.basePath}/img/mine/goDel01.png" alt=""/>
+                <img src="${system.basePath}/${smartContract.pic?if_exists}" alt=""/>
                 <p class="goTopMask over">${SmartContractExt.smartContract.name?if_exists}</p>
                 <p class="raise"><img src="${system.basePath}/img/mine/raiseIng.png" alt=""/></p>
             </div>
@@ -88,7 +88,9 @@
                             <div id="scroll1" class="mui-scroll-wrapper tab">
                                 <div class="mui-scroll">
                                     <div class='bookDel'>
-                                        <p>${SmartContractExt.smartContract.name?if_exists}${SmartContractExt.smartContract.remark?if_exists}</p>
+                                        <p>
+                                        <img src="${system.basePath}/${smartContract.detail?if_exists}" alt="" />
+                                        </p>
                                     </div>
                                 </div>
                             </div>

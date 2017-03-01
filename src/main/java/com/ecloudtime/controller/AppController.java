@@ -18,6 +18,7 @@ import com.ecloudtime.model.DonorContribution;
 import com.ecloudtime.model.DonorTrack;
 import com.ecloudtime.model.DonorTrackDetail;
 import com.ecloudtime.model.ProcessDonored;
+import com.ecloudtime.model.SmartContract;
 import com.ecloudtime.model.SmartContractExt;
 import com.ecloudtime.model.SmartContractTrack;
 import com.ecloudtime.model.SysDonorDrawTransRel;
@@ -278,7 +279,9 @@ public class AppController extends BaseController{
 		User user =SessionUtils.getUserFromSession();
 		SmartContractExt SmartContractExt =this.apiService.querySmartContractExt(smartContractAddr);
 //		SmartContract smartContract =(SmartContract)this.apiService.querySmartContract(smartContractAddr);
+		SmartContract smartContract= this.commonService.findContractInfo(SmartContractExt.getSmartContract());
 		model.addAttribute("SmartContractExt", SmartContractExt);
+		model.addAttribute("smartContract", smartContract);
 		return "app/querySmartContract";
 	}
 	

@@ -78,6 +78,11 @@
   		VALUES (#{transId}, #{txid}, #{blockHeight},#{tranSign},#{contractId},#{blockHash},#{donorAddr},#{type});
   </insert>
   
+  <insert id="saveFundFlowInfo" parameterType="com.ecloudtime.model.FundFlow">
+  	INSERT INTO sys_fund_flow (txid, trans_id, type, trans_time, contract_id, contract_name,trans_money)
+  	 VALUES (#{txid}, #{transId}, #{type},#{transTime}, #{contractId},#{contractName},#{transMoney});
+  </insert>
+  
   <resultMap id="donorRelMap" type="com.ecloudtime.model.SysDonorDrawTransRel">
 		<result column="trans_id" property="transId" jdbcType="VARCHAR" />
 		<result column="txid" property="txid" jdbcType="VARCHAR" />

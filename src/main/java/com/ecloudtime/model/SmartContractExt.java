@@ -12,6 +12,7 @@ public class SmartContractExt  {
 	
 	private String addr;//合约的地址
 	private long balance;//合约的余额
+	
 	private long total;//总捐款
 	private long validTotal;//已筹集的捐款
 	private long donateNumber;//合约的总捐款爱心数量
@@ -26,7 +27,26 @@ public class SmartContractExt  {
 	private String totalYuan;//总捐款 元
 	private String validTotalStr;//已筹集善款  万元
 	private String validTotalYuan;//已筹集善款 元
+	private String balanceStr;
+	private String balanceYuan;
 	
+	public String getBalanceStr() {
+		if(0!=balance){
+    		return MoneyUtil.ccToMoneyFormat(balance,"wan");
+    	}
+		return "0";
+	}
+	public String getBalanceYuan() {
+		if(0!=balance){
+    		return MoneyUtil.ccToMoneyFormat(balance,"yuan");
+    	}
+		return "0";
+	}
+
+	public void setBalanceYuan(String balanceYuan) {
+		this.balanceYuan = balanceYuan;
+	}
+
 	public String getChannelFeeStr() {
 		if(0!=this.getTotal()){
 			long channelFeeTemp=smartContract.getChannelFee();
@@ -106,6 +126,10 @@ public class SmartContractExt  {
 
 	public void setFundFeeYuan(String fundFeeYuan) {
 		this.fundFeeYuan = fundFeeYuan;
+	}
+	
+	public void setBalanceStr(String balanceStr) {
+		this.balanceStr = balanceStr;
 	}
 	
 	public String getValidTotalYuan() {

@@ -24,6 +24,7 @@ import com.ecloudtime.model.DonorContribution;
 import com.ecloudtime.model.DonorTrack;
 import com.ecloudtime.model.DonorTrackDetail;
 import com.ecloudtime.model.Foundation;
+import com.ecloudtime.model.FundFlow;
 import com.ecloudtime.model.ProcessDonored;
 import com.ecloudtime.model.ProcessDrawed;
 import com.ecloudtime.model.SmartContract;
@@ -814,6 +815,22 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		donorRel.setBlockHeight(jsonObject.getString("height"));
 		donorRel.setBlockHash(jsonObject.getString("currentBlockHash"));
 		this.commonService.saveTxidDonorDrawIdRefInfo(donorRel);//保存donorId和交易id的关系信息
+		/*private String txid;
+		private String transId;
+		private String type;
+		private String transTime;
+		private String contractId;
+		private String contractName;*/
+		FundFlow fundFlow = new FundFlow();
+		fundFlow.setTxid(txidmsg);
+		fundFlow.setTransId(donorUUID);
+		fundFlow.setType("1");
+		fundFlow.setTransTime(DateUtil.getTime());
+		fundFlow.setContractId(smartContractAddr);
+		SmartContract smartContract= this.querySmartContract(smartContractAddr);
+		fundFlow.setContractName(smartContract.getName());
+		fundFlow.setTransMoney(donorAmount);
+		this.commonService.saveFundFlowInfo(fundFlow);
 		putDonateToSession(donorName, donorAddr, donorUUID);
 		
 		return donorRel;
