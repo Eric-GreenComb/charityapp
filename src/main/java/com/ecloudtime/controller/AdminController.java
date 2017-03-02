@@ -23,7 +23,6 @@ import com.ecloudtime.model.ContractBargainList;
 import com.ecloudtime.model.Foundation;
 import com.ecloudtime.model.ProcessDonored;
 import com.ecloudtime.model.ProcessDrawed;
-import com.ecloudtime.model.SmartContract;
 import com.ecloudtime.model.SmartContractExt;
 import com.ecloudtime.model.SysDonorDrawTransRel;
 import com.ecloudtime.model.TransDetail;
@@ -33,7 +32,6 @@ import com.ecloudtime.service.CacheManager;
 import com.ecloudtime.service.CommonService;
 import com.ecloudtime.service.HttpService;
 import com.ecloudtime.utils.SessionUtils;
-import com.github.pagehelper.PageHelper;
 import com.wordnik.swagger.annotations.ApiOperation;
 
 @Controller
