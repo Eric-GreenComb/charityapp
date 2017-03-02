@@ -48,7 +48,6 @@ public class PcExplorerController extends BaseController{
 	public String index(@RequestParam(value = "name", required = false, defaultValue = "user01") String name,
 			Model model) {
 		model.addAttribute("name", name);
-//		getNewerTransactions
 		List<BlockHighGen> blockHighList=blockInfoService.getNewerBolckHighTimes();
 		model.addAttribute("blockHighList", blockHighList);
 		List<Transaction> transList =blockInfoService.getNewerTransactions();

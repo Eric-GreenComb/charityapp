@@ -144,6 +144,7 @@
 		<if test="contractId != null and  contractId != ''">
 			and contract_id = #{contractId}
 		</if>
+		order by trans_time desc
   </select>
   
   

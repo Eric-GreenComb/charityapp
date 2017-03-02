@@ -41,7 +41,7 @@ nav,#banner,section,footer{
 .bootstrap-select.form-control:not([class*="col-"]){
     width:130px;
     margin-right:10px;
-    margin-top:5px;
+    height:26px;
 }
 .btn{
     width:130px;
@@ -87,14 +87,14 @@ nav,#banner,section,footer{
 /*时间*/
 .timeKuang{
     display: inline-block;
-    border:1px solid #ccc;
-    line-height: 23px;
+    /*border:1px solid #ccc;*/
+    line-height: 25px;
     width:210px;
-    margin-top:-5px;
 }
 .timeKuang input{
     padding:0 5px;
-    width:198px;
+    width:200px;
+    height:25px;
     outline: none;
 }
 /*合同时间*/
@@ -104,9 +104,15 @@ nav,#banner,section,footer{
 .timeKuang.timeCon input{
     padding:0;
 }
+.timeKuang.timeCon input{
+    box-shadow: none;
+}
 /*4 时间*/
 .timeKuang.timeDur input{
     width:90px;
+    box-shadow: none;
+    padding:0;
+    height:14px;
 }
 .timeKuang.timeDur span{
     display: inline-block;
@@ -273,6 +279,7 @@ nav,#banner,section,footer{
 /*****************section********************/
 .section{
     background:#fafafa;
+    min-height:600px;
 }
 /*lf*/
 .secLf{
@@ -299,6 +306,8 @@ nav,#banner,section,footer{
 }
 .secLf li a img{
     margin-top:-3px;
+    width:24px;
+    height: 24px;
 }
 .secLf li a span{
     display: inline-block;
@@ -316,6 +325,7 @@ nav,#banner,section,footer{
     padding:40px 32px;
     background:#fff;
     box-sizing: content-box;
+    min-height:600px;
 }
 /*detail*/
 .detailAll{
@@ -455,6 +465,8 @@ nav,#banner,section,footer{
     color:#333;
     font-size:14px;
     padding-left:5px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
 }
 .accMoney{
     padding-left:8px;
@@ -462,7 +474,8 @@ nav,#banner,section,footer{
 /*选择*/
 .choose{
     width:100%;
-    padding:20px 5px 15px 5px;
+    padding:20px 0 0 0;
+    margin:5px;
     border-bottom:1px solid #ccc;
 }
 .choose select{
@@ -483,7 +496,7 @@ nav,#banner,section,footer{
     overflow: hidden;
     letter-spacing: 0.66px;
     background:#fafafa;
-    margin-bottom:5px;
+    margin-bottom:10px;
     border-radius:4px;
 }
 .mineDel li:first-child{
@@ -620,6 +633,7 @@ nav,#banner,section,footer{
     width:128px;
     height:32px;
     line-height: 32px;
+    vertical-align: middle;
     border: none;
     outline: none;
     color:#fff;
@@ -682,12 +696,13 @@ nav,#banner,section,footer{
 .conAll textarea{
     width:235px;
     height:45px;
-    border-color:#e0e0e0;
     outline: none;
     padding:5px;
+    border:none;
+    border-bottom:1px solid #e0e0e0;
 }
 .conLf{
-    width:270px;
+    width:288px;
     padding-top:25px;
     margin-top:15px;
 }
@@ -723,7 +738,7 @@ nav,#banner,section,footer{
 }
 .conRt{
     border-left:1px solid #e0e0e0;
-    padding-left:60px;
+    padding-left:40px;
     min-height:380px;
 }
 .conRt input{
@@ -739,11 +754,16 @@ nav,#banner,section,footer{
 .fileP input{
     opacity: 0;
 }
-.fileP label{
+.conLf>div .fileP label{
     position:absolute;
-    top:10px;
+    top:2px;
     right:0;
     color:#9c27b0;
+    margin:0;
+    font-weight: normal;
+}
+.fileP input{
+    margin-top:0;
 }
 .fileP span{
     position:absolute;
@@ -836,7 +856,20 @@ nav,#banner,section,footer{
     line-height: 63px;
     margin-bottom:10px;
     margin-right:5px;
+    position:relative;
 }
+.checkUl li span{
+    position: absolute;
+    bottom:4px;
+    right:5px;
+    line-height: 0;
+    cursor: pointer;
+}
+.checkUl li span img{
+    width:12px;
+    height:12px;
+}
+
 .checkUl li>img{
     width:112px;
     height:63px;
@@ -864,11 +897,12 @@ nav,#banner,section,footer{
     margin:0;
     z-index:4;
     opacity: 0;
+    cursor: pointer;
 }
 .checkAdd img{
     width:41px;
     height:41px;
-   vertical-align: top;
+    vertical-align: top;
 }
 
 /*提款详情*/
@@ -883,11 +917,42 @@ nav,#banner,section,footer{
     width:235px;
 }
 
+.timeKuang input{
+    border: none;
+    color:#333;
+    background: #ffffff;
+    box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.12);
+}
+.timeKuang input::-webkit-input-placeholder {
+    color:#666;
+}
+.timeKuang input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:#666;
+}
+.timeKuang input::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:#666;
+}
+.timeKuang input:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:#666;
+}
+.timeKuang.timeDur input::-webkit-input-placeholder,.timeKuang.timeCon input::-webkit-input-placeholder {
+    color:#e0e0e0;
+}
+.timeKuang.timeDur input:-moz-placeholder,.timeKuang.timeCon input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:#e0e0e0;
+}
+.timeKuang.timeDur input::-moz-placeholder,.timeKuang.timeCon input::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:#e0e0e0;
+}
+.timeKuang.timeDur input:-ms-input-placeholder,.timeKuang.timeCon input:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:#e0e0e0;
+}
 .btn-group>.btn:first-child{
     border: none;
     /*border-bottom: 1px solid #ccc;*/
     background: #ffffff;
     box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.12);
+    height:25px;
     /* border-radius: 2px; */
 /*, 0px 8px 8px 0px rgba(0,0,0,0.24)*/
 }
@@ -907,8 +972,23 @@ nav,#banner,section,footer{
     padding-top: 1px;
 }
 
+/**/
+.conAll.drawAll .conLf{
+    padding-top:0;
+}
 
-
+.lf.conLf.drawDiv .btn-group>.btn:first-child{
+    box-shadow: none;
+    border-bottom:1px solid #e0e0e0;
+    padding:0;
+}
+.lf.conLf.drawDiv .btn-group>.btn:first-child:hover{
+    box-shadow: none;
+    /*background:*/
+}
+.bootstrap-select .dropdown-toggle:focus{
+    outline:none !important;
+}
 
 
 

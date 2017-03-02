@@ -23,6 +23,7 @@ import com.ecloudtime.model.ContractBargainList;
 import com.ecloudtime.model.Foundation;
 import com.ecloudtime.model.ProcessDonored;
 import com.ecloudtime.model.ProcessDrawed;
+import com.ecloudtime.model.SmartContract;
 import com.ecloudtime.model.SmartContractExt;
 import com.ecloudtime.model.SysDonorDrawTransRel;
 import com.ecloudtime.model.TransDetail;
@@ -32,6 +33,7 @@ import com.ecloudtime.service.CacheManager;
 import com.ecloudtime.service.CommonService;
 import com.ecloudtime.service.HttpService;
 import com.ecloudtime.utils.SessionUtils;
+import com.github.pagehelper.PageHelper;
 import com.wordnik.swagger.annotations.ApiOperation;
 
 @Controller
@@ -76,7 +78,7 @@ public class AdminController extends BaseController{
 			Model model) {
     	model.addAttribute("userName", userName);
 		if(!"".equals(userName)){
-			Foundation fund =apiService.queryFund(userName);
+			Foundation fund =queryFund(userName);
 			Subject subject = SecurityUtils.getSubject(); 
 		    UsernamePasswordToken token = new UsernamePasswordToken(userName, userName+"_pwd"); 
 		    try { 
@@ -105,9 +107,27 @@ public class AdminController extends BaseController{
   		if(StringUtils.isEmpty(fund.getAddr())&&!StringUtils.isEmpty(fundCache.getAddr())){
   			fund=fundCache;
   		}
+  		
   		model.addAttribute("fund", fund);
+  		model.addAttribute("bargainLen", this.commonService.findBargainLen());
   		return "admin/index";
   	}
+    
+    public Foundation queryFund(String userName){
+    	Foundation fund=this.apiService.queryFund(userName);
+    	String contracts =fund.getContracts();
+    	String[] contractArr=contracts.split(",");
+    	String smartcontractAddr="";
+    	for(String smartContractId:contractArr){
+    		smartcontractAddr=this.commonService.findSmartContractAddrById(smartContractId);
+    		SmartContractExt smartContract=this.apiService.querySmartContractExt(smartcontractAddr);
+    		fund.setChannelFee(fund.getChannelFee()+(smartContract.getTotal()/1000*smartContract.getSmartContract().getChannelFee()));
+    		fund.setFundManangerFee(fund.getFundManangerFee()+(smartContract.getTotal()/1000*smartContract.getSmartContract().getFundManangerFee()));
+    	}
+    	return fund;
+    }
+    
+    
     /**
      * 我的账本
      * @param model
@@ -116,17 +136,33 @@ public class AdminController extends BaseController{
     @RequestMapping("/myAccountBook")
     @ApiOperation(value="myAccountBook",notes="requires login Name")
     public String myAccountBook(
-    		@RequestParam(value = "type", required = false, defaultValue = "1") String type,
-    		@RequestParam(value = "smartContractId", required = false, defaultValue = "smartcontract01") String smartContractId,
-    		@RequestParam(value = "transDate", required = false, defaultValue = "2017-01-01") String transDate,
+    		@RequestParam(value = "type", required = false) String type,
+    		@RequestParam(value = "contractId", required = false ) String contractId,
+    		@RequestParam(value = "transDate", required = false) String transDate,
     		Model model) {
+    	Foundation fundCache=SessionUtils.getFundUserFromSession();
+  		if(null==fundCache)return login(model);
+    	
     	String userName=SessionUtils.getUserNameFromSession();
     	TransDetail td = new TransDetail();
-//    	PageHelper.startPage(1, 2);
+    	if(!StringUtils.isEmpty(contractId)){
+    		td.setContractId(contractId);
+    	}
+    	if(!StringUtils.isEmpty(type)){
+    		td.setType(type);
+    	}
+    	if(!StringUtils.isEmpty(transDate)){
+    		td.setTransTime(transDate);
+    	}
+    	PageHelper.startPage(1, 15);
     	List<TransDetail> transDetailList=this.commonMapper.queryTransDetailsList(td);;
     	
     	
     	model.addAttribute("userName", userName);
+    	model.addAttribute("type", type);
+    	model.addAttribute("contractId", contractId);
+    	model.addAttribute("transDate", transDate);
+    	model.addAttribute("fund", fundCache);
     	model.addAttribute("transDetailList", transDetailList);
     	return "admin/myAccountBook";
     }
@@ -178,7 +214,7 @@ public class AdminController extends BaseController{
     	SysDonorDrawTransRel sysDonorDrawTransRel=this.apiService.drawed(fundName, drawAmount, smartContractId, bargainAddr,drawRemark);
     	if(null!=sysDonorDrawTransRel&&!StringUtils.isEmpty(sysDonorDrawTransRel.getTransId())){
     		String fundSessionName=SessionUtils.getFundUserNameFromSession();
-    		Foundation fund =this.apiService.queryFund(fundSessionName);
+    		Foundation fund =queryFund(fundSessionName);
     		SessionUtils.putFoundUserInfoToSession(fund);
     	}
     	

@@ -37,7 +37,7 @@
                             <p><textarea name="" cols="30" rows="10" placeholder="对捐款项目的描述"></textarea></p>
                         </div>
                     </div>
-                    <div class="rt conRt conLf">
+                    <div class="lf conRt conLf">
                         <div>
                             <p>收款账户开户行</p>
                             <p><input type="text" placeholder="请认真核对"/></p>
@@ -138,7 +138,10 @@
                         <div>
                             <p>施工现场图</p>
                             <ul class="checkUl">
-                                <li><img src="${system.basePath}/img/common_admin/img01.png" alt=""/></li>
+                                <li>
+				    <img src="${system.basePath}/img/common_admin/img01.png" alt=""/>
+				    <span class="deleteCheckImg"><img src="${system.basePath}/img/common_admin/checkDeleteIcon.png" alt=""/></span>
+				</li>
                                 <li class="checkAdd">
                                     <a>
                                         <input type="file" accept="image/gif, image/jpeg,image/png,image/jpg" onchange="picChange(this)"/>
@@ -207,7 +210,7 @@
 	                    <span class="contractID">${bargain.addr?if_exists}</span>
 	                    <span class="contractName">${bargain.name?if_exists}</span>
 	                    <span class="conWhere">${bargain.partyB?if_exists}</span>
-	                    <span class="contractTime">${bargain.startTime?if_exists}/${bargain.endTime?if_exists}</span>
+	                    <span class="contractTime">${bargain.bargainDate?if_exists}</span>
 	                    <span class="conStatus">${bargain.bargainStatus?if_exists}</span>
 	                    <span class="rt delIcon contractDel"><img src="${system.basePath}/img/common_admin/delIcon.png" alt=""/></span>
 	                    <span class="rt delIcon checkIcon"><img src="${system.basePath}/img/common_admin/checkIcon.png" alt=""/></span>
@@ -232,7 +235,7 @@
     });
     //    添加合同
     $('.addContract').click(function(){
-        //$('#addCon').fadeIn();
+        $('#addCon').fadeIn();
     });
     $('#file').change(function(){
         $(this).next().html($(this).val() );
@@ -263,7 +266,7 @@
             var img = new Image();
             img.file = f;
             img.onload=function() {
-                var str="<li><img src='"+img.src+"'/></li>";
+                var str="<li><img src='"+img.src+"'/><span class='deleteCheckImg'><img src='${system.basePath}/img/common_admin/checkDeleteIcon.png' alt=''/></span></li>";
                 $('.checkAdd').before(str);
             }
             var reader = new FileReader();
@@ -273,6 +276,11 @@
             reader.readAsDataURL(f);
 
     }
+
+
+     $('.checkUl').on("click",".deleteCheckImg",function(){
+            $(this).parent().remove();
+    });
 
 </script>
 </body>

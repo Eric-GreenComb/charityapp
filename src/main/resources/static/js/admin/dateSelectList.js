@@ -9,7 +9,7 @@
 $.fn.dateSelect = function(options) {
 		
 	var date_config = {
-		offTop:24,
+		offTop:28,
 		format:"yyyy-MM-dd"
 	}
 	

@@ -35,6 +35,7 @@ public class DonorTrackDetail {
 //				this.drawList.add(dt);
 			}else if("1".equals(dt.getType())){
 				this.setDrawid(dt.getDrawid());
+				if(this.drawList.size()<3)
 				this.drawList.add(dt);
 			}else if("2".equals(dt.getType())){
 				this.setChannelAmount(dt.getAmount());

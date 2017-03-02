@@ -11,7 +11,19 @@ public class SmartContract extends SmartContractGo{
 	private String pic;
 	private String fundManangerFeeStr;
 	private String channelFeeStr;
+	private String statusStr;
 	
+	public String getStatusStr() {
+		if(1==this.getStatus()){
+			return "正在筹集";
+		}
+		return "已经结束";
+	}
+
+	public void setStatusStr(String statusStr) {
+		this.statusStr = statusStr;
+	}
+
 	public String getFundManangerFeeStr() {
 		if(0!=this.getFundManangerFee())
 		return new DecimalFormat("#,###.##").format(this.getFundManangerFee()/10.0);

@@ -5,6 +5,15 @@ import com.ecloudtime.utils.DateUtil;
 public class Bargain extends BargainGo{
 
 	private String bargainStatus;
+	private String bargainDate;
+	
+	public String getBargainDate() {
+		return this.getStartTime().replace("-", ".")+"/"+this.getEndTime().replace("-", ".");
+	}
+
+	public void setBargainDate(String bargainDate) {
+		this.bargainDate = bargainDate;
+	}
 
 	public String getBargainStatus() {
 		DateUtil.compareThreeeDate(this.getStartTime(),this.getEndTime());

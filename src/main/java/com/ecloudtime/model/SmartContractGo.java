@@ -14,10 +14,10 @@ public class SmartContractGo {
 	private int type;
 	private String fundAddr;
 	private String fundName;
-	private int fundManangerFee;
+	private long fundManangerFee;
 	private String channelAddr;
 	private String channelName;
-	private int channelFee;
+	private long channelFee;
 	private int createTimestamp;//创建时间
 	private String createTimeStr;
 	private int utilTimestamp;//生效时间
@@ -138,19 +138,19 @@ public class SmartContractGo {
 		this.type = type;
 	}
 
-	public int getFundManangerFee() {
+	public long getFundManangerFee() {
 		return fundManangerFee;
 	}
 
-	public void setFundManangerFee(int fundManangerFee) {
+	public void setFundManangerFee(long fundManangerFee) {
 		this.fundManangerFee = fundManangerFee;
 	}
 
-	public int getChannelFee() {
+	public long getChannelFee() {
 		return channelFee;
 	}
 
-	public void setChannelFee(int channelFee) {
+	public void setChannelFee(long channelFee) {
 		this.channelFee = channelFee;
 	}
 

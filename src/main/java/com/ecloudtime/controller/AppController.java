@@ -368,11 +368,14 @@ public class AppController extends BaseController{
 	 */
 	@RequestMapping("/queryBargain")
 	@ApiOperation(value="queryBargain",notes="requires login Name")
-	public String queryBargain(@RequestParam(value = "bargainName", required = false, defaultValue = "bargain01") String bargainName,
+	public String queryBargain(@RequestParam(value = "bargainId", required = false, defaultValue = "bargain01") String bargainId,
 			Model model) {
 		String userName=SessionUtils.getUserNameFromSession();
 		User user =SessionUtils.getUserFromSession();
-		String bargainAddr="bargain01:8fcc58ea7ed212f7c1ba359d15bea144e67c390044d953797548cf67fd62534a";
+		String bargainAddr=bargainId;//"bargain01:8fcc58ea7ed212f7c1ba359d15bea144e67c390044d953797548cf67fd62534a";
+		if(bargainId.indexOf(":")==-1){
+			bargainAddr=this.commonService.findBargainAddrById(bargainId);
+		}
 		model.addAttribute("bargainAddr", bargainAddr);
 		return "app/queryBargain";
 	}

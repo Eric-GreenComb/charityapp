@@ -100,6 +100,13 @@ public class CommonService {
 		 return commonMapper.findBargainList();
 	 }//查询合约信息
 	 
+	 public int findBargainLen(){
+		 List<Bargain> list=findBargainList();
+		 return list.size();
+	 }
+	 
+	 
+	 
 	 public Foundation findFoundByAddr(String foundId){
 		 return this.commonMapper.findFoundByAddr(foundId);
 	 }

@@ -150,7 +150,7 @@
                     <div class="lxTxt qkl"><p>合约<br/>区块链账户</p><p>${donorTrackDetail.contractAmountStr?if_exists} ¥</p></div>
                     <#if (donorTrackDetail.drawList?if_exists?size > 0)>
 	                    <#list donorTrackDetail.drawList as drawObj>
-	                    	<div class="lxTxt xm xm0${drawObj_index+1}"><p>${drawObj.accountName?if_exists}</p><p>${drawObj.amountStr?if_exists} ¥</p><p></p></div>
+	                    	<div class="lxTxt xm xm0${drawObj_index+1}" id="${drawObj.accountAddr?if_exists}"><p>${drawObj.accountName?if_exists}</p><p>${drawObj.amountStr?if_exists} ¥</p><p></p></div>
 	                    </#list>
                     </#if>
                     <div class="lj lj01" id="${donorTrackDetail.donorid?if_exists}" type="donor">1</div>
@@ -161,28 +161,6 @@
                     </#if>
                 </li>
                 
-                
-                
-                
-                
-                
-                		 <#if (donorTrackDetail.drawList?if_exists?size = 4)>
-	                		 		 <!--1-->
-					                <li class="moneyIcon lxIcon-1">
-					                    <p class="lxIcon"><img src="${system.basePath}/img/common/lxIcon-0.png" alt=""/></p>
-					                    <div class="lxTxt jk"><p>发起捐款</p><p>${donorTrackDetail.donorAmountStr?if_exists}¥</p></div>
-					                    <div class="lxTxt qd"><p>渠道账户</p><p>${donorTrackDetail.channelAmountStr?if_exists} ¥</p></div>
-					                    <div class="lxTxt jjgl"><p>基金管理账户</p><p>${donorTrackDetail.fundAmountStr?if_exists} ¥</p></div>
-					                    <div class="lxTxt qkl"><p>合约<br/>区块链账户</p><p>${donorTrackDetail.contractAmountStr?if_exists} ¥</p></div>
-					                    <div class="lxTxt xm xm02"><p>工程项目名称</p><p>81.10 ¥</p><p>(工程状态)</p></div>
-					                    <div class="lj lj01">1</div>
-					                    <div class="lj lj03">2</div>
-					                </li>
-                		 <#elseif (donorTrackDetail.drawList?if_exists?size = 5)>
-                		        #22_22#
-                		 <#elseif (donorTrackDetail.drawList?if_exists?size = 6)>
-                		        #33_33#
-                		 </#if>
                 <#else>
                  		 <!--0-->
 		                <li class="moneyIcon lxIcon-0">
@@ -221,7 +199,9 @@ $('#PZHao').on('tap',function(){
 //    window.location.href="mine_giftDel_dealDel.html";
 //});
 $('.xm').on('tap',function(){
-    window.location.href="mine_contributeRate.html";
+	var bargainId = this.getAttribute("id");
+	//alert("bargainId="+bargainId)
+    window.location.href="${system.basePath}/app/queryBargain?bargainId="+bargainId;
 });
 $('.lj').on('tap',function(){
 	var donorid = this.getAttribute("id");

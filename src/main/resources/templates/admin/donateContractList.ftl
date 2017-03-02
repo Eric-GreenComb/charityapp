@@ -37,7 +37,7 @@
                             <p><input type="radio" name="type" value="time" id="conTime"/><label for="conTime">时间限制</label> <input type="text" placeholder="请输入合约最后期限"/></p>
                         </div>
                     </div>
-                    <div class="rt conRt conLf">
+                    <div class="lf conRt conLf">
                         <div>
                             <p>渠道服务费</p>
                             <p><input type="text" placeholder="请输入渠道服务费的费率"/></p>
@@ -129,9 +129,9 @@
                         <div>
                             <p>施工合同</p>
                             <!--<p class="doCon">选择款项用于的合同<span></span></p>-->
-                            <form action="">
+			    <form action="">
                                 <select id="contractSelect" >
-                                    <option disabled>选择款项用于的合同</option>
+                                    <option>选择款项用于的合同</option>
                                     <option>合同1</option>
                                     <option>合同二</option>
                                 </select>
@@ -153,7 +153,7 @@
                     </div>
                 </form>
             </div>
-            <p class="backBtn"><button>确认提款</button></p>
+            <p class="backBtn"><button class="closeBtn cancel">取消</button><button class="done">确认提款</button></p>
         </div>
     </div>
 </div>
@@ -228,11 +228,17 @@
 <script src="${system.basePath}/js/admin/bootstrap-select.js"></script>
 <script>
 //    colse
-    $('.backBtn button').click(function(){
+    $('.done').click(function(){
     	//确认提款
     	confirmDraw();
         //$('.dealDel').fadeOut();
     });
+    
+     $('.backBtn button.closeBtn').click(function(){
+    	//alert(2)
+   		 $('.dealDel').fadeOut();
+	});
+    
     $('.close').click(function(){
         $('.dealDel').fadeOut();
     });
@@ -243,6 +249,7 @@
     $('#file').change(function(){
         $(this).next().html($(this).val() );
     });
+    
 //添加合约时间
 $("#contractTime").dateSelect();
 
@@ -257,15 +264,13 @@ $('.contractDel').click(function(){
 //    提款记录
 $('.drawMoney').click(function(){
    // $('#drawMoney').fadeIn();
-    
     var smartContractAddr=$(this).attr("id");
 	//alert("smartContractAddr="+smartContractAddr)
 	querySmartContractDetail(smartContractAddr);
-    $('#drawMoney .drawDiv').css("transform",'translateX(0)');
-    $('#drawMoney .drawDiv').css("transition",'transform 0.3s');
-    $('.drawDivRt').fadeIn();
+   
     
 });
+
 $('#contractSelect').change(function(){
     $('#drawMoney .drawDiv').css("transform",'translateX(0)');
     $('#drawMoney .drawDiv').css("transition",'transform 0.3s');
@@ -274,7 +279,7 @@ $('#contractSelect').change(function(){
 
 
 function gotoContractList(smartContractId){
-		 alert("smartContractId="+smartContractId)
+		 //alert("smartContractId="+smartContractId)
 		 window.location.href="${system.basePath}/admin/myAccountBook?smartContractId="+smartContractId;
 	}
 	
@@ -313,7 +318,19 @@ function gotoContractList(smartContractId){
 	
 	
 	function confirmDraw(){
-			var drawAmount=$("#drawMoney_drawMoney").val();
+			var drawAmount=$("#drawMoney_drawMoney").val();//提款金额
+			var drawBanlance=$("#drawMoney_banlance").html();//合约余额
+			//console.log("drawAmount="+drawAmount+" drawBanlance="+drawBanlance);
+			if(!isPositiveNum(drawAmount)){
+				alert("提款金额为正整数!")
+				return ;
+			}
+			drawBanlance=parseFloat(drawBanlance.replace(/,/g,""))
+			if(parseFloat(drawAmount)>drawBanlance){
+				alert("提款金额超过合约余额,请重新填写提款金额!");
+				$("#drawMoney_drawMoney").val("");
+				return ;
+			}
 			var smartContractId=$("#drawMoney_smartContractId").html();
 			var bargainAddr=$("#contractSelect").val();
 			var drawRemark=$("#draw_remark").val();
@@ -330,9 +347,7 @@ function gotoContractList(smartContractId){
 				success: function(data){
 					console.log(data)
 					alert("提款成功")
-					
 					 $('.dealDel').fadeOut();
-					
 					setTimeout('myrefresh()',500); 				 
 				}
 			});
@@ -345,6 +360,10 @@ function gotoContractList(smartContractId){
 	} 
 	//setTimeout('myrefresh()',500); //指定1秒刷新一次 
 
+   function isPositiveNum(s){//是否为正整数  
+		    var re = /^[0-9]*[1-9][0-9]*$/ ;  
+		    return re.test(s)  
+		} 
 
 </script>
 </body>

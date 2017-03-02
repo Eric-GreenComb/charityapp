@@ -20,8 +20,8 @@
         </ul>
         <ul class="maskUl">
             <li><p>捐款金额限制：<span><#if smartContract.type??>无限制<#elseif  smartContract.type?if_exists ='0'>金额限制 <#else>时间限制</#if></span></p></li>
-            <li><p>渠道服务费：<span>0.${smartContract.channelFee?if_exists}%</span></p></li>
-            <li><p>基金管理费：<span>0.${smartContract.fundManangerFee?if_exists}%</span></p></li>
+            <li><p>渠道服务费：<span>${smartContract.channelFeeStr?if_exists}%</span></p></li>
+            <li><p>基金管理费：<span>${smartContract.fundManangerFeeStr?if_exists}%</span></p></li>
         </ul>
         <ul class="maskUl">
             <li><p>合约生效时间：<span>
@@ -59,14 +59,15 @@
 <!--section-->
 <div class="section">
     <div class="container">
+        
         <div class="partYi">
             <p class="partName">交易信息</p>
             <p class="partInfo"><span>交易ID</span><span class="color">${transaction.txid?if_exists}</span></p>
-            <p class="partInfo"><span>交易金额</span><span>${transaction.transMoney?if_exists} &yen;</span><span class="dealConfirm">交易已确认</span></p>
-            <p class="partInfo"><span>所在区块(stateHash)</span><a href="javascript:goBlockDetail('${donorTransRel.blockHeight?if_exists}');" class="color">${donorTransRel.blockHash?if_exists}</a></p>
+            <p class="partInfo"><span>交易金额</span><span><span>${transaction.transMoney?if_exists}  &yen;</span><span class="dealConfirm">交易已确认</span></span></p>
+            <p class="partInfo"><span>所在区块(stateHash)</span><a href="${system.basePath}/explorer/blockDetail?heigh=${donorTransRel.blockHeight?if_exists}" class="color partDelNum">${donorTransRel.blockHash?if_exists}</a></p>
             <p class="partInfo"><span>接收时间</span><span>${transaction.tranGenTime?if_exists}</span></p>
-            <#if donorTransRel.contractIdStr??>
-            	<p class="partInfo"><span>合约ID</span><span class="color" id="contractId">${donorTransRel.contractIdStr?if_exists}</span></p>
+             <#if donorTransRel.contractIdStr??>
+            <p class="partInfo"><span>合约ID</span><span class="color" id="contractId">${donorTransRel.contractIdStr?if_exists}</span></p>
             </#if>
         </div>
         <!--tu-->

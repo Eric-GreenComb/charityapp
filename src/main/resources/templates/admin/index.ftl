@@ -50,8 +50,8 @@
                     <p  class="detailTj"><img src="${system.basePath}/img/common_admin/detailTjIcon.png" alt=""/>账户统计</p>
                     <ul class="detailUl">
                         <li><span>累计获得捐款</span><span>${fund.totalStr?if_exists} &yen;</span></li>
-                        <li><span>基金管理费</span><span>[fake]99 &yen;</span></li>
-                        <li><span>渠道服务费</span><span>[fake]999,999 &yen;</span></li>
+                        <li><span>基金管理费</span><span>${fund.fundManangerFeeStr?if_exists}&yen;</span></li>
+                        <li><span>渠道服务费</span><span>${fund.channelFeeStr?if_exists} &yen;</span></li>
                         <li><span>实收捐款</span><span>${fund.validTotalStr?if_exists} &yen;</span></li>
                     </ul>
                 </div>
@@ -66,8 +66,8 @@
                         <p class="secImg"><img src="${system.basePath}/img/common_admin/hyIngIcon.png" alt=""/></p>
                         <p class="detailHyzh">进行中的</p>
                         <p class="detailYe">捐款合约</p>
-                        <p class="detailMoney">999 个</p>
-                        <p class="ingJk">捐款合约共  999 个</p>
+                        <p class="detailMoney">${fund.smartContractLen?if_exists} 个</p>
+                        <p class="ingJk">捐款合约共  ${fund.smartContractLen?if_exists} 个</p>
                     </div>
                     <p class="delAct"><a href="${system.basePath}/admin/donateContractList">查看明细</a></p>
                     <p class="line"></p>
@@ -78,8 +78,8 @@
                         <p class="secImg"><img src="${system.basePath}/img/common_admin/gcIngIcon.png" alt=""/></p>
                         <p class="detailHyzh">进行中的</p>
                         <p class="detailYe">施工</p>
-                        <p class="detailMoney">999 处</p>
-                        <p class="ingJk">捐款合约共  999 个</p>
+                        <p class="detailMoney">${bargainLen?if_exists} 处</p>
+                        <p class="ingJk">捐款合约共  ${bargainLen?if_exists} 个</p>
                     </div>
                     <p class="delAct"><a href="${system.basePath}/admin/bargainItemList">查看全部工程</a></p>
                     <p class="line"></p>

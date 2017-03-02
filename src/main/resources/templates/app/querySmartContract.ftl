@@ -194,8 +194,8 @@ window.onload=function(){
 }
 
 //    水滴
-var yi=parseFloat($('.alreadyMoney').html()),
-    all=parseFloat($('.allMoney').html());
+var yi=parseFloat($('.alreadyMoney').html().replace(/,/g,"")),
+    all=parseFloat($('.allMoney').html().replace(/,/g,""));
 $('.newsPer').html((yi/all*100).toFixed(2)+'%');
 function shui(){
     var per=yi/all*100;

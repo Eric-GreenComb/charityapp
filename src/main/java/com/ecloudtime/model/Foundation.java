@@ -2,6 +2,8 @@ package com.ecloudtime.model;
 
 import java.util.List;
 
+import org.springframework.util.StringUtils;
+
 import com.ecloudtime.utils.MoneyUtil;
 
 public class Foundation {
@@ -29,10 +31,24 @@ public class Foundation {
 	private String totalStr;
 	private String validTotalStr;
 	private String balanceStr;
+	private int smartContractLen;
+	private long fundManangerFee;
+	private long channelFee;
+	private String fundManangerFeeStr;
+	private String channelFeeStr;
 	
 	List<SmartContract> smartContracts;
 	List<FoundationFeeTrack> fees;
 	
+	public int getSmartContractLen() {
+		if(!StringUtils.isEmpty(contracts)){
+			return contracts.split(",").length;
+		}
+		return 0;
+	}
+	public void setSmartContractLen(int smartContractLen) {
+		this.smartContractLen = smartContractLen;
+	}
 	public String getTotalStr() {
 		if(0!=total){
     		return MoneyUtil.ccToMoneyFormat(total,"yuan");
@@ -50,6 +66,41 @@ public class Foundation {
     		return MoneyUtil.ccToMoneyFormat(balance,"yuan");
     	}
 		return "0";
+	}
+	
+	public String getFundManangerFeeStr() {
+		if(0!=fundManangerFee){
+    		return MoneyUtil.ccToMoneyFormat(fundManangerFee,"yuan");
+    	}
+		return fundManangerFeeStr;
+	}
+	
+	public String getChannelFeeStr() {
+		if(0!=channelFee){
+    		return MoneyUtil.ccToMoneyFormat(channelFee,"yuan");
+    	}
+		return channelFeeStr;
+	}
+	
+	public long getFundManangerFee() {
+		return fundManangerFee;
+	}
+	public void setFundManangerFee(long fundManangerFee) {
+		this.fundManangerFee = fundManangerFee;
+	}
+	public long getChannelFee() {
+		return channelFee;
+	}
+	public void setChannelFee(long channelFee) {
+		this.channelFee = channelFee;
+	}
+	
+	public void setFundManangerFeeStr(String fundManangerFeeStr) {
+		this.fundManangerFeeStr = fundManangerFeeStr;
+	}
+	
+	public void setChannelFeeStr(String channelFeeStr) {
+		this.channelFeeStr = channelFeeStr;
 	}
 	public void setTotalStr(String totalStr) {
 		this.totalStr = totalStr;

@@ -108,7 +108,7 @@
             <!--账本详情-->
             <div class="accountBook">
                 <p class="lf accTxt">账本详情</p>
-                <p class="rt"><span>账户余额</span><span class="accMoney">999,999,999.00 &yen;</span></p>
+                <p class="rt"><span>账户余额</span><span class="accMoney">${fund.balanceStr?if_exists}&yen;</span></p>
             </div>
             <!--选择-->
             <div class="choose">
@@ -188,6 +188,7 @@
         $('.dealDel').fadeOut();
     });
 
+
 	//type 1 捐款  2 提款
 	// 交易id
 	function queryTransDetail(transId,type){
@@ -235,8 +236,44 @@
 	
 
 
+	$('#type').change(function(){
+        //alert($("#type").val())
+        query()
+    });
+	$('#contract').change(function(){
+        //alert($("#type").val())
+        query()
+    });
+	$('#transDate').change(function(){
+        //alert($("#type").val())
+        query()
+    });
+		
+	function query(){
+		var type=$("#type").val();
+		var contractId=$("#contract").val();
+		var transDate=$("#transDate").val();
+		 window.location.href="${system.basePath}/admin/myAccountBook?type="+type+"&contractId="+contractId+"&transDate="+transDate;		
+	
+	}
+	
 //    时间
     $("#transDate").dateSelect();
+    
+    	$(document).ready(function(){
+    			var type='${type?if_exists}';
+    			//alert("1type="+type)
+    			if('1'==type){
+    					$("#type option[text='1']").attr("selected", true);
+    			}else if('2'==type){
+    					$("#type option[text='2']").attr("selected", true);
+    			}
+    			
+    	
+		});
+    
+    
+    
 
 </script>
 </body>
