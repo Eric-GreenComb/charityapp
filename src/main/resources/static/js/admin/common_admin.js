@@ -4,7 +4,7 @@
 //登录
 $('#passWord').blur(function(){
     if($('.loginYi input').val()!==''){
-        $('.alertCon').css('display','block');
+       // $('.alertCon').css('display','block');
     }
 });
 

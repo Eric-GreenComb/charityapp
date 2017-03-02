@@ -196,7 +196,8 @@ nav,#banner,section,footer{
 }
 .newsUl li span,.newsUl li a,.newsTitle span{
     display: inline-block;
-    width:33%;
+    width:25%;
+    /*text-align: center;*/
 }
 .newsTitle span{
     font-size:15px;
@@ -269,10 +270,24 @@ nav,#banner,section,footer{
     font-size:14px;
     color:#4a4a4a;
     letter-spacing:0.77px;
+    word-break: break-all;
 }
-.partInfo span:first-child{
+.partInfo span.dealConfirm{
     display: inline-block;
-    width:130px;
+    background:#34A826;
+    padding:2px 15px ;
+    color:#fff;
+    border-radius: 15px;
+    margin-left:10px;
+}
+.partInfo>span:first-child{
+    display: inline-block;
+    width:160px;
+    padding-right:20px;
+}
+.partInfo>span:last-child{
+    display: inline-block;
+    width:64%;
 }
 .color,.partInfo span.color{
     color:#9c27b0;
@@ -332,17 +347,22 @@ nav,#banner,section,footer{
     background:rgba(255,255,255,.6);
     margin:0 auto;
 }
+.maskAll{
+    position:absolute;
+    width:100%;
+    top:20%;
+    left:0;
+    text-align: center;
+}
 .dealMask{
     background:#ffffff;
     box-shadow:0px 4px 4px 0px rgba(0,0,0,0.12), 0px 4px 8px 0px rgba(0,0,0,0.24);
     border-radius:16px;
     width:664px;
     height:304px;
-    position:absolute;
     margin:0 auto;
-    top:20%;
-    left:24%;
     padding:16px 0;
+    text-align: left;
 }
 .dealTitle{
     font-size:14px;
@@ -368,18 +388,33 @@ nav,#banner,section,footer{
     line-height:18px;
 }
 .close{
-    position:absolute;
-    top:80%;
-    left:48%;
+    margin-top:20px;
     cursor: pointer;
 }
 
+/*searchNull---404*/
+.searchNull{
+    margin-top:100px;
+    text-align: center;
+}
+.searchNull dt{
+    margin-bottom:30px;
+}
+.searchNull dd{
+    font-size:14px;
+    color:#4a4a4a;
+}
+.searchNull dd a{
+    color:#9c27b0;
+}
 
-
-
-
-
-
+/*bug*/
+.partDelNum{
+    display: inline-block;
+    width:64%;
+    word-break: break-all;
+    vertical-align: top;
+}
 
 
 

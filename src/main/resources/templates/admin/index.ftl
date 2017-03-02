@@ -18,7 +18,9 @@
             <p>欢迎您！${fund.name?if_exists}</p>
         </div>
         <div class="logoTxtSmRt logoAct">
-            <p><img src="${system.basePath}/img/common_admin/tkIcon.png" alt=""/>提款</p>
+           <!-- 
+           		<p><img src="${system.basePath}/img/common_admin/tkIcon.png" alt=""/>提款</p>
+           -->
             <p><img src="${system.basePath}/img/common_admin/tcIcon.png" alt=""/>退出</p>
         </div>
     </div>
@@ -39,7 +41,7 @@
             <div class="detailAll delAll">
                 <div class="lf detailLf">
                     <p class="secImg"><img src="${system.basePath}/img/common_admin/detailIcon.png" alt=""/></p>
-                    <p class="detailHyzh">合约账户</p>
+                    <p class="detailHyzh">基金账户</p>
                     <p class="detailYe">余额</p>
                     <p class="detailMoney">${fund.balanceStr?if_exists} ¥</p>
                     <p class="detailTk">立即提款</p>
@@ -86,6 +88,12 @@
         </div>
     </div>
 </div>
+<script src="${system.basePath}/js/jquery-1.11.3.js"></script>
+<script>
+	$('.logoAct').click(function(){
+    window.location.href="${system.basePath}/admin/login";
+});
 
+</script>
 </body>
 </html>

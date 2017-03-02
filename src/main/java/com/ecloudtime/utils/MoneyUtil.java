@@ -191,6 +191,7 @@ import java.util.regex.Matcher;
 	      System.out.println(MoneyUtil.ccToMoneyFormat(122783000,"yuan"));  
 	      System.out.println(MathUtil.div(122783000, 100000, 0));  
 	      System.out.println(MoneyUtil.ccToMoneyFormat(122783000,"yuan"));  
+	      System.out.println(df.format(1/10.0));  
 	    }    
 	    
 	}  

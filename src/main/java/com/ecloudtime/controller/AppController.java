@@ -74,9 +74,10 @@ public class AppController extends BaseController{
 	public String queryDonorHis(Model model) {
 //		name="donor01";
 		String userName=SessionUtils.getUserNameFromSession();
-		model.addAttribute("name", userName);
+		User userTemp =SessionUtils.getUserFromSession();
+		model.addAttribute("name", userTemp.getName());
 		if(null==userName)userName="donor01";
-		User user =apiService.queryDonor(userName);
+		User user =apiService.queryDonor(userTemp.getAddr());
 		List<DonorContribution> donorHisTempList=user.getContributions();
 		List<DonorContribution> donorHisList =new ArrayList<DonorContribution>();
 		if(null!=donorHisTempList&&donorHisTempList.size()>0){
@@ -354,7 +355,7 @@ public class AppController extends BaseController{
 		String smartContractName="";
 		String bargainName="";
 		String drawAmount="100";
-		SysDonorDrawTransRel drawRel=this.apiService.drawed(fundName, drawAmount,smartContractName,bargainName);
+		SysDonorDrawTransRel drawRel=this.apiService.drawed(fundName, drawAmount,smartContractName,bargainName,"提款备注");
 		model.addAttribute("drawRel", drawRel);
 		return "app/drawInfo";
 	}

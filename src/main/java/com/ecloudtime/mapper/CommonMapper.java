@@ -3,6 +3,7 @@ package com.ecloudtime.mapper;
 import java.util.List;
 
 import com.ecloudtime.model.Bargain;
+import com.ecloudtime.model.ContractBargain;
 import com.ecloudtime.model.Foundation;
 import com.ecloudtime.model.FundFlow;
 import com.ecloudtime.model.SmartContract;
@@ -20,6 +21,7 @@ public interface CommonMapper {
 	public String findDonorAddrById(String name);//根据名称 查询addr
 	
 	public String findSmartContractAddrById(String name);//根据名称 查询addr
+	public String findBargainAddrById(String name);//根据名称 查询addr
 	
 	public void saveTxidDonorDrawIdRefInfo(SysDonorDrawTransRel donorRel);//保存存储捐款id和cc中txid的对应关系
 	
@@ -31,7 +33,8 @@ public interface CommonMapper {
 	
 	public Foundation findFoundByAddr(String foundId);
 	
-	public List<TransDetail> findTransDetailsList(TransDetail transDetail);
+	public List<TransDetail> queryTransDetailsList(TransDetail transDetail);
+	public List<ContractBargain> findContractBargainList(ContractBargain contractBargain);
 //	public Bargain findBargainInfo();//查询合同信息
 	
 	

@@ -55,7 +55,7 @@
 
     $('.loginYi input').blur(function(){
         if($('.loginYi input').val()){
-            $('.alertCon').css('display','block');
+           // $('.alertCon').css('display','block');
         }
     });
 

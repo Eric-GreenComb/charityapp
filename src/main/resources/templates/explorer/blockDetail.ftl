@@ -10,7 +10,7 @@
 <!--header-->
 <div class="header">
     <div class="container">
-        <div class="lf logoDiv">
+        <div class="lf logoDiv" id="backExplorerIndex">
             <img src="${system.basePath?if_exists}/img/common_pc/logo.png" alt=""/>
             <span class="logoTxt">区块链浏览器</span>
         </div>
@@ -45,12 +45,20 @@
 <script src="${system.basePath?if_exists}/js/jquery-1.11.3.js"></script>
 <script src="${system.basePath?if_exists}/js/common_pc.js"></script>
 <script>
+
+	var bObj = document.getElementById("backExplorerIndex"); 
+		bObj.addEventListener("click",backIndex,false); 
+		function backIndex(){
+			window.location.href="${system.basePath}/explorer/index";
+		} 
 function goTransDetail(txid,transMoney){
-		if("--"==transMoney){
-			return ;
-		}else{
-			window.location.href="${system.basePath}/explorer/transDetail?txid="+txid;
-		}
+		window.location.href="${system.basePath}/explorer/transDetail?txid="+txid;
+
+		//if("--"==transMoney){
+		//	return ;
+		//}else{
+		//	window.location.href="${system.basePath}/explorer/transDetail?txid="+txid;
+		//}
 	}
 </script>
 </body>

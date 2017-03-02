@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ecloudtime.mapper.CommonMapper;
 import com.ecloudtime.model.Bargain;
+import com.ecloudtime.model.ContractBargain;
 import com.ecloudtime.model.Foundation;
 import com.ecloudtime.model.FundFlow;
 import com.ecloudtime.model.SmartContract;
@@ -57,6 +58,11 @@ public class CommonService {
 		 return (String)this.commonMapper.findSmartContractAddrById(name);
 	 } 
 	 
+	 public String findBargainAddrById(String name){
+		 
+		 return (String)this.commonMapper.findBargainAddrById(name);
+	 } 
+	 
 	 public SmartContract findContractInfo(SmartContract contract)//查询合约信息
 	 {
 		 return commonMapper.findContractInfo(contract);
@@ -98,8 +104,16 @@ public class CommonService {
 		 return this.commonMapper.findFoundByAddr(foundId);
 	 }
 	 
-	 public List<TransDetail> findTransDetailsList(TransDetail transDetail){
-		 return this.commonMapper.findTransDetailsList(transDetail);
+	 public List<TransDetail> queryTransDetailsList(TransDetail transDetail){
+		 return this.commonMapper.queryTransDetailsList(transDetail);
+	 }
+	 public List<ContractBargain> findContractBargainList(String smartContractId){
+		 ContractBargain contractBargain = new ContractBargain();
+		 contractBargain.setSmartContractId(smartContractId);
+		 return findContractBargainList(contractBargain);
+	 }
+	 public List<ContractBargain> findContractBargainList(ContractBargain contractBargain){
+		 return this.commonMapper.findContractBargainList(contractBargain);
 	 }
 	 
 	 public static void main(String[] args) {

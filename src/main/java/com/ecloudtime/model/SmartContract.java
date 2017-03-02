@@ -1,5 +1,7 @@
 package com.ecloudtime.model;
 
+import java.text.DecimalFormat;
+
 import com.ecloudtime.utils.MoneyUtil;
 
 public class SmartContract extends SmartContractGo{
@@ -7,7 +9,29 @@ public class SmartContract extends SmartContractGo{
 	private String goalStr;//目标金额 万元
 	private String goalYuan;//目标金额 元
 	private String pic;
+	private String fundManangerFeeStr;
+	private String channelFeeStr;
 	
+	public String getFundManangerFeeStr() {
+		if(0!=this.getFundManangerFee())
+		return new DecimalFormat("#,###.##").format(this.getFundManangerFee()/10.0);
+		return "0";
+	}
+
+	public void setFundManangerFeeStr(String fundManangerFeeStr) {
+		this.fundManangerFeeStr = fundManangerFeeStr;
+	}
+
+	public String getChannelFeeStr() {
+		if(0!=this.getChannelFee())
+			return new DecimalFormat("#,###.##").format(this.getChannelFee()/10.0);
+		return "0";
+	}
+
+	public void setChannelFeeStr(String channelFeeStr) {
+		this.channelFeeStr = channelFeeStr;
+	}
+
 	public String getGoalYuan() {
 		if(null!=getGoal()&&0!=getGoal()){
     		return MoneyUtil.ccToMoneyFormat(getGoal(),"yuan");
@@ -45,7 +69,7 @@ public class SmartContract extends SmartContractGo{
 	public void setPic(String pic) {
 		this.pic = pic;
 	}
-	
+
 	/*Addr                 string       `protobuf:"bytes,1,opt,name=addr" json:"addr,omitempty"`
 	Id                   string       `protobuf:"bytes,2,opt,name=id" json:"id,omitempty"`
 	Name                 string       `protobuf:"bytes,3,opt,name=name" json:"name,omitempty"`

@@ -71,6 +71,10 @@ public class SmartContractGo {
 	}
 
 	public String getId() {
+		if(!"".equals(addr)){
+			return addr.split(":")[0];
+		}
+		
 		return id;
 	}
 

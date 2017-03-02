@@ -1,5 +1,6 @@
 package com.ecloudtime.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.shiro.SecurityUtils;
@@ -15,11 +16,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ecloudtime.mapper.CommonMapper;
 import com.ecloudtime.model.Bargain;
+import com.ecloudtime.model.ContractBargain;
+import com.ecloudtime.model.ContractBargainList;
 import com.ecloudtime.model.Foundation;
 import com.ecloudtime.model.ProcessDonored;
 import com.ecloudtime.model.ProcessDrawed;
+import com.ecloudtime.model.SmartContract;
 import com.ecloudtime.model.SmartContractExt;
+import com.ecloudtime.model.SysDonorDrawTransRel;
 import com.ecloudtime.model.TransDetail;
 import com.ecloudtime.service.ApiService;
 import com.ecloudtime.service.BlockInfoService;
@@ -39,6 +45,8 @@ public class AdminController extends BaseController{
     
     @Autowired
 	private CommonService commonService;
+    @Autowired
+	 private CommonMapper commonMapper;
     
     @Autowired
     private BlockInfoService blockInfoService;
@@ -116,8 +124,8 @@ public class AdminController extends BaseController{
     		Model model) {
     	String userName=SessionUtils.getUserNameFromSession();
     	TransDetail td = new TransDetail();
-    	PageHelper.startPage(1, 10);
-    	List<TransDetail> transDetailList=this.commonService.findTransDetailsList(td);
+//    	PageHelper.startPage(1, 2);
+    	List<TransDetail> transDetailList=this.commonMapper.queryTransDetailsList(td);;
     	
     	
     	model.addAttribute("userName", userName);
@@ -140,7 +148,48 @@ public class AdminController extends BaseController{
     		return processDrawed;
     	}
 	}
-	
+    
+    @ApiOperation(value="querySmartContractDetail",notes="requires noting")
+    @RequestMapping(value="/querySmartContractDetail",method=RequestMethod.GET)
+    @ResponseBody
+    public Object querySmartContractDetail(
+    		@RequestParam(value="smartContractAddr", required=false, defaultValue="smartContract01") String smartContractAddr,
+    		Model model){
+    	if(!"".equals(smartContractAddr)){
+    		SmartContractExt smartContractExt=this.apiService.querySmartContractExt(smartContractAddr);
+    		List<ContractBargain> contractList =this.commonService.findContractBargainList(smartContractAddr.split(":")[0]);
+    		
+    		ContractBargainList contractBargainList = new ContractBargainList();
+    		contractBargainList.setSmartContractExt(smartContractExt);
+    		contractBargainList.setContractBargainList(contractList);
+    		
+    		return contractBargainList;
+    	}
+    	return new ArrayList();
+    }
+    
+    @ApiOperation(value="draw",notes="requires noting")
+    @RequestMapping(value="/draw",method=RequestMethod.GET)
+    @ResponseBody
+    public Object draw(@RequestParam(value = "fundName", required = false, defaultValue = "fund01") String fundName
+			,@RequestParam(value = "drawAmount", required = false, defaultValue = "100") String drawAmount
+			,@RequestParam(value = "smartContractId", required = false, defaultValue = "smartcontract01") String smartContractId
+			,@RequestParam(value = "bargainAddr", required = false, defaultValue = "bargainAddr") String bargainAddr
+			,@RequestParam(value = "drawRemark", required = false, defaultValue = "drawRemark") String drawRemark){
+    	
+    	SysDonorDrawTransRel sysDonorDrawTransRel=this.apiService.drawed(fundName, drawAmount, smartContractId, bargainAddr,drawRemark);
+    	if(null!=sysDonorDrawTransRel&&!StringUtils.isEmpty(sysDonorDrawTransRel.getTransId())){
+    		String fundSessionName=SessionUtils.getFundUserNameFromSession();
+    		Foundation fund =this.apiService.queryFund(fundSessionName);
+    		SessionUtils.putFoundUserInfoToSession(fund);
+    	}
+    	
+    	
+    	return sysDonorDrawTransRel;
+    }
+    
+    
+    
     
     /**
      * 捐献合约列表

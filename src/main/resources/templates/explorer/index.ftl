@@ -10,7 +10,7 @@
 <!--header-->
 <div class="header">
     <div class="container">
-        <div class="lf logoDiv">
+        <div class="lf logoDiv" id="backExplorerIndex" >
             <img src="${system.basePath}/img/common_pc/logo.png" alt=""/>
             <span class="logoTxt">区块链浏览器</span>
         </div>
@@ -55,11 +55,11 @@
             <!--最新交易信息-->
             <div class="newsAll">
                 <p class="nodeTxt">最新交易信息</p>
-                <p class="newsTitle"><span>交易ID</span><span>交易时间</span><span>交易金额&yen;</span></p>
+	                <p class="newsTitle"><span>交易ID</span><span>交易时间</span><span>事件</span><span>交易金额&yen;</span></p>
                 <ul class="newsUl">
 	                <#if (transList?if_exists?size > 0)>
-	                	<#list transList as trans>、
-	                		<li class="newsInfo"><a href="javascript:goTransDetail('${trans.txid}','${trans.transMoney?if_exists}');">${trans.txid?substring(0,20)}</a><span>${trans.tranGenTime?substring(10)}</span><span>${trans.transMoney?if_exists}</span></li>
+	                	<#list transList as trans>
+	                		<li class="newsInfo"><a href="javascript:goTransDetail('${trans.txid}','${trans.transMoney?if_exists}');">${trans.txid?substring(0,20)}</a><span>${trans.tranGenTime?substring(10)}</span><span>捐款</span><span>${trans.transMoney?if_exists}</span></li>
 	                	</#list>
 	                </#if>
                 </ul>
@@ -87,13 +87,23 @@
 <script src="${system.basePath}/js/common_pc.js"></script>
 <script>
 
+	var bObj = document.getElementById("backExplorerIndex"); 
+		bObj.addEventListener("click",backIndex,false); 
+		function backIndex(){
+			window.location.href="${system.basePath}/explorer/index";
+		} 
+
+
 	function goTransDetail(txid,transMoney){
-		if("--"==transMoney){
-			return ;
-		}else{
-			window.location.href="${system.basePath}/explorer/transDetail?txid="+txid;
-		}
+		window.location.href="${system.basePath}/explorer/transDetail?txid="+txid;
+		//if("--"==transMoney){
+		//return ;
+		//}else{
+		//	window.location.href="${system.basePath}/explorer/transDetail?txid="+txid;
+		//}
 	}
+	
+	
 
 	function queryCurrentPeerStatus(peerUrl){
 		var postData =  {"url":peerUrl,tm:new Date().getTime()};

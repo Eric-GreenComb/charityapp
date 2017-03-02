@@ -52,7 +52,7 @@
   </select>
   
     <select id="findFundInfo" resultType="com.ecloudtime.model.Bargain">
-    select * from sys_contract
+    select * from sys_bargain
     	where 1=1
 		<if test="id != null and  id != ''">
 			and id = #{id}
@@ -61,6 +61,8 @@
 			and addr = #{addr}
 		</if>
   </select>
+  
+  
   
     <select id="findDonorAddrById" resultType="String" parameterType="string">
     select addr from sys_user
@@ -71,6 +73,13 @@
   </select>
     <select id="findSmartContractAddrById" resultType="String" parameterType="string">
     select addr from sys_contract
+    	where 1=1
+		<if test="_parameter != null and  _parameter != ''">
+			and id = #{_parameter}
+		</if>
+  </select>
+    <select id="findBargainAddrById" resultType="String" parameterType="string">
+    select addr from sys_bargain
     	where 1=1
 		<if test="_parameter != null and  _parameter != ''">
 			and id = #{_parameter}
@@ -118,11 +127,12 @@
 		<result column="trans_id" property="transId" jdbcType="VARCHAR" />
 		<result column="type" property="type" jdbcType="VARCHAR" />
 		<result column="trans_time" property="transTime" jdbcType="VARCHAR" />
+		<result column="trans_money" property="transMoney" jdbcType="VARCHAR" />
 		<result column="contract_id" property="contractId" jdbcType="VARCHAR" />
 		<result column="contract_name" property="contractName" jdbcType="VARCHAR" />
 	</resultMap>
   
-   <select id="findTransDetailsList" resultMap="transDetailMap" parameterType="com.ecloudtime.model.TransDetail">
+   <select id="queryTransDetailsList" resultMap="transDetailMap" parameterType="com.ecloudtime.model.TransDetail">
     select * from sys_fund_flow
     	where 1=1
 		<if test="type != null and  type != ''">
@@ -150,5 +160,21 @@
 		<if test="_parameter != null and  _parameter != ''">
 			and id = #{_parameter}
 		</if>
-  </select>
+  	</select>
+  	
+  	
+    <select id="findContractBargainList" resultType="com.ecloudtime.model.ContractBargain"  parameterType="com.ecloudtime.model.ContractBargain">
+	   select scbr.smartContractId,scbr.bargainId,sb.addr as bargainAddr,sb.name as bargainName,sc.addr as smartContractAddr,sc.name as smartContractName from sys_contract_bargain_ref scbr 
+	    	left join sys_bargain sb on scbr.bargainId=sb.id
+	    	left join sys_contract sc on scbr.smartContractId=sc.id
+	    	where 1=1
+		<if test="smartContractId != null and  smartContractId != ''">
+			and smartContractId = #{smartContractId}
+		</if>
+		<if test="bargainId != null and  bargainId != ''">
+			and bargainId = #{bargainId}
+		</if>
+  	</select>
+  	
+  
 </mapper>

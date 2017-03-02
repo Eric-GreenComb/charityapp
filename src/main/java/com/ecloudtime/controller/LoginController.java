@@ -57,7 +57,8 @@ public class LoginController extends BaseController{
 			Model model) {
 		model.addAttribute("userName", userName);
 		if(!"".equals(userName)){
-			User user =apiService.queryDonor(userName);
+			String userAddr=this.commonService.findDonorAddrById(userName);
+			User user =apiService.queryDonor(userAddr);
 			user.setName(userName);
 			Subject subject = SecurityUtils.getSubject(); 
 		    UsernamePasswordToken token = new UsernamePasswordToken(userName, userName+"_pwd"); 

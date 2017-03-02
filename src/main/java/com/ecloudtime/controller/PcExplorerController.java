@@ -87,9 +87,11 @@ public class PcExplorerController extends BaseController{
    				donorTrackDetail =(DonorTrackDetail)this.cacheManager.getCacheObjectByKey("donorTrackDetail_"+donorTransRel.getTransId());
    			}
    			model.addAttribute("donorTrackDetail", donorTrackDetail);
+   			SmartContract smartContract=this.apiService.querySmartContract(donorTransRel.getContractId());
+   			model.addAttribute("smartContract", smartContract);
+   		}else{
+   			donorTransRel=new SysDonorDrawTransRel();
    		}
-   		SmartContract smartContract=this.apiService.querySmartContract(donorTransRel.getContractId());
-   		model.addAttribute("smartContract", smartContract);
    		model.addAttribute("transaction", transaction);
    		model.addAttribute("donorTransRel", donorTransRel);
    		return "explorer/transDetail";

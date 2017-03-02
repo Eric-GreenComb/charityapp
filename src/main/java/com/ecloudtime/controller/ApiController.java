@@ -135,8 +135,9 @@ public class ApiController extends BaseController{
 	public SysDonorDrawTransRel drawed(@RequestParam(value = "fundName", required = false, defaultValue = "fund01") String fundName
 			,@RequestParam(value = "drawAmount", required = false, defaultValue = "100") String drawAmount
 			,@RequestParam(value = "smartContractName", required = false, defaultValue = "smartcontract01") String smartContractName
-			,@RequestParam(value = "bargainName", required = false, defaultValue = "bargain01") String bargainName){
-		return apiService.drawed(fundName,drawAmount,smartContractName,bargainName);
+			,@RequestParam(value = "bargainName", required = false, defaultValue = "bargain01") String bargainName
+			,@RequestParam(value = "drawRemark", required = false, defaultValue = "提款备注") String drawRemark){
+		return apiService.drawed(fundName,drawAmount,smartContractName,bargainName,drawRemark);
 	}
 	
 	

@@ -326,11 +326,11 @@ nav,#banner,section,footer{
     overflow: hidden;
     border-radius:8px;
     width:570px;
-    padding:30px;
+    padding: 30px 30px 40px 30px;
 }
 .delAct{
     position:absolute;
-    top:30px;
+    top:38px;
     right:20px;
     color:#9c9c9c;
 }
@@ -340,7 +340,7 @@ nav,#banner,section,footer{
     width:160px;
 }
 .detailLf p{
-    line-height: 22px;
+    line-height: 23px;
 }
 .detailHyzh{
     font-size:12px;
@@ -349,7 +349,7 @@ nav,#banner,section,footer{
     margin-left:10px;
 }
 .detailYe{
-    font-size:14px;
+    font-size:16px;
     color:#333333;
     margin-left:10px;
 }
@@ -410,7 +410,7 @@ nav,#banner,section,footer{
 /*lf*/
 .ingLf{
     width:240px;
-    padding:30px;
+    padding: 30px 30px 40px 30px;
     background:rgba(255,65,130,0.05);
     border-radius:8px;
     position: relative;
@@ -418,7 +418,7 @@ nav,#banner,section,footer{
 /*rt*/
 .ingRt{
     width:240px;
-    padding: 30px;
+    padding: 30px 30px 40px 30px;
     background:rgba(63,80,181,0.05);
     border-radius:8px;
     position: relative;
@@ -680,7 +680,7 @@ nav,#banner,section,footer{
     color:#6e6e6e;
 }
 .conAll textarea{
-    width:225px;
+    width:235px;
     height:45px;
     border-color:#e0e0e0;
     outline: none;
@@ -878,10 +878,34 @@ nav,#banner,section,footer{
     transform: translateX(100px);
 }
 
+/*捐献合同*/
+.contractSelect.bootstrap-select.form-control:not([class*="col-"]){
+    width:235px;
+}
 
-
-
-
+.btn-group>.btn:first-child{
+    border: none;
+    /*border-bottom: 1px solid #ccc;*/
+    background: #ffffff;
+    box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.12);
+    /* border-radius: 2px; */
+/*, 0px 8px 8px 0px rgba(0,0,0,0.24)*/
+}
+/*.contractSelect{*/
+    /*background: none;*/
+    /*box-shadow: none;*/
+    /*/!*bo//rder-bottom:1px sp;*!/*/
+/*}*/
+.btn-group>.btn:first-child:hover{
+    background:none;
+}
+.bootstrap-select .dropdown-toggle:focus,.btn:focus{
+    outline-offset:0;
+}
+.bootstrap-select.btn-group .dropdown-menu.inner{
+    border-top: 1px solid #bbb;
+    padding-top: 1px;
+}
 
 
 

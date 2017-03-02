@@ -166,7 +166,9 @@
             <p>欢迎您！中国妇女基金会母亲水窖基金委员会</p>
         </div>
         <div class="logoTxtSmRt logoAct">
-            <p><img src="${system.basePath}/img/common_admin/tkIcon.png" alt=""/>提款</p>
+            <!-- 
+           		<p><img src="${system.basePath}/img/common_admin/tkIcon.png" alt=""/>提款</p>
+           -->
             <p><img src="${system.basePath}/img/common_admin/tcIcon.png" alt=""/>退出</p>
         </div>
     </div>

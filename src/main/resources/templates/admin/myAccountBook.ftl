@@ -149,7 +149,7 @@
               		 <li class="mineInfo">
 	                    <span class="mineType"><#if transDetail.type ='1'> 捐款 <#else> 提款</#if></span>
 	                    <span class="mineTime">${transDetail.transTime?if_exists}</span>
-	                    <span class="mineMoney addMon">+ 2,016.00</span>
+	                    <span class="mineMoney addMon"><#if transDetail.type ='1'>+<#else>-</#if>${transDetail.transMoney?if_exists}</span>
 	                    <span class="mineContract">${transDetail.contractName?if_exists}</span>
 	                    <span class="rt delIcon <#if transDetail.type ='1'>jkIcon<#else>tkIcon</#if>" id="${transDetail.transId?if_exists}"><img src="${system.basePath}/img/common_admin/delIcon.png" alt=""/></span>
 	                </li>
@@ -168,6 +168,9 @@
 <script src="${system.basePath}/js/admin/common_admin.js"></script>
 <script>
     
+	$('.logoAct').click(function(){
+	    window.location.href="${system.basePath}/admin/login";
+	});
      $('.jkIcon').click(function(){
         var transId=$(this).attr("id");
         queryTransDetail(transId,'1');

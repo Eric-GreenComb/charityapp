@@ -3,8 +3,12 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>捐献合约</title>
+    
+    <link rel="stylesheet" href="${system.basePath}/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${system.basePath}/css/bootstrap-select.css">
     <link rel="stylesheet" href="${system.basePath}/css/dateSelect.css">
     <link rel="stylesheet" href="${system.basePath}/css/common_admin.css"/>
+    
 </head>
 <body>
 
@@ -115,20 +119,27 @@
             <div class="conAll drawAll">
                 <form action="">
                     <div class="lf conLf drawDiv">
-                        <div><p>捐款合约ID</p><p>3000001</p></div>
-                        <div><p>捐款合约名称</p><p>宁夏母亲水窖项目</p></div>
-                        <div><p>实收捐款（区块链余额）</p><p>9999700.00 &yen;</p></div>
+                        <div><p>捐款合约ID</p><p id="drawMoney_smartContractId">3000001</p></div>
+                        <div><p>捐款合约名称</p><p id="drawMoney_smartContractName">宁夏母亲水窖项目</p></div>
+                        <div><p>实收捐款（区块链余额元）</p><p id="drawMoney_banlance">9999700.00 &yen;</p></div>
                         <div>
                             <p>提款金额</p>
-                            <p><input type="text" placeholder="输入要提取的款项金额"/></p>
+                            <p><input type="text" placeholder="输入要提取的款项金额" id="drawMoney_drawMoney" /></p>
                         </div>
                         <div>
                             <p>施工合同</p>
-                            <p class="doCon">选择款项用于的合同<span></span></p>
+                            <!--<p class="doCon">选择款项用于的合同<span></span></p>-->
+                            <form action="">
+                                <select id="contractSelect" >
+                                    <option disabled>选择款项用于的合同</option>
+                                    <option>合同1</option>
+                                    <option>合同二</option>
+                                </select>
+                            </form>
                         </div>
                         <div>
                             <p>备注</p>
-                            <p><textarea name="" cols="30" rows="10" placeholder="对捐款项目的描述"></textarea></p>
+                            <p><textarea name="" cols="30" rows="10" placeholder="对捐款项目的描述" id="draw_remark"></textarea></p>
                         </div>
                     </div>
                     <div class="rt conLf drawDivRt">
@@ -156,10 +167,9 @@
             <span class="logoTxt">公益捐款 <span class="logoTxtSm">基金会版</span></span>
         </div>
         <div class="rt logoTxtSmRt">
-            <p>欢迎您！中国妇女基金会母亲水窖基金委员会</p>
+            <p>欢迎您！<#if fund??>${fund.name?if_exists}</#if></p>
         </div>
         <div class="logoTxtSmRt logoAct">
-            <p><img src="${system.basePath}/img/common_admin/tkIcon.png" alt=""/>提款</p>
             <p><img src="${system.basePath}/img/common_admin/tcIcon.png" alt=""/>退出</p>
         </div>
     </div>
@@ -173,7 +183,6 @@
             <li><a href="${system.basePath}/admin/myAccountBook" ><img src="${system.basePath}/img/common_admin/mineIcon.png" alt=""/><span>我的账本</span></a></li>
             <li><a href="${system.basePath}/admin/donateContractList" class="curIcon"><img src="${system.basePath}/img/common_admin/contributeIcon.png" alt=""/><span>捐献合约</span></a></li>
             <li><a href="${system.basePath}/admin/bargainItemList"><img src="${system.basePath}/img/common_admin/contractIcon.png" alt=""/><span>施工合同</span></a></li>
-            
         </ul>
         <!--rt-->
         <div class="rt secRt">
@@ -191,32 +200,7 @@
                     <span class="conTime">创建日期</span>
                     <span class="conStatus">状态</span>
                 </li>
-                <!-- 
-		                <li class="mineInfo">
-		                    <span class="conID">AU000001</span>
-		                    <span class="conName mineContract">宁夏母亲水窖</span>
-		                    <span class="conMoney">0.00</span>
-		                    <span class="conTime">2016.01.10</span>
-		                    <span class="conStatus">未开始</span>
-		                    <span class="rt delIcon contractDel"><img src="${system.basePath}/img/common_admin/delIcon.png" alt=""/></span>
-		                    <span class="rt delIcon drawMoney"><img src="${system.basePath}/img/common_admin/con_tkIcon.png" alt=""/></span>
-		                    <span class="rt delIcon">
-		                        <a href="contribute_list.html"><img src="${system.basePath}/img/common_admin/con_hyDelIcon.png" alt=""/></a>
-		                    </span>
-		                </li>
-		                <li class="mineInfo">
-		                    <span class="conID">AU000001AU000001</span>
-		                    <span class="conName mineContract">宁夏母亲水窖宁夏母亲水窖宁夏母亲水窖</span>
-		                    <span class="conMoney">9999999999.00</span>
-		                    <span class="conTime">2016.01.10</span>
-		                    <span class="conStatus">未开始</span>
-		                    <span class="rt delIcon contractDel"><img src="${system.basePath}/img/common_admin/delIcon.png" alt=""/></span>
-		                    <span class="rt delIcon drawMoney"><img src="${system.basePath}/img/common_admin/con_tkIcon.png" alt=""/></span>
-		                    <span class="rt delIcon">
-		                        <a href="contribute_list.html"><img src="${system.basePath}/img/common_admin/con_hyDelIcon.png" alt=""/></a>
-		                    </span>
-		                </li>
-                -->
+                
                 <#list smartContractExts as smartContractExt>
                 	 <li class="mineInfo">
 	                   <span class="conID">${smartContractExt.addr?if_exists}</span>
@@ -225,9 +209,9 @@
 	                    <span class="conTime">${smartContractExt.smartContract.createTimeStr?if_exists}</span>
 	                    <span class="conStatus">${smartContractExt.smartContract.status?if_exists}</span>
 	                    <span class="rt delIcon contractDel"><img src="${system.basePath}/img/common_admin/delIcon.png" alt=""/></span>
-	                    <span class="rt delIcon drawMoney"><img src="${system.basePath}/img/common_admin/con_tkIcon.png" alt=""/></span>
+	                    <span class="rt delIcon drawMoney" id="${smartContractExt.addr?if_exists}"><img src="${system.basePath}/img/common_admin/con_tkIcon.png" alt=""/></span>
 	                    <span class="rt delIcon">
-	                        <a href="contribute_list.html"><img src="${system.basePath}/img/common_admin/con_hyDelIcon.png" alt=""/></a>
+	                        <a href="javascript:gotoContractList('${smartContractExt.addr?if_exists}');"><img src="${system.basePath}/img/common_admin/con_hyDelIcon.png" alt=""/></a>
 	                    </span>
 	                </li>
               	</#list>
@@ -240,18 +224,21 @@
 <script src="${system.basePath}/js/jquery-1.11.3.js"></script>
 <script src="${system.basePath}/js/admin/dateSelect.js"></script>
 <script src="${system.basePath}/js/admin/common_admin.js"></script>
+<script src="${system.basePath}/js/bootstrap.js"></script>
+<script src="${system.basePath}/js/admin/bootstrap-select.js"></script>
 <script>
 //    colse
     $('.backBtn button').click(function(){
-        $('.dealDel').fadeOut();
+    	//确认提款
+    	confirmDraw();
+        //$('.dealDel').fadeOut();
     });
     $('.close').click(function(){
         $('.dealDel').fadeOut();
     });
     //    添加合同
     $('.addContract').click(function(){
-        //$('#addCon').fadeIn();
-        alert("暂不开放此功能")
+        $('#addCon').fadeIn();
     });
     $('#file').change(function(){
         $(this).next().html($(this).val() );
@@ -269,13 +256,95 @@ $('.contractDel').click(function(){
 
 //    提款记录
 $('.drawMoney').click(function(){
-    $('#drawMoney').fadeIn();
+   // $('#drawMoney').fadeIn();
+    
+    var smartContractAddr=$(this).attr("id");
+	//alert("smartContractAddr="+smartContractAddr)
+	querySmartContractDetail(smartContractAddr);
+    $('#drawMoney .drawDiv').css("transform",'translateX(0)');
+    $('#drawMoney .drawDiv').css("transition",'transform 0.3s');
+    $('.drawDivRt').fadeIn();
+    
 });
-$('.doCon').click(function(){
+$('#contractSelect').change(function(){
     $('#drawMoney .drawDiv').css("transform",'translateX(0)');
     $('#drawMoney .drawDiv').css("transition",'transform 0.3s');
     $('.drawDivRt').fadeIn();
 });
+
+
+function gotoContractList(smartContractId){
+		 alert("smartContractId="+smartContractId)
+		 window.location.href="${system.basePath}/admin/myAccountBook?smartContractId="+smartContractId;
+	}
+	
+	
+	function querySmartContractDetail(smartContractAddr){
+		    var postData =  {"smartContractAddr":smartContractAddr,tm:new Date().getTime()};
+			var querySmartContractDetailUrl='${system.basePath}/admin/querySmartContractDetail';
+			$.ajax({
+				type: 'GET',
+				url: querySmartContractDetailUrl,
+				data:postData,
+				dataType:'json',
+				cache: false,
+				async: true,//同步方法
+				success: function(data){
+					console.log(data)
+					 $("#drawMoney_smartContractId").html(data.smartContractExt.smartContract.id);
+					 $("#drawMoney_smartContractName").html(data.smartContractExt.smartContract.name);
+					 $("#drawMoney_banlance").html(data.smartContractExt.balanceYuan+"&yen;");
+					 		
+					 	  var optionStr="<option disabled>选择款项用于的合同</option>";
+						  $.each(data.contractBargainList,function(key,val){ 
+						  		//console.log(val.bargainAddr)
+	                    		optionStr+="<option value='"+val.bargainAddr+"'>"+val.bargainName+"</option>";
+	              		 }) 
+	              		 var selectStr="<select>"+optionStr+"</select>";
+	              		 
+	              		 $("#contractSelect").empty();
+	              		 $("#contractSelect").append(optionStr); 
+	              		 console.log("optionStr="+optionStr);
+					 
+					 $('#drawMoney').fadeIn();
+				}
+			});
+	}
+	
+	
+	function confirmDraw(){
+			var drawAmount=$("#drawMoney_drawMoney").val();
+			var smartContractId=$("#drawMoney_smartContractId").html();
+			var bargainAddr=$("#contractSelect").val();
+			var drawRemark=$("#draw_remark").val();
+			console.log("drawAmount="+drawAmount+" smartContractId="+smartContractId+" bargainAddr="+bargainAddr+" drawRemark="+drawRemark)
+		 	var postData =  {"smartContractId":smartContractId,"bargainAddr":bargainAddr,"drawAmount":drawAmount,"drawRemark":drawRemark,tm:new Date().getTime()};
+			var confirmDrawUrl='${system.basePath}/admin/draw';
+			$.ajax({
+				type: 'GET',
+				url: confirmDrawUrl,
+				data:postData,
+				dataType:'json',
+				cache: false,
+				async: true,//同步方法
+				success: function(data){
+					console.log(data)
+					alert("提款成功")
+					
+					 $('.dealDel').fadeOut();
+					
+					setTimeout('myrefresh()',500); 				 
+				}
+			});
+	}
+	
+	
+		function myrefresh() 
+	{ 
+	window.location.reload(); 
+	} 
+	//setTimeout('myrefresh()',500); //指定1秒刷新一次 
+
 
 </script>
 </body>

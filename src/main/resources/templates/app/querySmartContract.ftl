@@ -103,7 +103,7 @@
                                         </li>
                                         <li class="over">
                                             <span class="lf">基金管理费：</span>
-                                            <span class="rt">千分之${SmartContractExt.smartContract.fundManangerFee?if_exists}</span>
+                                            <span class="rt">${SmartContractExt.smartContract.fundManangerFeeStr?if_exists}%</span>
                                         </li>
                                         <li class="over">
                                             <span class="lf">捐献渠道：</span>
@@ -111,7 +111,7 @@
                                         </li>
                                         <li class="over">
                                             <span class="lf">渠道服务费：</span>
-                                            <span class="rt">千分之${SmartContractExt.smartContract.channelFee?if_exists}</span>
+                                            <span class="rt">${SmartContractExt.smartContract.channelFeeStr?if_exists}%</span>
                                         </li>
                                         <li class="over">
                                             <span class="lf">生效时间：</span>

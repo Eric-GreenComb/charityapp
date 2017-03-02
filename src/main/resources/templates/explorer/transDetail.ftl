@@ -12,6 +12,7 @@
     <div class="dealMask">
         <p class="dealTitle">合约详情</p>
         <p class="maskColor"></p>
+        <#if smartContract??>
         <ul class="maskUl">
             <li><p>捐款合约ID：<span>${donorTransRel.contractIdStr?if_exists}</span></p></li>
             <li><p>捐款合约名称：<span>${smartContract.name?if_exists}</span></p></li>
@@ -34,6 +35,7 @@
             </span></p></li>
             <li><p>合约失效时间：<span><#if smartContract.endTimeStr?? && smartContract.endTimeStr?length gt 10>  ${smartContract.endTimeStr?if_exists?substring(0,10)}  </#if></span></p></li>
         </ul>
+        </#if>
     </div>
     <p class="close"><img src="${system.basePath}/img/common_pc/closeIcon.png" alt=""/></p>
 </div>
@@ -42,7 +44,7 @@
 <!--header-->
 <div class="header">
     <div class="container">
-        <div class="lf logoDiv">
+        <div class="lf logoDiv" id="backExplorerIndex">
             <img src="${system.basePath}/img/common_pc/logo.png" alt=""/>
             <span class="logoTxt">区块链浏览器</span>
         </div>
@@ -60,35 +62,38 @@
         <div class="partYi">
             <p class="partName">交易信息</p>
             <p class="partInfo"><span>交易ID</span><span class="color">${transaction.txid?if_exists}</span></p>
-            <p class="partInfo"><span>交易金额</span><span>${transaction.transMoney?if_exists} &yen;</span><span>交易已确认</span></p>
+            <p class="partInfo"><span>交易金额</span><span>${transaction.transMoney?if_exists} &yen;</span><span class="dealConfirm">交易已确认</span></p>
             <p class="partInfo"><span>所在区块(stateHash)</span><a href="javascript:goBlockDetail('${donorTransRel.blockHeight?if_exists}');" class="color">${donorTransRel.blockHash?if_exists}</a></p>
             <p class="partInfo"><span>接收时间</span><span>${transaction.tranGenTime?if_exists}</span></p>
-            <p class="partInfo"><span>合约ID</span><span class="color" id="contractId">${donorTransRel.contractIdStr?if_exists}</span></p>
+            <#if donorTransRel.contractIdStr??>
+            	<p class="partInfo"><span>合约ID</span><span class="color" id="contractId">${donorTransRel.contractIdStr?if_exists}</span></p>
+            </#if>
         </div>
         <!--tu-->
         <div class="moneyAll">
-        	<#if donorTransRel.type?if_exists='1'>
-		        	 <span class="jkr">捐款人标识</span>
-		            <span>${donorTrackDetail.donorAmountStr?if_exists}&yen;</span>
-		            <img src="${system.basePath}/img/common_pc/zhuan.png" alt="" class="zhuan"/>
-		            <ul class="dealMoney">
-		                <li><span class="lf">合约账户</span><span class="rt">${donorTrackDetail.contractAmountStr?if_exists}&yen;</span></li>
-		                <li><span class="lf">基金管理费账户</span><span class="rt">${donorTrackDetail.fundAmountStr?if_exists}&yen;</span></li>
-		                <li><span class="lf">渠道账户</span><span class="rt">${donorTrackDetail.channelAmountStr?if_exists}&yen;</span></li>
-		            </ul>
-        	<#else >
-        	
-		        	 <span class="jkr">合约账户</span>
-		            <span>${transaction.transMoney?if_exists}</span>
-		            <img src="${system.basePath}/img/common_pc/zhuan.png" alt="" class="zhuan"/>
-		            <ul class="dealMoney">
-		                <li><span class="jkr"></span><span class="rt"></span></li>
-		                <li><span class="jkr">合同账户</span><span class="rt">${transaction.transMoney?if_exists?replace('-','')} &yen;</span></li>
-		                <li><span class="jkr"></span><span class="rt"></span></li>
-		            </ul>
-        	
+        	<#if donorTransRel.contractIdStr??>
+	        	<#if donorTransRel.type?if_exists='1'>
+			        	 <span class="jkr">捐款人标识</span>
+			            <span>${donorTrackDetail.donorAmountStr?if_exists}&yen;</span>
+			            <img src="${system.basePath}/img/common_pc/zhuan.png" alt="" class="zhuan"/>
+			            <ul class="dealMoney">
+			                <li><span class="lf">合约账户</span><span class="rt">${donorTrackDetail.contractAmountStr?if_exists}&yen;</span></li>
+			                <li><span class="lf">基金管理费账户</span><span class="rt">${donorTrackDetail.fundAmountStr?if_exists}&yen;</span></li>
+			                <li><span class="lf">渠道账户</span><span class="rt">${donorTrackDetail.channelAmountStr?if_exists}&yen;</span></li>
+			            </ul>
+	        	<#elseif donorTransRel.type?if_exists='2'>
+	        	
+			        	 <span class="jkr">合约账户</span>
+			            <span>${transaction.transMoney?if_exists}</span>
+			            <img src="${system.basePath}/img/common_pc/zhuan.png" alt="" class="zhuan"/>
+			            <ul class="dealMoney">
+			                <li><span class="jkr"></span><span class="rt"></span></li>
+			                <li><span class="jkr">合同账户</span><span class="rt">${transaction.transMoney?if_exists?replace('-','')} &yen;</span></li>
+			                <li><span class="jkr"></span><span class="rt"></span></li>
+			            </ul>
+	        	<#else>
+	        	</#if>
         	</#if>
-        
            
         </div>
         <!--序列化信息-->
@@ -103,6 +108,12 @@
 <script src="${system.basePath}/js/jquery-1.11.3.js"></script>
 <script src="${system.basePath}/js/common_pc.js"></script>
 <script>
+	var bObj = document.getElementById("backExplorerIndex"); 
+		bObj.addEventListener("click",backIndex,false); 
+		function backIndex(){
+			window.location.href="${system.basePath}/explorer/index";
+		} 
+
 function goBlockDetail(height){
 	window.location.href="${system.basePath}/explorer/blockDetail?heigh="+height;
 }

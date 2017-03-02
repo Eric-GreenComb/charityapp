@@ -286,31 +286,10 @@ public class ApiService {
 		} else {
 			args.add(name);
 		}
-		JSONObject jsonResponse = (JSONObject) httpService.httpPostQuery(ccBaseUrl, chaincodeName, "queryAccount",
-				args);
-		Account account = new Account();
-		
-		if (null != jsonResponse) {
-			this.logger.info("jsonResponse=" + jsonResponse.toString());
-			Map<String, Class> classMap = new HashMap<String, Class>();
-//			classMap.put("txouts", TX_TXOUT.class);
-			account = (Account) JSONObject.toBean(jsonResponse, Account.class, classMap);
-			Map<String,TX_TXOUT> txouts=new HashMap<String,TX_TXOUT>();
-			JSONObject txoutsJson=jsonResponse.getJSONObject("txouts");
-			
-			if(!txoutsJson.isEmpty()){
-				for (Iterator<String> keys = txoutsJson.keys(); keys.hasNext();) { 
-					 String key1 = keys.next();  
-					 TX_TXOUT txout=(TX_TXOUT)JSONObject.toBean((JSONObject)txoutsJson.get(key1), TX_TXOUT.class);
-					 txouts.put(key1, txout);
-				} 
-				account.setTxouts(txouts);
-			}
-			
-			
-			
-			
-		}
+		JSONObject jsonResponse = (JSONObject) httpService.httpPostQuery(ccBaseUrl, chaincodeName, "queryAccount",args);
+		Map<String, Class> classMap = new HashMap<String, Class>();
+		classMap.put("coinKey", java.lang.String.class);
+		Account account = (Account)JSONObject.toBean(jsonResponse, Account.class);
 		return account;
 	}
 
@@ -720,6 +699,15 @@ public class ApiService {
 		String msgId = (String)httpService.httpPostInvoke(ccBaseUrl, chaincodeName, "changeCoin", args);
 		return msgId;
 	}
+	
+	public String buyCoin(String cebAddr,String tx,String cebSign){
+		List<String> args = new ArrayList<String>();
+		args.add(cebAddr);
+		args.add(tx);
+		args.add(cebSign);
+		String msgId = (String)httpService.httpPostInvoke(ccBaseUrl, chaincodeName, "buyCoin", args);
+		return msgId;
+	}
 
 	public String donated(@RequestParam(value = "name", required = false, defaultValue = "contract01") String name) {
 		List<String> args = new ArrayList<String>();
@@ -765,7 +753,122 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		String messageIdChange=this.buyCoin(cebBankAddr, cebBangTx, cebSign);
+//		SysDonorDrawTransRel donorChangCoinRel = saveTxidDonorDrawIdRefInfo(smartContractAddr, messageIdChange, donorAddr, donorUUID,
+//				cebSign,"3");
+		try {
+			Thread.sleep(sleepTimeNumber);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		Account donorAccount =this.queryAccount(donorAddr);
+		List<String> tempList=donorAccount.getCoinKey();
+		int checkCount=0;
+		while(0==tempList.size()){
+			checkCount++;
+			donorAccount =this.queryAccount(donorAddr);
+			tempList=donorAccount.getCoinKey();
+			if(tempList.size()>0){
+				logger.info("success_donated_changCoin:执行循环"+checkCount+"遍成功换币!【"+DateUtil.getTime()+"】");
+			}else{
+				if(checkCount>maxCheckNumber){
+					logger.info("error_donated_changCoin:执行循环超过"+checkCount+"遍成功换币失败，不走了！！【"+DateUtil.getTime()+"】");
+					break;
+				}else{
+					try {
+						logger.info("error_donated_changCoin:已经循环"+checkCount+"遍依然没有同步到最新捐款数据,休眠"+sleepTimeNumber+"毫秒之后继续搜索【"+DateUtil.getTime()+"】");
+						Thread.sleep(sleepTimeNumber);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		
+		
+		  String sourceTxHash=tempList.get(0);
+		  TX_TXIN donorTxin= new TX_TXIN();
+		  donorTxin.setAddr(donorAddr);
+		  donorTxin.setSourceTxHash(sourceTxHash.split(":")[0]);
+		  List<TX_TXIN> txinList = new ArrayList<TX_TXIN>();
+		  try {
+			  donorTxin.setIdx(Integer.parseInt(sourceTxHash.split(":")[1]));
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+				donorTxin.setIdx(0);
+			}
+		  txinList.add(donorTxin);
+		  //捐献给 合约
+		  TX_TXOUT donorTxout = new TX_TXOUT();
+		  donorTxout.setAddr(smartContractAddr);
+		  donorTxout.setValue(Math.round(MoneyUtil.moneyToCcFormat(donorAmount)));//捐款之后剩下的余额
+		  donorTxout.setAttr(donorAddr+","+donorUUID);
+		  List<TX_TXOUT> txoutList = new ArrayList<TX_TXOUT>();
+		  txoutList.add(donorTxout);
+		  TX donorTxTemp = new TX();
+		  donorTxTemp.setFounder(smartContractAddr);
+		  donorTxTemp.setVersion(txversion);
+		  donorTxTemp.setTimestamp(DateUtil.getUnixTime());
+		  donorTxTemp.setTxin(txinList);
+		  donorTxTemp.setTxout(txoutList);
+		String donorTx=Base64Util.getBase64(JSONObject.fromObject(donorTxTemp).toString());
+		String donorSign="";
+		try {
+			donorSign=RSASignatureUtil.signWithKeyPath(donorAddr+donorUUID+smartContractAddr+donorTx, donorName);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		List<String> args = new ArrayList<String>();
+		args.add(donorAddr);//args[0]     //donorAddr
+		args.add(donorAddr);//args[1]         //donorAddr
+		args.add(donorUUID);//args[2]         //donorUUID
+		args.add(smartContractAddr);//args[3] //合约地址
+		args.add(donorTx);// args[4]      //tx --》json————》base64
+		args.add(donorSign);// args[5]   // 用donor的私钥签名
+		args.add(":::"+donorAmount+":::");// args[6]   // :::1000:::
+//		args.add(":::"+donorAmount+","+donorAddr+":::");// args[6]   // :::1000:::
+		
+		txidmsg = (String)httpService.httpPostInvoke(ccBaseUrl, chaincodeName, "donated", args);
+		logger.info(txidmsg);
+//		INSERT INTO sys_trans_rel (trans_id, txid, block_height, tran_sign, contract_id) VALUES ('', '', '', '', '');
+		SysDonorDrawTransRel donorRel = saveTxidDonorDrawIdRefInfo(smartContractAddr, txidmsg, donorAddr, donorUUID,
+				donorSign,"1");
+		FundFlow fundFlow = new FundFlow();
+		fundFlow.setTxid(txidmsg);
+		fundFlow.setTransId(donorUUID);
+		fundFlow.setType("1");
+		fundFlow.setTransTime(DateUtil.getTime());
+		fundFlow.setContractId(smartContractAddr);
+		SmartContract smartContract= this.querySmartContract(smartContractAddr);
+		fundFlow.setContractName(smartContract.getName());
+		fundFlow.setTransMoney(donorAmount);
+		this.commonService.saveFundFlowInfo(fundFlow);
+		putDonateToSession(donorName, donorAddr, donorUUID);
+		
+		return donorRel;
+	}
+	public SysDonorDrawTransRel donated_bak(String donorName,String donorAmount,String smartContractAddr) {
+		
+		String txidmsg = "error";
+//		String smartContractName="smartcontract01";//捐款合约 限定
+		String cebBankAddr=cebbankArgs;//中央银行
+		String donorAddr=this.commonService.findDonorAddrById(donorName);
+		if(StringUtils.isEmpty(donorAddr))return new SysDonorDrawTransRel();
+		String donorUUID=this.commonService.getDonorUuid();//生成的捐款id
+//		String smartContractAddr=this.commonService.findSmartContractAddrById(smartContractId);
+		//1.捐款时,先查询银行的钱数
+		String cebBangTx=Base64Util.getBase64(getCebBankTx(donorUUID,donorAddr,donorAmount));
+		//2.换币
+		String cebSign="";
+		try {
+			cebSign = RSASignatureUtil.signWithKeyPath(cebBangTx, "cebBank");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		String messageIdChange=this.changeCoin(cebBankAddr, cebBangTx, cebSign);
+//		SysDonorDrawTransRel donorChangCoinRel = saveTxidDonorDrawIdRefInfo(smartContractAddr, messageIdChange, donorAddr, donorUUID,
+//				cebSign,"3");
 		//
 		try {
 			Thread.sleep(sleepTimeNumber);
@@ -797,13 +900,13 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		String donorTx=Base64Util.getBase64(donorTxTemp);
 		
 		//4.捐款
-		 /*_sourceAddr := args[0]     //donorAddr
+		/*_sourceAddr := args[0]     //donorAddr
 					_donorAddr := args[1]         //donorAddr
 					_donorUUID := args[2]         //donorUUID
 					_smartContractAddr := args[3] //合约地址
 					_base64TxData := args[4]      //tx --》json————》base64
 					_base64SourcSign := args[5]   // 用donor的私钥签名
-		  	*/		
+		 */		
 		String donorSign="";
 		try {
 			donorSign=RSASignatureUtil.signWithKeyPath(donorAddr+donorUUID+smartContractAddr+donorTx, donorName);
@@ -824,23 +927,8 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		txidmsg = (String)httpService.httpPostInvoke(ccBaseUrl, chaincodeName, "donated", args);
 		logger.info(txidmsg);
 //		INSERT INTO sys_trans_rel (trans_id, txid, block_height, tran_sign, contract_id) VALUES ('', '', '', '', '');
-		SysDonorDrawTransRel donorRel=new SysDonorDrawTransRel();
-		donorRel.setContractId(smartContractAddr);//合约id
-		donorRel.setTransId(donorUUID);
-		donorRel.setTxid(txidmsg);
-		donorRel.setTranSign(donorSign);
-		donorRel.setDonorAddr(donorAddr);
-		donorRel.setType("1");//1为捐款
-		JSONObject jsonObject=blockInfoService.queryCurrentPeerStatus();
-		donorRel.setBlockHeight(jsonObject.getString("height"));
-		donorRel.setBlockHash(jsonObject.getString("currentBlockHash"));
-		this.commonService.saveTxidDonorDrawIdRefInfo(donorRel);//保存donorId和交易id的关系信息
-		/*private String txid;
-		private String transId;
-		private String type;
-		private String transTime;
-		private String contractId;
-		private String contractName;*/
+		SysDonorDrawTransRel donorRel = saveTxidDonorDrawIdRefInfo(smartContractAddr, txidmsg, donorAddr, donorUUID,
+				donorSign,"1");
 		FundFlow fundFlow = new FundFlow();
 		fundFlow.setTxid(txidmsg);
 		fundFlow.setTransId(donorUUID);
@@ -853,6 +941,31 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		this.commonService.saveFundFlowInfo(fundFlow);
 		putDonateToSession(donorName, donorAddr, donorUUID);
 		
+		return donorRel;
+	}
+
+	/**
+	 * @param smartContractAddr
+	 * @param txidmsg
+	 * @param donorAddr
+	 * @param donorUUID
+	 * @param donorSign
+	 * @param type
+	 * @return
+	 */
+	private SysDonorDrawTransRel saveTxidDonorDrawIdRefInfo(String smartContractAddr, String txidmsg, String donorAddr,
+			String donorUUID, String donorSign,String type) {
+		SysDonorDrawTransRel donorRel=new SysDonorDrawTransRel();
+		donorRel.setContractId(smartContractAddr);//合约id
+		donorRel.setTransId(donorUUID);
+		donorRel.setTxid(txidmsg);
+		donorRel.setTranSign(donorSign);
+		donorRel.setDonorAddr(donorAddr);
+		donorRel.setType(type);//1为捐款
+		JSONObject jsonObject=blockInfoService.queryCurrentPeerStatus();
+		donorRel.setBlockHeight(jsonObject.getString("height"));
+		donorRel.setBlockHash(jsonObject.getString("currentBlockHash"));
+		this.commonService.saveTxidDonorDrawIdRefInfo(donorRel);//保存donorId和交易id的关系信息
 		return donorRel;
 	}
     /**
@@ -908,7 +1021,7 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 	 */
 	public String getDonorTx(String donorUUID,String donorAddr,String donorAmount,String smartContractAddr){
 		Account donorAccount =this.queryAccount(donorAddr);
-		Map<String, TX_TXOUT> txouts=donorAccount.getTxouts();
+		Map<String, TX_TXOUT> txouts=null;//;donorAccount.getTxouts();
 		long donorMoneyCC=MoneyUtil.moneyToCcFormat(donorAmount);
 		long  cebBankMoney=0;
 		TX_TXOUT txout=new TX_TXOUT();
@@ -951,6 +1064,51 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		 return JSONObject.fromObject(tx).toString();
 	}
 	
+	public String getDonorTx_bak(String donorUUID,String donorAddr,String donorAmount,String smartContractAddr){
+		Account donorAccount =this.queryAccount(donorAddr);
+		Map<String, TX_TXOUT> txouts=null;//donorAccount.getTxouts();
+		long donorMoneyCC=MoneyUtil.moneyToCcFormat(donorAmount);
+		long  cebBankMoney=0;
+		TX_TXOUT txout=new TX_TXOUT();
+		String sourceTxHash="";
+		for (String key : txouts.keySet()) {
+			txout=(TX_TXOUT)txouts.get(key);
+			if((donorAddr+","+donorUUID).equals(txout.getAttr())){
+				sourceTxHash=key;
+				cebBankMoney=txout.getValue();
+				break;
+			}
+		}
+		if(StringUtils.isEmpty(sourceTxHash))return "";
+		//获取txin  输入信息
+		TX_TXIN txin= new TX_TXIN();
+		txin.setAddr(donorAddr);
+		txin.setSourceTxHash(sourceTxHash.split(":")[0]);
+		List<TX_TXIN> txinList = new ArrayList<TX_TXIN>();
+		try {
+			txin.setIdx(Integer.parseInt(sourceTxHash.split(":")[1]));
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			txin.setIdx(0);
+		}
+		txinList.add(txin);
+		//捐献给 合约
+		TX_TXOUT txoutDonor = new TX_TXOUT();
+		txoutDonor.setAddr(smartContractAddr);
+		txoutDonor.setValue(Math.round(MoneyUtil.moneyToCcFormat(donorAmount)));//捐款之后剩下的余额
+		txoutDonor.setAttr(donorAddr+","+donorUUID);
+		List<TX_TXOUT> txoutList = new ArrayList<TX_TXOUT>();
+		txoutList.add(txoutDonor);
+		TX tx = new TX();
+		tx.setFounder(smartContractAddr);
+		tx.setVersion(txversion);
+		tx.setTimestamp(DateUtil.getUnixTime());
+		tx.setTxin(txinList);
+		tx.setTxout(txoutList);
+//		  tx.setInputData(":::"+donorAmount+":::");//捐款备注
+		return JSONObject.fromObject(tx).toString();
+	}
+	
 	
 	/**
 	 * @param donorUUID
@@ -981,64 +1139,86 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		 return JSONObject.fromObject(tx).toString();
 	}
 	public String getCebBankTx(String donorUuid,String donorAddr,String donorAmount){
-		String cebBankAddr=cebbankArgs;//
-		Account cebBank =this.queryAccount(cebbankArgs);
-		Map<String,TX_TXOUT> txouts=cebBank.getTxouts();
-		long donorMoneyCC=MoneyUtil.moneyToCcFormat(donorAmount);
-		long  cebBankMoney=0;
-		String sourceTxHash="";
-		TX_TXOUT txout= new TX_TXOUT();
-		  for (String key : txouts.keySet()) {
-//		   System.out.println("key= "+ key + " and value= " + txouts.get(key));
-			  txout=txouts.get(key);
-			  if(donorMoneyCC<txout.getValue()){//捐款金额 小于银行中的数据即可
-				  sourceTxHash=key;
-				  cebBankMoney=txout.getValue();
-				  break;
-			  }
-		  }
+		  String cebBankAddr=cebbankArgs;//
+		  long donorMoneyCC=MoneyUtil.moneyToCcFormat(donorAmount);
 		  TX_TXIN txin= new TX_TXIN();
 		  txin.setAddr(cebBankAddr);
-		  txin.setSourceTxHash(sourceTxHash.split(":")[0]);
-		  try {
-				txin.setIdx(Integer.parseInt(sourceTxHash.split(":")[1]));
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-				txin.setIdx(0);
-			}
 		  List<TX_TXIN> txinList = new ArrayList<TX_TXIN>();
 		  txinList.add(txin);
-		
-		  TX_TXOUT txoutBank = new TX_TXOUT();
-		  txoutBank.setAddr(cebBankAddr);
-		  txoutBank.setValue(cebBankMoney-Math.round(donorMoneyCC));//捐款之后剩下的余额
 		  TX_TXOUT txoutDonor = new TX_TXOUT();
 		  txoutDonor.setAddr(donorAddr);
 		  txoutDonor.setValue(Math.round(donorMoneyCC));//捐款之后剩下的余额
-//		  donorUuid
 		  txoutDonor.setAttr(donorAddr+","+donorUuid);
 		  List<TX_TXOUT> txoutList = new ArrayList<TX_TXOUT>();
-		  txoutList.add(txoutBank);
 		  txoutList.add(txoutDonor);
-			/*private long value;//银行的钱找零的数据值
-			private String addr;//银行的addresss
-			private String attr;// donorAddr +","+ donorUuid
-			private String sign; //为空*/
 		  TX tx = new TX();
 		  tx.setVersion(txversion);
 		  tx.setTimestamp(DateUtil.getUnixTime());
 		  tx.setFounder(cebBankAddr);
 		  tx.setTxin(txinList);
 		  tx.setTxout(txoutList);
-		 /* private long version;
+		  return JSONObject.fromObject(tx).toString();
+	}
+	
+	public String getCebBankTx_bak(String donorUuid,String donorAddr,String donorAmount){
+		String cebBankAddr=cebbankArgs;//
+		Account cebBank =this.queryAccount(cebbankArgs);
+		Map<String,TX_TXOUT> txouts=null;//cebBank.getTxouts();
+		long donorMoneyCC=MoneyUtil.moneyToCcFormat(donorAmount);
+		long  cebBankMoney=0;
+		String sourceTxHash="";
+		TX_TXOUT txout= new TX_TXOUT();
+		for (String key : txouts.keySet()) {
+//		   System.out.println("key= "+ key + " and value= " + txouts.get(key));
+			txout=txouts.get(key);
+			if(donorMoneyCC<txout.getValue()){//捐款金额 小于银行中的数据即可
+				sourceTxHash=key;
+				cebBankMoney=txout.getValue();
+				break;
+			}
+		}
+		TX_TXIN txin= new TX_TXIN();
+		txin.setAddr(cebBankAddr);
+		txin.setSourceTxHash(sourceTxHash.split(":")[0]);
+		try {
+			txin.setIdx(Integer.parseInt(sourceTxHash.split(":")[1]));
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			txin.setIdx(0);
+		}
+		List<TX_TXIN> txinList = new ArrayList<TX_TXIN>();
+		txinList.add(txin);
+		
+		TX_TXOUT txoutBank = new TX_TXOUT();
+		txoutBank.setAddr(cebBankAddr);
+		txoutBank.setValue(cebBankMoney-Math.round(donorMoneyCC));//捐款之后剩下的余额
+		TX_TXOUT txoutDonor = new TX_TXOUT();
+		txoutDonor.setAddr(donorAddr);
+		txoutDonor.setValue(Math.round(donorMoneyCC));//捐款之后剩下的余额
+//		  donorUuid
+		txoutDonor.setAttr(donorAddr+","+donorUuid);
+		List<TX_TXOUT> txoutList = new ArrayList<TX_TXOUT>();
+		txoutList.add(txoutBank);
+		txoutList.add(txoutDonor);
+		/*private long value;//银行的钱找零的数据值
+			private String addr;//银行的addresss
+			private String attr;// donorAddr +","+ donorUuid
+			private String sign; //为空*/
+		TX tx = new TX();
+		tx.setVersion(txversion);
+		tx.setTimestamp(DateUtil.getUnixTime());
+		tx.setFounder(cebBankAddr);
+		tx.setTxin(txinList);
+		tx.setTxout(txoutList);
+		/* private long version;
 			private long timestamp;
 			private String inputData;//这个原型 go中是 name=inputData" json:"InputData,omitempty  有可能会出现问题
 			private String founder;
 			private List<TX_TXIN> txin;
 			private List<TX_TXOUT> txout;*/
-		  
-		  
-		  return JSONObject.fromObject(tx).toString();
+		
+		
+		return JSONObject.fromObject(tx).toString();
 	}
 	
 	
@@ -1071,13 +1251,19 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 	 */
 	public SysDonorDrawTransRel drawed(@RequestParam(value = "fundName", required = false, defaultValue = "fund01") String fundName
 			,@RequestParam(value = "drawAmount", required = false, defaultValue = "100") String drawAmount
-			,@RequestParam(value = "smartContractName", required = false, defaultValue = "smartcontract01") String smartContractName
-			,@RequestParam(value = "bargainName", required = false, defaultValue = "bargain01") String bargainName) {
+			,@RequestParam(value = "smartContractId", required = false, defaultValue = "smartcontract01") String smartContractId
+			,@RequestParam(value = "bargainId", required = false, defaultValue = "bargain01") String bargainId
+			,@RequestParam(value = "drawRemark", required = false, defaultValue = "提款备注") String drawRemark) {
 		
 		String fundAddr= "fund01:25ab580a2093776ca2e1dd1775e96dfec5f1ffbcc9565129351cb330cf0712d7";	//args[0]
 		String drawUUID=this.commonService.getDonorUuid();//生成提款的uuid args[1]
-		String smartContractAddr="smartcontract01:1d54a8713923af1718e8eeabec3e4d8596dbbdf2da3f69ea23aeb8c7a5ab73d8";
-		String bargainAddr="bargain01:8fcc58ea7ed212f7c1ba359d15bea144e67c390044d953797548cf67fd62534a";
+		String smartContractAddr=this.commonService.findSmartContractAddrById(smartContractId);;//"smartcontract01:1d54a8713923af1718e8eeabec3e4d8596dbbdf2da3f69ea23aeb8c7a5ab73d8";
+		String bargainAddr=bargainId;
+		if(bargainId.indexOf(":")==-1){
+			bargainAddr=this.commonService.findBargainAddrById(bargainId);//"bargain01:8fcc58ea7ed212f7c1ba359d15bea144e67c390044d953797548cf67fd62534a";
+		}
+//		drawAmount=""+MoneyUtil.moneyToCcFormat(drawAmount);
+		logger.info("drawAmount:"+drawAmount);
 		String drawTx=Base64Util.getBase64(getDrawTx(drawUUID,smartContractAddr,drawAmount,bargainAddr));
 		String drawSign="";
 		try {
@@ -1090,7 +1276,7 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		args.add(drawUUID);//提款 id
 		args.add(drawTx);//提款 tx
 		args.add(drawSign);//签名 用foud01的私钥签名
-		args.add(":::-"+drawAmount+":::");// args[5]   // :::1000:::
+		args.add(":::-"+drawAmount+":::"+drawRemark);// args[5]   // :::1000:::
 		String txidmsg = (String)httpService.httpPostInvoke(ccBaseUrl, chaincodeName, "drawed", args);
 		
 		SysDonorDrawTransRel drawRel=new SysDonorDrawTransRel();
@@ -1104,7 +1290,19 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		drawRel.setBlockHeight(jsonObject.getString("height"));
 		drawRel.setBlockHash(jsonObject.getString("currentBlockHash"));
 		this.commonService.saveTxidDonorDrawIdRefInfo(drawRel);//保存donorId和交易id的关系信息
-		String userName=SessionUtils.getUserNameFromSession();
+		FundFlow fundFlow = new FundFlow();
+		fundFlow.setTxid(txidmsg);
+		fundFlow.setTransId(drawUUID);
+		fundFlow.setType("2");
+		fundFlow.setTransTime(DateUtil.getTime());
+		fundFlow.setContractId(smartContractAddr);
+		SmartContract smartContract= this.querySmartContract(smartContractAddr);
+		fundFlow.setContractName(smartContract.getName());
+		fundFlow.setTransMoney(drawAmount);
+		this.commonService.saveFundFlowInfo(fundFlow);
+		
+		
+//		String userName=SessionUtils.getUserNameFromSession();
 //		putDonateToSession(userName, fundAddr, drawUUID);//将提款记录存入缓存中 需要重写
 		
 		return drawRel;

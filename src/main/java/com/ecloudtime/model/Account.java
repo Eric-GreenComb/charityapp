@@ -1,21 +1,21 @@
 package com.ecloudtime.model;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 public class Account {
 
 	private String addr;
 	private String balance;
 	private String rsaPublicKey;
-	Map<String,TX_TXOUT> txouts=new HashMap<String,TX_TXOUT>();
-	
-	public Map<String, TX_TXOUT> getTxouts() {
+	private List<String> coinKey;
+	/*
+	 * Map<String,TX_TXOUT> txouts=new HashMap<String,TX_TXOUT>();
+	 * public Map<String, TX_TXOUT> getTxouts() {
 		return txouts;
 	}
 	public void setTxouts(Map<String, TX_TXOUT> txouts) {
 		this.txouts = txouts;
-	}
+	}*/
 	public String getAddr() {
 		return addr;
 	}
@@ -33,6 +33,12 @@ public class Account {
 	}
 	public void setRsaPublicKey(String rsaPublicKey) {
 		this.rsaPublicKey = rsaPublicKey;
+	}
+	public List<String> getCoinKey() {
+		return coinKey;
+	}
+	public void setCoinKey(List<String> coinKey) {
+		this.coinKey = coinKey;
 	}
 	
 	
