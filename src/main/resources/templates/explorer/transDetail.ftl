@@ -74,13 +74,13 @@
         <div class="moneyAll">
         	<#if donorTransRel.contractIdStr??>
 	        	<#if donorTransRel.type?if_exists='1'>
-			        	 <span class="jkr">捐款人标识</span>
+			        	 <span class="jkr">捐款人账户</span>
 			            <span>${donorTrackDetail.donorAmountStr?if_exists}&yen;</span>
 			            <img src="${system.basePath}/img/common_pc/zhuan.png" alt="" class="zhuan"/>
 			            <ul class="dealMoney">
 			                <li><span class="lf">合约账户</span><span class="rt">${donorTrackDetail.contractAmountStr?if_exists}&yen;</span></li>
-			                <li><span class="lf">基金管理费账户</span><span class="rt">${donorTrackDetail.fundAmountStr?if_exists}&yen;</span></li>
-			                <li><span class="lf">渠道账户</span><span class="rt">${donorTrackDetail.channelAmountStr?if_exists}&yen;</span></li>
+			                <li><span class="lf">慈善基金账户</span><span class="rt">${donorTrackDetail.fundAmountStr?if_exists}&yen;</span></li>
+			                <li><span class="lf">捐款渠道账户</span><span class="rt">${donorTrackDetail.channelAmountStr?if_exists}&yen;</span></li>
 			            </ul>
 	        	<#elseif donorTransRel.type?if_exists='2'>
 	        	
@@ -89,7 +89,7 @@
 			            <img src="${system.basePath}/img/common_pc/zhuan.png" alt="" class="zhuan"/>
 			            <ul class="dealMoney">
 			                <li><span class="jkr"></span><span class="rt"></span></li>
-			                <li><span class="jkr">合同账户</span><span class="rt">${transaction.transMoney?if_exists?replace('-','')} &yen;</span></li>
+			                <li><span class="jkr">施工方账户</span><span class="rt">${transaction.transMoney?if_exists?replace('-','')} &yen;</span></li>
 			                <li><span class="jkr"></span><span class="rt"></span></li>
 			            </ul>
 	        	<#else>
@@ -99,7 +99,7 @@
         </div>
         <!--序列化信息-->
         <div class="partXlh">
-            <p class="partName">写入信息(区块中记录的序列化信息)</p>
+            <p class="partName">写入信息(区块中记录的序列化信息)[转义button]</p>
             <p class="partShu">${transaction.payload?if_exists}</p>
         </div>
     </div>

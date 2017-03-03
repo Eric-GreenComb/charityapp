@@ -802,7 +802,7 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		  //捐献给 合约
 		  TX_TXOUT donorTxout = new TX_TXOUT();
 		  donorTxout.setAddr(smartContractAddr);
-		  donorTxout.setValue(Math.round(MoneyUtil.moneyToCcFormat(donorAmount)));//捐款之后剩下的余额
+		  donorTxout.setValue(MoneyUtil.moneyToCcFormat(donorAmount));//捐款之后剩下的余额
 		  donorTxout.setAttr(donorAddr+","+donorUUID);
 		  List<TX_TXOUT> txoutList = new ArrayList<TX_TXOUT>();
 		  txoutList.add(donorTxout);
@@ -1050,7 +1050,7 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		  //捐献给 合约
 		  TX_TXOUT txoutDonor = new TX_TXOUT();
 		  txoutDonor.setAddr(smartContractAddr);
-		  txoutDonor.setValue(Math.round(MoneyUtil.moneyToCcFormat(donorAmount)));//捐款之后剩下的余额
+		  txoutDonor.setValue(MoneyUtil.moneyToCcFormat(donorAmount));//捐款之后剩下的余额
 		  txoutDonor.setAttr(donorAddr+","+donorUUID);
 		  List<TX_TXOUT> txoutList = new ArrayList<TX_TXOUT>();
 		  txoutList.add(txoutDonor);
@@ -1095,7 +1095,7 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		//捐献给 合约
 		TX_TXOUT txoutDonor = new TX_TXOUT();
 		txoutDonor.setAddr(smartContractAddr);
-		txoutDonor.setValue(Math.round(MoneyUtil.moneyToCcFormat(donorAmount)));//捐款之后剩下的余额
+		txoutDonor.setValue(MoneyUtil.moneyToCcFormat(donorAmount));//捐款之后剩下的余额
 		txoutDonor.setAttr(donorAddr+","+donorUUID);
 		List<TX_TXOUT> txoutList = new ArrayList<TX_TXOUT>();
 		txoutList.add(txoutDonor);
@@ -1147,7 +1147,7 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		  txinList.add(txin);
 		  TX_TXOUT txoutDonor = new TX_TXOUT();
 		  txoutDonor.setAddr(donorAddr);
-		  txoutDonor.setValue(Math.round(donorMoneyCC));//捐款之后剩下的余额
+		  txoutDonor.setValue(Long.valueOf(donorAmount+"00000"));//捐款之后剩下的余额
 		  txoutDonor.setAttr(donorAddr+","+donorUuid);
 		  List<TX_TXOUT> txoutList = new ArrayList<TX_TXOUT>();
 		  txoutList.add(txoutDonor);
@@ -1191,10 +1191,10 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		
 		TX_TXOUT txoutBank = new TX_TXOUT();
 		txoutBank.setAddr(cebBankAddr);
-		txoutBank.setValue(cebBankMoney-Math.round(donorMoneyCC));//捐款之后剩下的余额
+		txoutBank.setValue(cebBankMoney-donorMoneyCC);//捐款之后剩下的余额
 		TX_TXOUT txoutDonor = new TX_TXOUT();
 		txoutDonor.setAddr(donorAddr);
-		txoutDonor.setValue(Math.round(donorMoneyCC));//捐款之后剩下的余额
+		txoutDonor.setValue(donorMoneyCC);//捐款之后剩下的余额
 //		  donorUuid
 		txoutDonor.setAttr(donorAddr+","+donorUuid);
 		List<TX_TXOUT> txoutList = new ArrayList<TX_TXOUT>();

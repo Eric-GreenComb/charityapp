@@ -34,7 +34,7 @@
         
         <div class="partYi">
         	<#list blockInfo.transactions?if_exists as trans>
-        		<p class="partInfo"><span>包含交易ID</span><a href="javascript:goTransDetail('${trans.txid?if_exists}','${trans.transMoney?if_exists}');" class="color">${trans.txid?if_exists?substring(0,20)}</a></p>
+        		<p class="partInfo"><span>包含交易ID</span><a href="javascript:goTransDetail('${trans.txid?if_exists}','${trans.transMoney?if_exists}');" class="color">${trans.txid?if_exists}</a></p>
                 <p class="partInfo"><span>交易时间</span><span>${trans.tranGenTime?if_exists}</span></p>
        		 </#list>
         </div>

@@ -108,7 +108,9 @@
             <!--账本详情-->
             <div class="accountBook">
                 <p class="lf accTxt">账本详情</p>
-                <p class="rt"><span>账户余额</span><span class="accMoney">${fund.balanceStr?if_exists}&yen;</span></p>
+                <!-- 
+                	<p class="rt"><span>账户余额</span><span class="accMoney">${fund.balanceStr?if_exists}&yen;</span></p>
+                -->
             </div>
             <!--选择-->
             <div class="choose">

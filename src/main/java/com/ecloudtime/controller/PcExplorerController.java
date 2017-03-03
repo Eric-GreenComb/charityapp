@@ -20,6 +20,7 @@ import com.ecloudtime.service.BlockInfoService;
 import com.ecloudtime.service.CacheManager;
 import com.ecloudtime.service.CommonService;
 import com.ecloudtime.service.HttpService;
+import com.ecloudtime.utils.MoneyUtil;
 import com.wordnik.swagger.annotations.ApiOperation;
 
 @Controller
@@ -96,4 +97,28 @@ public class PcExplorerController extends BaseController{
    		return "explorer/transDetail";
    	}
     
+    @RequestMapping("/searchDetail")
+   	@ApiOperation(value="searchDetail",notes="requires login Name default user01")
+   	public String searchDetail(@RequestParam(value = "searchVal", required = false, defaultValue = "0") String searchVal,
+   			Model model) {
+   		if(searchVal.length()<4){//根据高度查询
+   			try {
+				int high =Integer.parseInt(searchVal);
+				return blockDetail(high,"",model);
+			} catch (NumberFormatException e) {
+				return "explorer/searchDetail"; 
+			}
+   		}else{
+   			return transDetail(searchVal,model);
+   		}
+   	}
+    
+    
+    public static void main(String[] args) {
+    	System.out.println(Long.MIN_VALUE);
+        System.out.println(Long.MAX_VALUE);
+        String donorAmount="90000";
+        System.out.println(MoneyUtil.moneyToCcFormat(donorAmount));
+        System.out.println(MoneyUtil.moneyToCcFormat(donorAmount));
+	}
 }

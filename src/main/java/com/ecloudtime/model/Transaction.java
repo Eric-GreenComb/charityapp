@@ -26,6 +26,24 @@ public class Transaction implements java.io.Serializable{
 	
 	private String tranGenTime;
 	
+	private String transType;
+	
+	public String getTransType() {
+		String transMoney=getTransMoney();
+		if("--".equals(transMoney)||null==transMoney){
+			return "系统事件";
+		}else{
+			if(transMoney.indexOf("-")!=-1){
+				return "提款";
+			}
+				return "捐款";
+		}
+	}
+
+	public void setTransType(String transType) {
+		this.transType = transType;
+	}
+
 	public String getTranGenTime() {
 		if(null!=timestamp){
 			return DateUtil.getDateFromUnixTime(timestamp.getSeconds());

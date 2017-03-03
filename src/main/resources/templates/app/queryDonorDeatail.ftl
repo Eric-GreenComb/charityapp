@@ -21,7 +21,7 @@
             <div class="maskTxt">
                 <div class="txtTitle">
                     <p class="title">微公益捐款凭证</p>
-                    <p class="pzH">公益链凭证号(哈希):<span>${processDonored.donorUUID?if_exists[0..20]}</span></p>
+                    <p class="pzH">公益链凭证号:<span>${processDonored.donorUUID}</span></p>
                 </div>
             </div>
             <!--ul-->
@@ -63,7 +63,7 @@
             </ul>
             <!--txt-->
             <div class="maskText">
-                感谢您参与 <u>${processDonored.smartContractName?if_exists}</u>的捐款活动，此次捐款是由区块链技术支持，其捐款凭证号（哈希）是捐款唯一凭证，不可篡改。
+                感谢您参与 <u>${processDonored.smartContractName?if_exists}</u>的捐款活动，此次捐款是由区块链技术支持，其捐款凭证号是捐款唯一凭证，不可篡改。
             </div>
         </div>
     </div>

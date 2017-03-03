@@ -116,13 +116,15 @@ public class AdminController extends BaseController{
     public Foundation queryFund(String userName){
     	Foundation fund=this.apiService.queryFund(userName);
     	String contracts =fund.getContracts();
-    	String[] contractArr=contracts.split(",");
-    	String smartcontractAddr="";
-    	for(String smartContractId:contractArr){
-    		smartcontractAddr=this.commonService.findSmartContractAddrById(smartContractId);
-    		SmartContractExt smartContract=this.apiService.querySmartContractExt(smartcontractAddr);
-    		fund.setChannelFee(fund.getChannelFee()+(smartContract.getTotal()/1000*smartContract.getSmartContract().getChannelFee()));
-    		fund.setFundManangerFee(fund.getFundManangerFee()+(smartContract.getTotal()/1000*smartContract.getSmartContract().getFundManangerFee()));
+    	if(!StringUtils.isEmpty(contracts)){
+    		String[] contractArr=contracts.split(",");
+        	String smartcontractAddr="";
+        	for(String smartContractId:contractArr){
+        		smartcontractAddr=this.commonService.findSmartContractAddrById(smartContractId);
+        		SmartContractExt smartContract=this.apiService.querySmartContractExt(smartcontractAddr);
+        		fund.setChannelFee(fund.getChannelFee()+(smartContract.getTotal()/1000*smartContract.getSmartContract().getChannelFee()));
+        		fund.setFundManangerFee(fund.getFundManangerFee()+(smartContract.getTotal()/1000*smartContract.getSmartContract().getFundManangerFee()));
+        	}
     	}
     	return fund;
     }

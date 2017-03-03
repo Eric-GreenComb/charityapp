@@ -16,8 +16,8 @@
         </div>
         <div class="rt header_top_down">
             <p class="search_con">
-                <input type="text" id="search" class="search" placeholder="高度、UUID、交易ID" />
-                <label for="search"><a href="#"><img src="${system.basePath}/img/common_pc/search.png" alt=""/></a></label>
+                <input type="text" id="search" class="search" value="" placeholder="高度、UUID、交易ID" />
+                <label for="search"><a href="javascript:searchDetail();"><img src="${system.basePath}/img/common_pc/search.png" alt=""/></a></label>
             </p>
         </div>
     </div>
@@ -32,18 +32,18 @@
                 <ul class="nodeNews">
                     <li class="nodeNewsYi">
                         <p class="nodeNewsYiQuan green" id="peer1"><span id="peer1_high">10006</span></p>
-                        <p class="nodeNewsYiNew" id="peer1_address">192.168.31.100</p>
-                        <p class="nodeNewsYiDian" id="peer1_name">光大银行</p>
+                        <p class="nodeNewsYiNew" id="peer1_address">192.168.31.100【fake】</p>
+                        <p class="nodeNewsYiDian" id="peer1_name">捐款渠道</p>
                     </li>
                     <li class="nodeNewsYi">
                         <p class="nodeNewsYiQuan gray" id="peer2"><span id="peer2_high">10005</span></p>
                         <p class="nodeNewsYiNew" id="peer2_address">192.168.31.101</p>
-                        <p class="nodeNewsYiDian" id="peer2_name">瑶瑶缴费</p>
+                        <p class="nodeNewsYiDian" id="peer2_name">光大银行</p>
                     </li>
                     <li class="nodeNewsYi">
                         <p class="nodeNewsYiQuan gray" id="peer3"><span id="peer3_high">10005</span></p>
                         <p class="nodeNewsYiNew" id="peer3_address">192.168.31.102</p>
-                        <p class="nodeNewsYiDian" id="peer3_name">基金会</p>
+                        <p class="nodeNewsYiDian" id="peer3_name">慈善基金</p>
                     </li>
                     <li class="nodeNewsYi">
                         <p class="nodeNewsYiQuan green" id="peer4"><span id="peer4_high">10006</span></p>
@@ -59,7 +59,7 @@
                 <ul class="newsUl">
 	                <#if (transList?if_exists?size > 0)>
 	                	<#list transList as trans>
-	                		<li class="newsInfo"><a href="javascript:goTransDetail('${trans.txid}','${trans.transMoney?if_exists}');">${trans.txid?substring(0,20)}</a><span>${trans.tranGenTime?substring(10)}</span><span>捐款</span><span>${trans.transMoney?if_exists}</span></li>
+	                		<li class="newsInfo"><a href="javascript:goTransDetail('${trans.txid}','${trans.transMoney?if_exists}');">${trans.txid?substring(0,20)}...</a><span>${trans.tranGenTime?substring(10)}</span><span>${trans.transType?if_exists}</span><span>${trans.transMoney?if_exists}</span></li>
 	                	</#list>
 	                </#if>
                 </ul>
@@ -103,6 +103,10 @@
 		//}
 	}
 	
+	
+	function searchDetail(){
+		
+	}
 	
 
 	function queryCurrentPeerStatus(peerUrl){
@@ -153,6 +157,12 @@
 			setTimeout("refreshPeer()",60000);
     }
     refreshPeer();
+    
+ 	 function refresh() 
+	{ 
+	window.location.reload(); 
+	} 
+	//setTimeout('refresh()',10000); //指定1秒刷新一次 
 </script>
 </body>
 </html>

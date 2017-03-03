@@ -69,7 +69,7 @@
 <div class="dealDel" id="contractDetail">
     <div class="maskAll">
         <div class="dealMask">
-            <p class="dealTitle">合同详情<img src="${system.basePath}/img/common_admin/closeIcon.png" class="rt close" alt=""/></p>
+            <p class="dealTitle">施工合同详情<img src="${system.basePath}/img/common_admin/closeIcon.png" class="rt close" alt=""/></p>
             <p class="maskColor"></p>
             <ul class="maskUl">
                 <li><p>合同名称：<span>宁夏母亲水窖项目</span></p></li>
