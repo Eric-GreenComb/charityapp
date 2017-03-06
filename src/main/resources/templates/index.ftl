@@ -12,7 +12,16 @@
 </head>
 <body>
 
-
+<!--mask-->
+<div class="mask indexQuit">
+    <div class="indexMaskAll">
+        <div class="indexMask">
+            <p class="indexInfo">用户信息</p>
+            <p class="curUser">当前登录用户为 <span>${userName?if_exists}</span></p>
+            <p class="indexAct"><span class="indexActQuit">退出登录</span><span class="indexActKnow">我知道了</span></p>
+        </div>
+    </div>
+</div>
 
 <!--head-->
 <div class="headerIndex">
@@ -20,6 +29,7 @@
     <div class="headerTopRen">
         <!--<p class="userRen">用户<span>138****0921</span></p>-->
         <p class="headerTitleRen">微公益</p>
+        <p class="quitIndex"><img src="img/common/quitIndexIcon.png" alt=""/></p>
     </div>
 </div>
 
@@ -69,8 +79,16 @@
 	                            <p class="newsTitle">${smt.smartContract.name?if_exists}</p>
 	                            <p class="newsTxt">${smt.smartContract.detail?if_exists}</p>
 	                            <div class="newsMoney">
-	                                <p>已筹<span>${smt.validTotalStr?if_exists}</span>万元</p>
+	                                <#if smt.totalStr?? && smt.totalStr != ''>
+	                                <p>已筹<span>${smt.totalStr?if_exists}</span>万元</p>
+	                                <#else>
+	                                <p>已筹<span>0</span>万元</p>
+	                                </#if>
+	                                <#if smt.smartContract.goalStr?? && smt.smartContract.goalStr != ''>
 	                                <p>目标<span>${smt.smartContract.goalStr?if_exists}</span>万元</p>
+	                                <#else>
+	                                <p>目标<span>0</span>万元</p>
+	                                </#if>
 	                            </div>
 	                        </div>
 	                        <div class="mui-col-xs-1 newsImg">
@@ -99,6 +117,17 @@ window.onload = function(){
     $('.maskTxt').css('width',w);
 };
 
+//    退出
+    $('.quitIndex').click(function(){
+        $('.mask').fadeIn();
+    });
+    $('.indexActKnow').click(function(){
+        $('.mask').fadeOut();
+    });
+    $('.indexActQuit').click(function(){
+        window.location.href="${system.basePath}/loginOut";
+    });
+
 // 跳转
     $('#gift').on('tap',function(){
         window.location.href="${system.basePath}/app/queryDonorHis";
@@ -119,16 +148,12 @@ window.onload = function(){
 function shui(){
     var li=$('.newsAll li');
     for(var i=0;i<li.length;i++){
-        var yi=parseFloat(($(li[i]).find('.newsMoney p:first-child span')).html()),
+        var yi=parseFloat(($(li[i]).find('.newsMoney p:first-child span')).html().replace(/,/g,"")),
                 all=parseFloat(($(li[i]).find('.newsMoney p:last-child span')).html().replace(/,/g,""));
         var per=(yi/all*100).toFixed(2);
         ($(li[i]).find('.newsPer')).text(per);
         var perNum= ($(li[i]).find('.newsPer')).text();
-    console.log("yi="+yi)
-    console.log("all="+all)
-    console.log("per="+per)
-    console.log("perNum="+perNum)
-
+        
         if( perNum==0 ){
             $(li[i]).find('.newsImg img').attr('src','img/index/per_0.png');
         }else if( 0<perNum && perNum<=5 ){

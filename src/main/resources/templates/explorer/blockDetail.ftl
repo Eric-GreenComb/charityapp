@@ -15,9 +15,9 @@
             <span class="logoTxt">区块链浏览器</span>
         </div>
         <div class="rt header_top_down">
-            <p class="search_con">
-                <input type="text" id="search" class="search" placeholder="高度、UUID、交易ID" />
-                <label for="search"><a href="#"><img src="${system.basePath?if_exists}/img/common_pc/search.png" alt=""/></a></label>
+           <p class="search_con">
+                <input type="text" id="searchVal" class="search" value="" placeholder="高度、UUID、交易ID" />
+                <label for="search"><a href="javascript:searchDetail();"><img src="${system.basePath}/img/common_pc/search.png" alt=""/></a></label>
             </p>
         </div>
     </div>
@@ -32,12 +32,14 @@
             <p class="partInfo"><span>上一区块</span><span>${blockInfo.previousBlockHash?if_exists}</span></p>
         </div>
         
+        <#if blockInfo.transactions??>
         <div class="partYi">
         	<#list blockInfo.transactions?if_exists as trans>
         		<p class="partInfo"><span>包含交易ID</span><a href="javascript:goTransDetail('${trans.txid?if_exists}','${trans.transMoney?if_exists}');" class="color">${trans.txid?if_exists}</a></p>
                 <p class="partInfo"><span>交易时间</span><span>${trans.tranGenTime?if_exists}</span></p>
        		 </#list>
         </div>
+        </#if>
     </div>
 </div>
 
@@ -59,6 +61,17 @@ function goTransDetail(txid,transMoney){
 		//}else{
 		//	window.location.href="${system.basePath}/explorer/transDetail?txid="+txid;
 		//}
+	}
+	
+	function searchDetail(){
+		var searchVal=$("#searchVal").val();
+		console.log("searchVal="+searchVal)
+		if(""!=searchVal){
+			window.location.href="${system.basePath}/explorer/searchDetail?searchVal="+searchVal;
+		}else{
+			alert("请输入查询条件,区块高度或是txid!")
+		}
+		
 	}
 </script>
 </body>

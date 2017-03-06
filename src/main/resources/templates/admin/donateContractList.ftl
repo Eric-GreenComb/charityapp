@@ -14,6 +14,8 @@
 
 <!--添加合约-->
 <div class="dealDel" id="addCon">
+<!--有内容-->
+<!--
     <div class="maskAll">
         <div class="dealMask">
             <p class="dealTitle conTitle">添加合约<img src="${system.basePath}/img/common_admin/closeIcon.png" class="rt close" alt=""/></p>
@@ -68,45 +70,66 @@
             <p class="backBtn"><button>返回</button></p>
         </div>
     </div>
+    -->
+    <!--暂无权限-->
+    <div class="maskAll noPermissionAll">
+        <div class="noPermission">
+            <p>抱歉，此功能权限暂未开放！</p>
+            <p class="noPermissionBtn"><button class="cancel">确认</button></p>
+        </div>
+    </div> 
 </div>
 <!--合同详情-->
-<div class="dealDel" id="contractDetail">
-    <div class="maskAll">
-        <div class="dealMask">
+<div class="dealDel" id="contractDetail" >
+    <div class="maskAll" style="top:15%;" >
+        <div class="dealMask" style="height:450px;">
             <p class="dealTitle">合约详情<img src="${system.basePath}/img/common_admin/closeIcon.png" class="rt close" alt=""/></p>
             <p class="maskColor"></p>
             <ul class="maskUl">
-                <li><p>合同名称：<span>宁夏母亲水窖项目</span></p></li>
-                <li><p>甲方：<span>中国妇女基金会母亲水窖基金委员会</span></p></li>
-                <li><p>乙方：<span>农村城建公司</span></p></li>
+            	<li><p>捐款合约ID：<span id="contractDetail_id">300001</span></p></li>
+                <li><p>捐款合约名称：<span id="contractDetail_name">宁夏母亲水窖项目</span></p></li>
+                <li><p>甲方：<span id="contractDetail_A">中国妇女基金会母亲水窖基金委员会</span></p></li>
+                <li><p>乙方：<span id="contractDetail_B">农村城建公司</span></p></li>
+                <li><p>捐款合约详情：<span id="contractDetail_detail">为张家村修建10座水井，分三期付款</span></p></li>
             </ul>
             <ul class="maskUl">
-                <li><p>工程状态：<span class="mineStatus">已验收</span></p></li>
-                <li><p>合同有效期：<span>2016.1.1-2017.1.1</span></p></li>
+                <li><p>捐款金额限制：<span id="contractDetail_goal">无</span></p></li>
+                <li><p>渠道服务费：<span id="contractDetail_channel">无</span></p></li>
+            	 <li><p>基金管理费：<span  id="contractDetail_manager">无</span></p></li>
             </ul>
             <ul class="maskUl">
-                <li><p>合同ID：<span>300001</span></p></li>
-                <li><p>合同详情：<span>为张家村修建10座水井，分三期付款</span></p></li>
+                <li><p>合同生效时间：<span id="contractDetail_utilTime">无</span></p></li>
+                <li><p>合同维护时间：<span id="contractDetail_startTime">无</span></p></li>
             </ul>
+            <!-- 
             <ul class="maskUl">
-                <li><p>收款账号开户行：<span>招商银行</span></p></li>
+                <li><p>工程状态：<span class="mineStatus" id="contractDetail_status">已验收</span></p></li>
+                <li><p>合同有效期：<span id="contractDetail_startTime">2016.1.1</span><span id="contractDetail_endTime"></span></p></li>
+            </ul>
+            
+            <ul class="maskUl">
+                <li><p>收款账号开户行：<span>光大银行</span></p></li>
                 <li><p>收款账户：<span>626000000000000</span></p></li>
             </ul>
+            -->
             <ul class="maskUl">
-                <li><p>备注信息：<span>捐款的备注信息</span></p></li>
+                <li><p>备注信息：<span id="contractDetail_remark">无</span></p></li>
             </ul>
-            <ul class="maskUl">
-                <li>
-                    <p class="lf">合同附件：</p>
-                    <p class="lf"><span class="contractColor">张家村水窖项目合同.pdf</span><br><span class="contractColor"> 张家村水窖项目验收报告.pdf</span></p>
-                </li>
-            </ul>
-            <div class="maskUl">
-                <p>收款明细</p>
-                <p class="remark conMark"><span>收款次数：</span><span>3</span></p>
-                <p><span>收款金额：</span><span>500000元</span></p>
-            </div>
-            <p class="backBtn"><button>返回</button></p>
+            <!-- 
+	            <ul class="maskUl">
+	                <li>
+	                    <p class="lf">合同附件：</p>
+	                    <p class="lf"><span class="contractColor">张家村水窖项目合同.pdf</span><br><span class="contractColor"> 张家村水窖项目验收报告.pdf</span></p>
+	                </li>
+	            </ul>
+	        
+	            <div class="maskUl">
+	                <p>收款明细</p>
+	                <p class="remark conMark"><span>收款次数：</span><span>3</span></p>
+	                <p><span>收款金额：</span><span>500000元</span></p>
+	            </div>
+             -->
+            <p class="backBtn"><button class="closeBtn">返回</button></p>
         </div>
     </div>
 </div>
@@ -121,7 +144,7 @@
                     <div class="lf conLf drawDiv">
                         <div><p>捐款合约ID</p><p id="drawMoney_smartContractId">3000001</p></div>
                         <div><p>捐款合约名称</p><p id="drawMoney_smartContractName">宁夏母亲水窖项目</p></div>
-                        <div><p>实收捐款（区块链余额元）</p><p id="drawMoney_banlance">9999700.00 &yen;</p></div>
+                        <div><p>区块链余额（元）</p><p id="drawMoney_banlance">9999700.00 &yen;</p></div>
                         <div>
                             <p>提款金额</p>
                             <p><input type="text" placeholder="输入要提取的款项金额" id="drawMoney_drawMoney" /></p>
@@ -130,7 +153,7 @@
                             <p>施工合同</p>
                             <!--<p class="doCon">选择款项用于的合同<span></span></p>-->
 			    <form action="">
-                                <select id="contractSelect" >
+                                <select id="contractSelect" class="contractSelect" >
                                     <option>选择款项用于的合同</option>
                                     <option>合同1</option>
                                     <option>合同二</option>
@@ -162,12 +185,13 @@
 <!--header-->
 <div class="header">
     <div class="container">
+        <a href="${system.basePath}/admin/index">
         <div class="lf logoDiv">
             <img src="${system.basePath}/img/common_admin/logo.png" alt=""/>
             <span class="logoTxt">公益捐款 <span class="logoTxtSm">基金会版</span></span>
-        </div>
+        </div></a>
         <div class="rt logoTxtSmRt">
-            <p>欢迎您！<#if fund??>${fund.name?if_exists}</#if></p>
+            <p>欢迎您！中国妇女发展基金会</p>
         </div>
         <div class="logoTxtSmRt logoAct">
             <p><img src="${system.basePath}/img/common_admin/tcIcon.png" alt=""/>退出</p>
@@ -194,21 +218,25 @@
             <!--del-->
             <ul class="mineDel conDel">
                 <li class="mineTitle">
-                    <span class="conID">合约ID</span>
-                    <span class="conName mineContract">合约名称</span>
-                    <span class="conMoney">余额</span>
+                	<!-- 
+                    	<span class="conID" style="width:125px">合约ID</span>
+                    -->
+                    <span class="conName mineContract" style="width:110px">合约名称</span>
+                    <span class="conMoney" style="width:120px">余额(元)</span>
                     <span class="conTime">创建日期</span>
                     <span class="conStatus">状态</span>
                 </li>
                 
                 <#list smartContractExts as smartContractExt>
                 	 <li class="mineInfo">
-	                   <span class="conID">${smartContractExt.addr?if_exists}</span>
-	                    <span class="conName mineContract">${smartContractExt.smartContract.name?if_exists}</span>
-	                    <span class="conMoney">${smartContractExt.balanceYuan?if_exists}</span>
+                	   <!-- 
+	                   <span class="conID" style="width:125px">${smartContractExt.addr?if_exists}</span>
+	                   -->
+	                    <span class="conName mineContract" style="width:110px">${smartContractExt.smartContract.name?if_exists}</span>
+	                    <span class="conMoney" style="width:120px">${smartContractExt.balanceYuan?if_exists}</span>
 	                    <span class="conTime">${smartContractExt.smartContract.createTimeStr?if_exists}</span>
-	                    <span class="conStatus">${smartContractExt.smartContract.status?if_exists}</span>
-	                    <span class="rt delIcon contractDel"><img src="${system.basePath}/img/common_admin/delIcon.png" alt=""/></span>
+	                    <span class="conStatus">筹款中</span>
+	                    <span class="rt delIcon contractDel" id="${smartContractExt.addr?if_exists}"><img src="${system.basePath}/img/common_admin/delIcon.png" alt=""/></span>
 	                    <span class="rt delIcon drawMoney" id="${smartContractExt.addr?if_exists}"><img src="${system.basePath}/img/common_admin/con_tkIcon.png" alt=""/></span>
 	                    <span class="rt delIcon">
 	                        <a href="javascript:gotoContractList('${smartContractExt.addr?if_exists}');"><img src="${system.basePath}/img/common_admin/con_hyDelIcon.png" alt=""/></a>
@@ -228,12 +256,17 @@
 <script src="${system.basePath}/js/admin/bootstrap-select.js"></script>
 <script>
 //    colse
+$('.logoAct').click(function(){
+    window.location.href="${system.basePath}/admin/login";
+});
     $('.done').click(function(){
     	//确认提款
     	confirmDraw();
         //$('.dealDel').fadeOut();
     });
-    
+    $('button.cancel').click(function(){
+        $('.dealDel').fadeOut();
+    });
      $('.backBtn button.closeBtn').click(function(){
     	//alert(2)
    		 $('.dealDel').fadeOut();
@@ -251,14 +284,18 @@
     });
     
 //添加合约时间
+try{
 $("#contractTime").dateSelect();
-
+}catch(err){}
 
 
 
 //    合同详情
 $('.contractDel').click(function(){
-    $('#contractDetail').fadeIn();
+    //$('#contractDetail').fadeIn();
+     var smartContractAddr=$(this).attr("id");
+    //alert(smartContractAddr);
+    querySmartContractExt(smartContractAddr);
 });
 
 //    提款记录
@@ -272,15 +309,15 @@ $('.drawMoney').click(function(){
 });
 
 $('#contractSelect').change(function(){
-    $('#drawMoney .drawDiv').css("transform",'translateX(0)');
-    $('#drawMoney .drawDiv').css("transition",'transform 0.3s');
-    $('.drawDivRt').fadeIn();
+    //$('#drawMoney .drawDiv').css("transform",'translateX(0)');
+    //$('#drawMoney .drawDiv').css("transition",'transform 0.3s');
+    //$('.drawDivRt').fadeIn();
 });
 
 
 function gotoContractList(smartContractId){
 		 //alert("smartContractId="+smartContractId)
-		 window.location.href="${system.basePath}/admin/myAccountBook?smartContractId="+smartContractId;
+		 window.location.href="${system.basePath}/admin/myAccountBook?contractId="+smartContractId;
 	}
 	
 	
@@ -298,7 +335,9 @@ function gotoContractList(smartContractId){
 					console.log(data)
 					 $("#drawMoney_smartContractId").html(data.smartContractExt.smartContract.id);
 					 $("#drawMoney_smartContractName").html(data.smartContractExt.smartContract.name);
-					 $("#drawMoney_banlance").html(data.smartContractExt.balanceYuan+"&yen;");
+					 $("#drawMoney_banlance").html("&yen;"+data.smartContractExt.balanceYuan);
+					 $("#drawMoney_drawMoney").val("");
+					 $("#draw_remark").val("");
 					 		
 					 	  var optionStr="<option disabled>选择款项用于的合同</option>";
 						  $.each(data.contractBargainList,function(key,val){ 
@@ -316,7 +355,41 @@ function gotoContractList(smartContractId){
 			});
 	}
 	
-	
+	function querySmartContractExt(smartContractAddr){
+		    var postData =  {"smartContractAddr":smartContractAddr,tm:new Date().getTime()};
+			var querySmartContractExtUrl='${system.basePath}/admin/querySmartContractExt';
+			$.ajax({
+				type: 'GET',
+				url: querySmartContractExtUrl,
+				data:postData,
+				dataType:'json',
+				cache: false,
+				async: true,//同步方法
+				success: function(data){
+					console.log(data)
+					$("#contractDetail_name").html(data.smartContract.name);
+					$("#contractDetail_A").html(data.smartContract.partyA);
+					$("#contractDetail_B").html(data.smartContract.partyB);
+					$("#contractDetail_status").html(data.smartContract.statusStr);
+					var startTime = data.smartContract.createTimeStr;
+					$("#contractDetail_startTime").html(startTime.replace("-","年").replace("-","月")+"日");
+					if(data.smartContract.utilTimeStr != null && data.smartContract.utilTimeStr != ""){
+						var endTime = data.smartContract.utilTimeStr;
+						$("#contractDetail_utilTime").html(endTime.replace("-","年").replace("-","月")+"日");
+					}
+					$("#contractDetail_id").html(data.smartContract.id);
+					$("#contractDetail_detail").html(data.smartContract.detail);
+					$("#contractDetail_goal").html(data.smartContract.goalStr+"W");
+					$("#contractDetail_manager").html(data.smartContract.fundManangerFeeStr+"%");
+					$("#contractDetail_channel").html(data.smartContract.channelFeeStr+"%");
+					if(data.smartContract.remark != null && data.smartContract.remark != ""){
+						$("#contractDetail_remark").html(data.smartContract.remark);
+					}
+										
+					 $('#contractDetail').fadeIn();
+				}
+			});
+	}
 	function confirmDraw(){
 			var drawAmount=$("#drawMoney_drawMoney").val();//提款金额
 			var drawBanlance=$("#drawMoney_banlance").html();//合约余额
@@ -331,6 +404,7 @@ function gotoContractList(smartContractId){
 				$("#drawMoney_drawMoney").val("");
 				return ;
 			}
+			 $('body').append('<div class="dealDel drawLoading"><img src="${system.basePath}/img/common/timg.gif" alt=""/></div>');
 			var smartContractId=$("#drawMoney_smartContractId").html();
 			var bargainAddr=$("#contractSelect").val();
 			var drawRemark=$("#draw_remark").val();
@@ -346,7 +420,7 @@ function gotoContractList(smartContractId){
 				async: true,//同步方法
 				success: function(data){
 					console.log(data)
-					alert("提款成功")
+					 alert("提款成功")
 					 $('.dealDel').fadeOut();
 					setTimeout('myrefresh()',500); 				 
 				}
@@ -356,7 +430,7 @@ function gotoContractList(smartContractId){
 	
 		function myrefresh() 
 	{ 
-	window.location.reload(); 
+		window.location.reload(); 
 	} 
 	//setTimeout('myrefresh()',500); //指定1秒刷新一次 
 

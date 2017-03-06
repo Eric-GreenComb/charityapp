@@ -28,7 +28,11 @@
         <div class="section">
             <div class="drawingAll">
                 <p class="drawingTxt">累计提款</p>
+                <#if bargainTrack.totalStr?if_exists?? && bargainTrack.totalStr?if_exists != ''>
                 <p class="drawingMon"><span>${bargainTrack.totalStr?if_exists}</span>元</p>
+                <#else>
+                <p class="drawingMon"><span>0</span>元</p>
+                </#if>
             </div>
             <!--ul-->
             <ul class="drawingDel">

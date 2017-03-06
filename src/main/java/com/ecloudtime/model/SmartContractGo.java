@@ -46,7 +46,8 @@ public class SmartContractGo {
 	
 	public String getUtilTimeStr() {
 		if(0!=utilTimestamp){
-			return DateUtil.getDateFromUnixTime(utilTimestamp);
+			String time =  DateUtil.getDateFromUnixTime(utilTimestamp);
+			return time.substring(0,10);
 		}
 		return utilTimeStr;
 	}

@@ -25,8 +25,7 @@
     <div class="mui-scroll">
         <div class="section">
             <ul class="contractUl">
-                <li><img src="${system.basePath}/img/common/contract01.png" alt=""/></li>
-                <li><img src="${system.basePath}/img/common/contract01.png" alt=""/></li>
+                <li><img src="${system.basePath}/img/rateHT/${donorid?if_exists}.png" alt=""/></li>
             </ul>
         </div>
     </div>
@@ -70,7 +69,7 @@
         var ul, str, i;
         ul =$("#offCanvasContentScroll .contractUl");
         for (i=0; i<3; i++) {
-            str=$('<li><img src="${system.basePath}/img/common/contract01.png" alt=""/></li>');
+  //          str=$('<li><img src="${system.basePath}/img/common/contract01.png" alt=""/></li>');
             ul.append(str);
         }
 //      this.endPullupToRefresh(true);

@@ -10,10 +10,11 @@
 <!--header-->
 <div class="header">
     <div class="container">
+        <a href="${system.basePath}/admin/index">
         <div class="lf logoDiv">
             <img src="${system.basePath}/img/common_admin/logo.png" alt=""/>
             <span class="logoTxt">公益捐款 <span class="logoTxtSm">基金会版</span></span>
-        </div>
+        </div></a>
         <div class="rt logoTxtSmRt">
             <p>欢迎您！${fund.name?if_exists}</p>
         </div>
@@ -43,16 +44,16 @@
                     <p class="secImg"><img src="${system.basePath}/img/common_admin/detailIcon.png" alt=""/></p>
                     <p class="detailHyzh">基金账户</p>
                     <p class="detailYe">余额</p>
-                    <p class="detailMoney">${fund.balanceStr?if_exists} ¥</p>
+                    <p class="detailMoney">¥${fund.balanceStr?if_exists}</p>
                     <p class="detailTk">立即提款</p>
                 </div>
                 <div class="lf detailRt">
                     <p  class="detailTj"><img src="${system.basePath}/img/common_admin/detailTjIcon.png" alt=""/>账户统计</p>
                     <ul class="detailUl">
-                        <li><span>累计获得捐款</span><span>${fund.totalStr?if_exists} &yen;</span></li>
-                        <li><span>基金管理费</span><span>${fund.fundManangerFeeStr?if_exists}&yen;</span></li>
-                        <li><span>渠道服务费</span><span>${fund.channelFeeStr?if_exists} &yen;</span></li>
-                        <li><span>实收捐款</span><span>${fund.validTotalStr?if_exists} &yen;</span></li>
+                        <li><span>累计获得捐款</span><span>&yen;${fund.totalStr?if_exists} </span></li>
+                        <li><span>基金管理费</span><span>&yen;${fund.fundManangerFeeStr?if_exists}</span></li>
+                        <li><span>渠道服务费</span><span>&yen;${fund.channelFeeStr?if_exists} </span></li>
+                        <li><span>实收捐款</span><span>&yen;${fund.validTotalStr?if_exists} </span></li>
                     </ul>
                 </div>
                 <p class="delAct"><a href="${system.basePath}/admin/myAccountBook">查看明细</a></p>
@@ -79,7 +80,7 @@
                         <p class="detailHyzh">进行中的</p>
                         <p class="detailYe">施工</p>
                         <p class="detailMoney">${bargainLen?if_exists} 处</p>
-                        <p class="ingJk">捐款合约共  ${bargainLen?if_exists} 个</p>
+                        <p class="ingJk">共  ${bargainLen?if_exists}处施工</p>
                     </div>
                     <p class="delAct"><a href="${system.basePath}/admin/bargainItemList">查看全部工程</a></p>
                     <p class="line"></p>
@@ -90,6 +91,10 @@
 </div>
 <script src="${system.basePath}/js/jquery-1.11.3.js"></script>
 <script>
+	$('.detailTk').click(function(){
+	window.location.href="${system.basePath}/admin/donateContractList";
+	})
+
 	$('.logoAct').click(function(){
     window.location.href="${system.basePath}/admin/login";
 });

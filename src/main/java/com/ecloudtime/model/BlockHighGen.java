@@ -6,6 +6,7 @@ public class BlockHighGen implements java.io.Serializable{
 	
 	private int blockHigh;
 	private String blockGenTime;
+	private BlockInfo blockInfo;
 	
 	public BlockHighGen() {
 		super();
@@ -30,6 +31,12 @@ public class BlockHighGen implements java.io.Serializable{
 	}
 	public void setBlockGenTime(String blockGenTime) {
 		this.blockGenTime = blockGenTime;
+	}
+	public BlockInfo getBlockInfo() {
+		return blockInfo;
+	}
+	public void setBlockInfo(BlockInfo blockInfo) {
+		this.blockInfo = blockInfo;
 	}
 	
 	

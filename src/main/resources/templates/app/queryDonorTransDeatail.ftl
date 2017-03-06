@@ -25,16 +25,18 @@
     <div class="mui-scroll">
         <div class="section ">
             <ul class="giftDel mui-table-view pzDelUl">
-                <li class="mui-table-view-cell over">
-                    <p class="pzTitle">交易ID</p>
-                    <p class="pzDel">${transaction.txid?if_exists}</p>
-                </li>
+            	<!-- 
+	                <li class="mui-table-view-cell over">
+	                    <p class="pzTitle">交易ID</p>
+	                    <p class="pzDel">${transaction.txid?if_exists}</p>
+	                </li>
+                -->
                 <li class="mui-table-view-cell over">
                     <p class="pzTitle">交易金额</p>
-                    <p class="pzDel">${transaction.transMoney?if_exists} &yen;<span class="deStatus">（交易已确认）</span></p>
+                    <p class="pzDel">&yen;${transaction.transMoney?if_exists} <span class="deStatus">（交易已确认）</span></p>
                 </li>
                 <li class="mui-table-view-cell over">
-                    <p class="pzTitle">所在区块(UUID)</p>
+                    <p class="pzTitle">所在区块哈希</p>
                     <u class="pzDel uuid" id="${donorTransRel.blockHeight?if_exists}">${donorTransRel.blockHash?if_exists}</u>
                 </li>
                 <li class="mui-table-view-cell over">
@@ -48,13 +50,21 @@
             </ul>
             <!--tu-->
             <ul class="pzIcon giftDel">
-                <li class="moneyIcon">
-                    <p class="lxIcon"><img src="${system.basePath}/img/common/pzIcon.png" alt=""/></p>
-                    <div class="lxTxt pzJk"><p>发起捐款</p><p>${donorTrackDetail.donorAmountStr?if_exists} ¥</p></div>
-                    <div class="lxTxt pzQd"><p>渠道账户</p><p>${donorTrackDetail.channelAmountStr?if_exists} ¥</p></div>
-                    <div class="lxTxt pzQkl"><p>合约区块链账户</p><p>${donorTrackDetail.contractAmountStr?if_exists} ¥</p></div>
-                    <div class="lxTxt pzJjgl"><p>基金管理账户</p><p>${donorTrackDetail.fundAmountStr?if_exists} ¥</p></div>
-                </li>
+            	<#if type?if_exists ='draw'>
+		               <li class="moneyIcon">
+		                    <p class="lxIcon"><img src="${system.basePath}/img/common/pzIcon-1.png" alt=""/></p>
+		                    <div class="lxTxt pzJk"><p>合约账户</p><p>¥${transaction.transMoney?if_exists} </p></div>
+		                    <div class="lxTxt pzQkl"><p>施工方账户</p><p>¥${transaction.transMoney?if_exists?replace('-','' )} </p></div>
+	              	  </li>
+	            <#else>
+	            	<li class="moneyIcon">
+	                    <p class="lxIcon"><img src="${system.basePath}/img/common/pzIcon.png" alt=""/></p>
+	                    <div class="lxTxt pzJk"><p>发起捐款</p><p>¥${donorTrackDetail.donorAmountStr?if_exists} </p></div>
+	                    <div class="lxTxt pzQd"><p>渠道账户</p><p>¥${donorTrackDetail.channelAmountStr?if_exists} </p></div>
+	                    <div class="lxTxt pzQkl"><p>合约区块链账户</p><p>¥${donorTrackDetail.contractAmountStr?if_exists} </p></div>
+	                    <div class="lxTxt pzJjgl"><p>基金管理账户</p><p>¥${donorTrackDetail.fundAmountStr?if_exists} </p></div>
+	                </li>
+                </#if>
             </ul>
             <!--序列化信息-->
             <ul class="info mui-table-view ">

@@ -34,13 +34,13 @@
                 <li><p>收款人：<span id="donor_fundName">母亲水窖基金</span></p></li>
             </ul>
             <ul class="maskUl">
-                <li><p>流水号（哈希）：<span id="donor_donorUUID">0000000000909</span></p></li>
+                <!--<li><p>流水号（哈希）：<span id="donor_donorUUID">0000000000909</span></p></li>-->
                 <li><p>施工合同ID：<span id="donor_smartContractAddr">300001</span></p></li>
             </ul>
 
             <div class="maskUl">
-                <p>备注信息</p>
-                <p class="remark" id="donor_remark">捐款的备注信息，捐款的备注信息，捐款的备注信息，捐款的备注信息。捐款的备注信息，捐款的备注信息，捐款的备注信息，捐款的备注信息。捐款的备注信息，捐款的备注信息，捐款的备注信息，捐款的备注信息。捐款的备注信息，捐款的备注信息，捐款的备注信息，捐款的备注信息。。</p>
+                <p>备注信息：</p>
+                <p class="remark" style="border-top:0px" id="donor_remark">无</p>
             </div>
             <p class="backBtn"><button>返回</button></p>
         </div>
@@ -51,7 +51,7 @@
 <div class="dealDel tkDel">
     <div class="maskAll">
         <div class="dealMask">
-            <p class="dealTitle">合约详情<img src="${system.basePath}/img/common_admin/closeIcon.png" class="rt close" alt=""/></p>
+            <p class="dealTitle">提款详情<img src="${system.basePath}/img/common_admin/closeIcon.png" class="rt close" alt=""/></p>
             <p class="maskColor"></p>
             <ul class="maskUl">
                 <li><p>时间：<span id="draw_drawTime">2016.01.08  18:21</span></p></li>
@@ -60,16 +60,16 @@
             </ul>
             <ul class="maskUl">
                 <li><p>捐款人：<span id="draw_donorName">母亲水窖基金</span></p></li>
-                <li><p>收款人：<span id="draw_contractName">**建筑公司</span></p></li>
+                <li><p>收款人：<span id="draw_contractName"></span></p></li>
                 <li><p>提款金额：<span id="draw_amountStr">1000</span></p></li>
             </ul>
             <ul class="maskUl">
-                <li><p>流水号（哈希）：<span id="draw_drawUUID">0000000000909</span></p></li>
+                <li><p>流水号：<span id="draw_drawUUID">0000000000909</span></p></li>
                 <li><p>施工合同ID：<span id="draw_bargainId">300001</span></p></li>
             </ul>
             <div class="maskUl">
-                <p>备注信息</p>
-                <p class="remark"><span id="draw_remark">项目一期尾款。</span></p>
+                <p>备注信息：</p>
+                <p class="remark" style="border-top:0"><span id="draw_remark">无</span></p>
             </div>
             <p class="backBtn"><button>返回</button></p>
         </div>
@@ -80,15 +80,18 @@
 <!--header-->
 <div class="header">
     <div class="container">
+        <a href="${system.basePath}/admin/index">
         <div class="lf logoDiv">
             <img src="${system.basePath}/img/common_admin/logo.png" alt=""/>
             <span class="logoTxt">公益捐款 <span class="logoTxtSm">基金会版</span></span>
-        </div>
+        </div></a>
         <div class="rt logoTxtSmRt">
-            <p>欢迎您！${userName?if_exists}</p>
+            <p>欢迎您！${fund.name?if_exists}</p>
         </div>
         <div class="logoTxtSmRt logoAct">
-            <p><img src="${system.basePath}/img/common_admin/tkIcon.png" alt=""/>提款</p>
+            <!-- 
+           		<p><img src="${system.basePath}/img/common_admin/tkIcon.png" alt=""/>提款</p>
+           -->
             <p><img src="${system.basePath}/img/common_admin/tcIcon.png" alt=""/>退出</p>
         </div>
     </div>
@@ -109,25 +112,28 @@
             <div class="accountBook">
                 <p class="lf accTxt">账本详情</p>
                 <!-- 
-                	<p class="rt"><span>账户余额</span><span class="accMoney">${fund.balanceStr?if_exists}&yen;</span></p>
+                	<p class="rt"><span>账户余额</span><span class="accMoney">&yen;${fund.balanceStr?if_exists}</span></p>
                 -->
             </div>
             <!--选择-->
             <div class="choose">
                 <form action="">
-                    <select id="type" class="selectpicker show-tick form-control">
-                        <option>选择类型</option>
-                        <option value="1">捐款</option>
-                        <option value="2">提款</option>
+                   <select id="type" class="selectpicker show-tick form-control">
+                        <option value="">选择类型${type?if_exists}</option>
+                        <option value="1" <#if '1' = type?if_exists>selected</#if> >捐款</option>
+                        <option value="2" <#if '2' = type?if_exists>selected</#if> >提款</option>
                     </select>
-                    <select name="" id="contract" class="selectpicker show-tick form-control">
-                        <option value="">选择合约</option>
-                        <option value="">宁夏母亲水窖</option>
-                        <option value="">宁夏母亲水窖</option>
+                    <select name="contract" id="contract" class="selectpicker show-tick form-control">
+                        <option value="" >选择合约</option>
+                        <#list allSmartcontracts as smartContract>
+                        <option value="${smartContract.smartContract.addr?if_exists}" <#if smartContract.smartContract.addr?if_exists = contractId?if_exists>selected</#if> >${smartContract.smartContract.name?if_exists}</option>
+                        </#list>
                     </select>
+                    <!--
                     <div class="timeKuang">
                         <input type="text" id="transDate"  name="transDate" placeholder="选择时间">
                     </div>
+                    -->
                 </form>
             </div>
             <!--del-->
@@ -135,7 +141,7 @@
                 <li class="mineTitle">
                     <span class="mineType">类型</span>
                     <span class="mineTime">时间</span>
-                    <span class="mineMoney">金额</span>
+                    <span class="mineMoney">金额(元)</span>
                     <span class="mineContract">所属合约</span>
                 </li>
                 <!--
@@ -208,26 +214,32 @@
 					if('1'==type){//捐款
 						$("#donor_donorTimeStr").html(data.donorTimeStr);
 						$("#donor_smartContractName").html(data.smartContractName);
-						$("#donor_amountStr").html(data.amountStr);
-						$("#donor_fundAmountStr").html(data.fundAmountStr);
-						$("#donor_channelAmountStr").html(data.channelAmountStr);
-						$("#donor_smartContractAmountStr").html(data.smartContractAmountStr);
-						$("#donor_donorAddr").html(data.donorAddr);
+						$("#donor_amountStr").html("&yen;"+data.amountStr);
+						$("#donor_fundAmountStr").html("&yen;"+data.fundAmountStr);
+						$("#donor_channelAmountStr").html("&yen;"+data.channelAmountStr);
+						$("#donor_smartContractAmountStr").html("&yen;"+data.smartContractAmountStr);
+						var add =data.donorAddr;
+						var addrs = add.split(":");
+						$("#donor_donorAddr").html(addrs[0]);
 						$("#donor_fundName").html(data.fundName);
 						$("#donor_donorUUID").html(data.donorUUID);
-						$("#donor_smartContractAddr").html(data.smartContractAddr);
-						$("#donor_remark").html(data.remark);
+						var cadd = data.smartContractAddr;
+						var caddrs = cadd.split(":");
+						$("#donor_smartContractAddr").html(caddrs[0]);
+						if(data.remark != null && data.remark != ""){
+							$("#donor_remark").html(data.remark);
+						}
 					
 						$('.jkDel').fadeIn();
 					}else{//提款
 						 $("#draw_drawTime").html(data.drawTime);
 						 $("#draw_bargainName").html(data.bargainName);
 						 $("#draw_donorName").html(data.donorName);
-						 $("#draw_contractName").html(data.smartContractName);
-						 $("#draw_amountStr").html(data.amountStr);
+						 $("#draw_contractName").html(data.acceptName);
+						 $("#draw_amountStr").html("&yen;"+data.amountStr);
 						 $("#draw_drawUUID").html(data.drawUUID);
 						 $("#draw_bargainId").html(data.bargainId);
-						 $("#draw_remark").html(data.remark);
+						 //$("#draw_remark").html(data.remark);
 						
 						 $('.tkDel').fadeIn();
 					}
@@ -251,28 +263,18 @@
         query()
     });
 		
-	function query(){
+  function query(){
 		var type=$("#type").val();
 		var contractId=$("#contract").val();
-		var transDate=$("#transDate").val();
-		 window.location.href="${system.basePath}/admin/myAccountBook?type="+type+"&contractId="+contractId+"&transDate="+transDate;		
-	
+		 window.location.href="${system.basePath}/admin/myAccountBook?type="+type+"&contractId="+contractId;	
 	}
 	
 //    时间
+try{
     $("#transDate").dateSelect();
+}catch(e){
+}
     
-    	$(document).ready(function(){
-    			var type='${type?if_exists}';
-    			//alert("1type="+type)
-    			if('1'==type){
-    					$("#type option[text='1']").attr("selected", true);
-    			}else if('2'==type){
-    					$("#type option[text='2']").attr("selected", true);
-    			}
-    			
-    	
-		});
     
     
     

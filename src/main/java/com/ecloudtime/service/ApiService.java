@@ -755,8 +755,8 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		}
 		
 		String messageIdChange=this.buyCoin(cebBankAddr, cebBangTx, cebSign);
-//		SysDonorDrawTransRel donorChangCoinRel = saveTxidDonorDrawIdRefInfo(smartContractAddr, messageIdChange, donorAddr, donorUUID,
-//				cebSign,"3");
+		SysDonorDrawTransRel donorChangCoinRel = saveTxidDonorDrawIdRefInfo(smartContractAddr, messageIdChange, donorAddr, commonService.getDonorUuid(),
+				cebSign,"3");
 		try {
 			Thread.sleep(sleepTimeNumber);
 		} catch (InterruptedException e) {
@@ -1147,7 +1147,7 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 		  txinList.add(txin);
 		  TX_TXOUT txoutDonor = new TX_TXOUT();
 		  txoutDonor.setAddr(donorAddr);
-		  txoutDonor.setValue(Long.valueOf(donorAmount+"00000"));//捐款之后剩下的余额
+		  txoutDonor.setValue(MoneyUtil.moneyToCcFormat(donorAmount));//捐款之后剩下的余额
 		  txoutDonor.setAttr(donorAddr+","+donorUuid);
 		  List<TX_TXOUT> txoutList = new ArrayList<TX_TXOUT>();
 		  txoutList.add(txoutDonor);
@@ -1345,7 +1345,7 @@ _base64SourcSign := args[5]   // 用donor的私钥签名
 	}*/
 	
 	public void putTrackDetailToSession(String donorid,String donorAddr){
-		User user =SessionUtils.getUserFromSession();
+		User user =this.queryDonor(donorAddr);
 		if(null==user||null==user.getAddr()){
 			user=this.queryDonor(donorAddr);
 			SessionUtils.putUserInfoToSession(user);

@@ -24,7 +24,7 @@
                 </div>
                 <div class="mui-row contributeMoneyDiv">
                     <p class="mui-col-xs-3"></p>
-                    <p class="mui-col-xs-9 conDu">可捐款额度为<span> ${SmartContractExt.canDonateNumberStr?if_exists} </span>元</p>
+                    <p class="mui-col-xs-9 conDu">可捐款额度为<span id="conDonateMoney"> ${SmartContractExt.canDonateNumberStr?if_exists} </span>元</p>
                 </div>
             </div>
             <div class="foot" id="closeFoot">
@@ -65,7 +65,7 @@
                 </dl>
                 <dl class="mui-col-xs-4">
                     <dt>已筹金额</dt>
-                    <dd><span class="alreadyMoney">${SmartContractExt.validTotalStr?if_exists}</span>万元</dd>
+                    <dd><span class="alreadyMoney">${SmartContractExt.totalStr?if_exists}</span>万元</dd>
                 </dl>
                 <dl class="mui-col-xs-4">
                     <dt>目标金额</dt>
@@ -131,7 +131,7 @@
             <!--合约-->
             <ul class="mui-table-view contract">
                 <li class="mui-table-view-cell">
-                    <a class="mui-navigate-right contractTxt">查看项目合约</a>
+                     <a class="mui-navigate-right contractTxt" id="contractTxt">查看项目合约</a>
                 </li>
             </ul>
         </div>
@@ -152,14 +152,17 @@
         window.history.back(-1);
     });
 
+	$('#contractTxt').on('tap',function(){
+        window.location.href="${system.basePath}/app/querySmartContractDetail";
+    });
 	$('#enter').on('tap',function(){
 		//$('#enterMask').fadeIn();
 	       var donorAmount=$("#donorAmount").val();
 	       var smartContractAddr='${SmartContractExt.smartContract.addr?if_exists}';
-	       if(isPositiveNum(donorAmount)){
+	       if(isRightMoney(donorAmount)){
 	     		 window.location.href="${system.basePath}/app/ccpay?donorAmount="+donorAmount+"&smartContractAddr="+smartContractAddr+"&tm="+new Date().getTime() ;
 	       }else{
-	      	 	mui.alert("不是数字,请重新填写正整数的金额")  
+	      	 	mui.alert("请重新填写正确的金额")  
 	       		$("#donorAmount").val(100);  	
 	       }
 	   });
@@ -178,6 +181,42 @@
 		} 
 
 
+		function isRightMoney(money){
+		
+			var reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+		     //var money = "520.100";
+		     //000 错
+		     //0 对
+		     //0. 错
+		     //0.0 对
+		     //050 错
+		     //00050.12错
+		     //70.1 对
+		     //70.11 对
+		     //70.111错
+		     //500 正确
+		     
+		     var conDonateMoney=$("#conDonateMoney").html();
+		     conDonateMoney=parseFloat(conDonateMoney.replace(/,/g,""));
+		     if (reg.test(money)) {
+		     	  if(parseFloat(money)==0){
+		     	  	return false;
+		     	  }
+		     	  if(parseFloat(money)>parseFloat(conDonateMoney)){
+		     	  		mui.alert("您的捐款已经超过可捐款额度了，您可以选择其他合约进行捐款!")  
+		     	  	return false;
+		     	  }
+		     
+		     	  if(money.length>10){
+		     	  		mui.alert("少年，你确定你要捐赠这么多钱吗?")  
+		     	  	return false;
+		     	  }
+		          return true;
+		     }else{
+		          return false;
+		     };
+		}
+
 
     (function($) {
         $('.mui-scroll-wrapper').scroll({
@@ -189,14 +228,22 @@
 //关闭高度
 window.onload=function(){
     var h=(window.screen.availHeight)-156;
-    console.log(h);
+    //console.log(h);
     $('.maskWhite').css('height',h+'px');
 }
 
 //    水滴
 var yi=parseFloat($('.alreadyMoney').html().replace(/,/g,"")),
     all=parseFloat($('.allMoney').html().replace(/,/g,""));
+console.log("yi="+yi+" all="+all );
+if(isNaN(yi)){ 
+yi=0;
+}
+
+console.log("yi="+yi+" all="+all );
 $('.newsPer').html((yi/all*100).toFixed(2)+'%');
+
+
 function shui(){
     var per=yi/all*100;
     if( per==0 ){
@@ -235,7 +282,14 @@ shui();
     var btn = document.getElementById("lookPz");
     btn.addEventListener('tap',function(){
 //        $('#mask'). slideDown();
-//        alert(1);
+
+		 var conDonateMoney=$("#conDonateMoney").html();
+		 conDonateMoney=parseFloat(conDonateMoney.replace(/,/g,""));
+     	  if(parseFloat(conDonateMoney)==0){
+     	  		mui.alert("该项目已经筹集到全部捐款了，您可以去捐其他的项目!")  
+     	  		return ;
+     	  	}
+		
         $('#mask').css({"top":0,"transition":'350ms'});
     });
     //空白关闭

@@ -20,8 +20,8 @@ function max(yuan,len){
 //合约
 max('.mineContract',10);
 max('.conName.mineContract',9);
-max('.contractName',9);
-max('.conID',10);
+max('.contractName',15);
+max('.conID',16);
 max('.contractID',8);
 max('.conWhere',8);
 

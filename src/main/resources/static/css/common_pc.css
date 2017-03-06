@@ -265,6 +265,18 @@ nav,#banner,section,footer{
     font-size:18px;
     color:#4a4a4a;
     letter-spacing:1px;
+    overflow: hidden;
+}
+.transfer{
+    background:#9c27b0;
+    border-radius:8px;
+    width:80px;
+    height:24px;
+    outline: none;
+    border:none;
+    color:#fff;
+    line-height:16px;
+    cursor: pointer;
 }
 .partInfo span{
     font-size:14px;
@@ -292,6 +304,10 @@ nav,#banner,section,footer{
 .color,.partInfo span.color{
     color:#9c27b0;
     font-size:14px;
+    vertical-align: top;
+}
+.partInfo span{
+    vertical-align: top;
 }
 .partXlh{
     width:800px;
@@ -415,7 +431,6 @@ nav,#banner,section,footer{
     word-break: break-all;
     vertical-align: top;
 }
-
 
 
 

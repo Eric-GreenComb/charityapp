@@ -1,8 +1,5 @@
 package com.ecloudtime.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.ecloudtime.utils.DateUtil;
 import com.ecloudtime.utils.MoneyUtil;
 
@@ -32,6 +29,8 @@ public class DonorContribution implements Cloneable{
 	private int donorNumber;
 	
 	private String donorTimeStr;
+	
+	private String year;
 	
 	public String getAmountStr() {
 		if(0!=getAmount()){
@@ -128,5 +127,13 @@ public class DonorContribution implements Cloneable{
 				}
 		return o; 
 		}
+
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
 
 }

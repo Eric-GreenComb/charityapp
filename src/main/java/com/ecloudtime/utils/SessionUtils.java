@@ -48,6 +48,14 @@ public class SessionUtils {
 	}
 	
 	
+	public static void clearUserInfoFromSession(){
+		Subject currentUser = SecurityUtils.getSubject();  
+		Session session = currentUser.getSession();
+		if(null!=session){
+			session.removeAttribute(Const.SESSION_USER);
+		}
+	}
+	
 	public static void clearFoundUserInfoFromSession(){
 		Subject currentUser = SecurityUtils.getSubject();  
 		Session session = currentUser.getSession();

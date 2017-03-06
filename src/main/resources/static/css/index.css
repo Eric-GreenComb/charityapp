@@ -1,4 +1,4 @@
-/*é€šç”¨*/
+/*Í¨ÓÃ*/
 body {
     font: 12px "microsoft yahei", Arial, Helvetica, sans-serif;
     color:#999;
@@ -78,8 +78,8 @@ a:hover,a:focus,a:hover{text-decoration:none;color:#333;}
 /*mask*/
 .newsMask img{
     border-radius: 6px;
-    /*max-height:72px;*/
-    /*width:100%;*/
+    max-height:72px;
+    width:100%;
 }
 .maskTxt{
     position: absolute;
@@ -98,7 +98,7 @@ a:hover,a:focus,a:hover{text-decoration:none;color:#333;}
     border-radius: 6px;
     background-image:linear-gradient(to bottom, rgba(0,0,0,0.4) 25%, #000000 100%);
 }
-.newsImg{text-align: center; position:relative}
+.newsImg{text-align: center; position:relative; margin-top:5px; }
 .newsPerP{color:#4a94ea;margin:0;font-size: 12px;position:absolute;right:-7px;}
 .newsPer{display: inline;font-size: 12px;}
 /**************************header**************************/
@@ -116,6 +116,7 @@ a:hover,a:focus,a:hover{text-decoration:none;color:#333;}
     padding:10px 15px;
     position: relative;
     height:44px;
+    text-align: center;
 }
 .headerTopRen p{
     margin:0;
@@ -129,12 +130,12 @@ a:hover,a:focus,a:hover{text-decoration:none;color:#333;}
     vertical-align: middle;
 }
 .headerTitleRen{
-    position: absolute;
-    width:100%;
-    left:0;
-    vertical-align: bottom;
+    /*position: absolute;*/
+    /*width:100%;*/
+    /*left:0;*/
+    /*vertical-align: bottom;*/
     text-align: center;
-    font-size:18px;
+    font-size:20px;
     color:#ffffff;
     bottom:10px;
 }
@@ -194,11 +195,65 @@ a:hover,a:focus,a:hover{text-decoration:none;color:#333;}
     margin:2px 0 0 0 ;
 }
 
-
-
-
-
-
+/*quitIndex*/
+.mask.indexQuit{
+    background-color:rgba(255,255,255,0);
+}
+.quitIndex{
+    position:absolute;
+    right:15px;
+    font-size:14px;
+    padding:0;
+    border:none;
+    outline:none;
+    background:none;
+    color:#fff;
+    line-height:27px;
+}
+.quitIndex img{
+    width:25px;
+}
+.indexMaskAll{
+    position: absolute;
+    top:36%;
+    left:0;
+    width:100%;
+    letter-spacing: 1px;
+}
+.indexMask{
+    background:#ffffff;
+    box-shadow:0 0 24px 0 rgba(0,0,0,0.22), 0 24px 24px 0 rgba(0,0,0,0.30);
+    width:280px;
+    border-radius:2px;
+    margin:0 auto;
+    padding:20px 20px 10px;
+}
+.indexInfo{
+    font-size:20px;
+    color:rgba(0,0,0,0.87);
+    line-height:28px;
+    text-align: left;
+}
+.curUser{
+    font-size:16px;
+    color:rgba(0,0,0,0.54);
+    line-height:24px;
+    text-align:left;
+    margin-bottom:20px;
+    word-break: break-all;
+}
+.indexAct{
+    text-align:right;
+}
+.indexAct span{
+    display: inline-block;
+    font-size:14px;
+    color:#9c27b0;
+    letter-spacing:0.5px;
+}
+.indexAct span:first-child{
+    padding-right:20px;
+}
 
 
 

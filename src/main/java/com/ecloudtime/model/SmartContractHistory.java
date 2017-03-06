@@ -1,5 +1,6 @@
 package com.ecloudtime.model;
 
+import com.ecloudtime.utils.DateUtil;
 import com.ecloudtime.utils.MoneyUtil;
 
 public class SmartContractHistory {
@@ -9,15 +10,27 @@ public class SmartContractHistory {
 	private long amount;
 	private String amountStr;
 	private int timestamp;
+	private String status;//状态
+	private String timestampStr;
 	
 	public String getAmountStr() {
-		if(0!=getAmount()){
-    		return MoneyUtil.ccToMoneyFormat(getAmount(),"yuan");
+		if(0!=amount){
+    		return MoneyUtil.ccToMoneyFormat(amount,"yuan");
     	}
 		return amountStr;
 	}
 	public void setAmountStr(String amountStr) {
 		this.amountStr = amountStr;
+	}
+	public String getTimestampStr() {
+		if(0!=this.timestamp){
+			return DateUtil.getDateFromUnixTime(this.timestamp).substring(0, 10).replace("-", ".");
+		}else{
+			return timestampStr;
+		}
+	}
+	public void setTimestampStr(String timestampStr) {
+		this.timestampStr = timestampStr;
 	}
 	public String getBargainName() {
 		return bargainName;
@@ -48,6 +61,12 @@ public class SmartContractHistory {
 	}
 	public void setTimestamp(int timestamp) {
 		this.timestamp = timestamp;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 	

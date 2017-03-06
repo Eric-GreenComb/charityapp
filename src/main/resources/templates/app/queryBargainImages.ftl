@@ -26,25 +26,110 @@
 <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
     <div class="mui-scroll">
         <div class="section">
-            <div class="mui-row imgDiv">
-                <p class="mui-col-xs-6"><img src="${system.basePath}/img/mine/imgs01.png" alt="" class="img-responsive"/></p>
-                <p class="mui-col-xs-6"><img src="${system.basePath}/img/mine/imgs02.png" alt="" class="img-responsive"/></p>
-                <p class="mui-col-xs-6"><img src="${system.basePath}/img/mine/imgs03.png" alt="" class="img-responsive"/></p>
-                <p class="mui-col-xs-6"><img src="${system.basePath}/img/mine/imgs01.png" alt="" class="img-responsive"/></p>
-                <p class="mui-col-xs-6"><img src="${system.basePath}/img/mine/imgs01.png" alt="" class="img-responsive"/></p>
-                <p class="mui-col-xs-6"><img src="${system.basePath}/img/mine/imgs02.png" alt="" class="img-responsive"/></p>
-                <p class="mui-col-xs-6"><img src="${system.basePath}/img/mine/imgs03.png" alt="" class="img-responsive"/></p>
-                <p class="mui-col-xs-6"><img src="${system.basePath}/img/mine/imgs01.png" alt="" class="img-responsive"/></p>
-                <p class="mui-col-xs-6"><img src="${system.basePath}/img/mine/imgs01.png" alt="" class="img-responsive"/></p>
+            <div class="mui-row imgDiv mui-content-padded">
+                <#if donorid == 'bargain01'>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy1.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy2.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy3.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy4.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy5.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy6.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy7.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <#elseif donorid == 'bargain02'>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy17.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy18.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy19.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy16.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy15.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy14.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy13.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy12.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <#elseif donorid == 'bargain03'>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy8.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy9.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy10.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy11.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy12.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy13.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy14.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <#elseif donorid == 'bargain04'>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy13.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy14.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy15.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy16.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy17.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy18.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy19.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <#elseif donorid == 'bargain05'>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy11.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy1.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy2.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy3.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy4.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy5.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy6.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy7.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <#elseif donorid == 'bargain06'>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy3.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy11.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy18.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy10.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy9.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy8.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy7.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy6.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <#elseif donorid == 'bargain07'>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy3.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy4.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy5.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy6.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy19.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy18.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy17.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <#elseif donorid == 'bargain08'>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy11.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy12.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy13.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy15.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy17.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy5.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy6.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy7.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <#elseif donorid == 'bargain09'>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy3.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy4.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy5.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy6.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy7.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy8.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy9.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy10.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <#elseif donorid == 'bargain10'>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy14.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy2.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy3.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy1.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy8.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy17.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy8.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy5.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy7.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                <p class="mui-col-xs-6"><img src="${system.basePath}/img/rateIMGS/RectangleCopy15.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>
+                </#if>
             </div>
         </div>
     </div>
 </div>
 
 <script src="${system.basePath}/js/mui.min.js"></script>
+<script src="${system.basePath}/js/mui.zoom.js"></script>
+<script src="${system.basePath}/js/mui.previewimage.js"></script>
 <script src="${system.basePath}/js/jquery-1.11.3.js"></script>
 
 <script>
+    //    img
+    mui.previewImage();
+    
     //跳转
     $('.user').on('tap',function(){
         window.history.back(-1);
@@ -77,13 +162,12 @@
         var ul, str, i;
         ul =$("#offCanvasContentScroll .imgDiv");
         for (i=0; i<3; i++) {
-            str=$('<p class="mui-col-xs-6"><img src="${system.basePath}/img/mine/imgs01.png" alt="" class="img-responsive"/></p>');
+       //     str=$('<p class="mui-col-xs-6"><img src="${system.basePath}/img/mine/imgs01.png" alt="" class="img-responsive" data-preview-src="" data-preview-group="1"/></p>');
             ul.append(str);
         }
 //      this.endPullupToRefresh(true);
         this.endPullupToRefresh(false);
     }
-
 
 
 </script>

@@ -224,6 +224,7 @@ nav,#banner,section,footer{
     color:#ffffff;
     outline: none;
     border:none;
+    cursor: pointer;
 }
 
 /**************************首页***************************/
@@ -267,6 +268,9 @@ nav,#banner,section,footer{
 .logoTxtSmRt p{
     display: inline-block;
     margin-left:20px;
+}
+.logoTxtSmRt.logoAct p{
+    cursor: pointer;
 }
 .logoTxtSmRt p:first-child{
     margin-left:0;
@@ -503,16 +507,23 @@ nav,#banner,section,footer{
     background:none;
 }
 .mineDel li.mineCur{
-    background:#fbbc05;
+    /*background:#fbbc05;*/
+    background:#9C27B0;
 }
 .conDel li.conCur{
-    background:#34a826;
+    /*background:#34a826;*/
+    background:#9C27B0;
 }
 .contractUl li.contractCur{
-    background:#ea4335;
+    /*background:#ea4335;*/
+    background:#9C27B0;
 }
 .mineDel li.hover{
-    background:#FDF1F0;
+    /*background:#FDF1F0;*/
+    background:#B45BC3;
+}
+.mineDel li.hover span{
+    color:#fff;
 }
 .mineDel li span{
     display: inline-block;
@@ -601,6 +612,7 @@ nav,#banner,section,footer{
 .maskUl{
     padding:0 240px;
     margin-top:20px;
+    word-break: break-all;
 }
 .maskUl li{
     font-size:12px;
@@ -646,6 +658,7 @@ nav,#banner,section,footer{
     margin-top:5px;
     padding-top:3px;
     letter-spacing: 0.66px;
+    word-break: break-all;
 }
 .conMark.remark{
     color:#6e6e6e;
@@ -990,11 +1003,69 @@ nav,#banner,section,footer{
     outline:none !important;
 }
 
+/*more*/
+.more{
+    display: none;
+    margin:30px auto 0;
+    text-align: center;
+}
+.more img{
+    width:100px;
+    height:100px;
+}
 
+.drawLoading.dealDel{
+    display: block;
+    background: rgba(0,0,0,.5);
+    z-index: 20;
+    width:100%;
+    height:100%;
+    text-align: center;
+    margin: 0 auto;
+}
+.drawLoading.dealDel img{
+    position:absolute;
+    top:40%;
+    left:45%;
+    width:100px;
+    height:100px;
+    vertical-align: middle;
+}
 
-
-
-
+/*暂无权限*/
+.noPermission{
+    background:#ffffff;
+    box-shadow:0px 4px 4px 0px rgba(0,0,0,0.12), 0px 4px 8px 0px rgba(0,0,0,0.24);
+    border-radius:16px;
+    width:400px;
+    height:240px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 16px 0;
+}
+.maskAll.noPermissionAll{
+    top:28%;
+}
+.noPermission>p{
+    font-size:18px;
+    color:#4a4a4a;
+    margin-top:35px;
+}
+.noPermission>p.noPermissionBtn{
+   margin-top:60px;
+}
+.noPermissionBtn button{
+    background:#9c27b0;
+    box-shadow:0px 0px 2px 0px rgba(0,0,0,0.24);
+    border-radius:8px;
+    width:128px;
+    height:32px;
+    border: none;
+    color: #ffffff;
+    font-size: 14px;
+    outline: none;
+    letter-spacing: 1px;
+}
 
 
 

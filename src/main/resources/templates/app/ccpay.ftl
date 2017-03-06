@@ -14,11 +14,13 @@
 
 <!--支付-->
 <div class="mask payMask">
+<div class="payMaskT">
     <div class="maskBack">
         <p class="payStatusOk">支付成功</p>
         <p class="payOkDel">您已支付成功，请返回商户查看支付详情。</p>
         <p class="payBtn" id="payBtn">确认</p>
     </div>
+</div>
 </div>
 
 <!--确认捐款mask-->
@@ -80,7 +82,7 @@
                     </li>
                     <li class="mui-table-view-cell over">
                         <span class="lf"><label for="idCode">验证码：</label></span>
-                        <span class="rt idCode"><input id="idCode" type="text" placeholder=""/><span class="idCodeTxt" id="idCodeTxt"><label for="idCode">获取验证码</label></span></span>
+                        <span class="rt idCode"><input id="idCode" type="text" value="8498" placeholder=""/><span class="idCodeTxt" id="idCodeTxt"><label for="idCode">获取验证码</label></span></span>
                     </li>
                 </ul>
                 <!--协议-->

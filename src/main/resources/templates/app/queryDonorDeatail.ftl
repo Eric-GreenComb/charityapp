@@ -31,39 +31,52 @@
                     <span class="rt">${name?if_exists}</span>
                 </li>
                 <li class=" over">
-                    <span class="lf">收款方</span>
-                    <span class="rt">${processDonored.smartContractName?if_exists}</span>
+                    <span class="lf">收款人</span>
+                    <span class="rt">中国妇女联合基金会</span>
                 </li>
                 <li class=" over">
                     <span class="lf">捐款时间</span>
                     <span class="rt">${processDonored.donorTimeStr?if_exists}</span>
                 </li>
-            </ul>
-            <!--ul-->
-            <ul class="maskDel maskMoney">
+                <li class=" over">
+                    <span class="lf">捐款项目</span>
+                    <span class="rt">${processDonored.smartContractName?if_exists}</span>
+                </li>
                 <li class="over">
                     <span class="lf">捐款金额</span>
                     <span class="rt"><span>${processDonored.amountStr?if_exists}</span>元</span>
                 </li>
                 <li class="over">
-                    <span class="lf">基金管理费(0.${donorContribution.smartContract.channelFee?if_exists}%)</span>
-                    <span class="rt"><span>${processDonored.fundAmountStr?if_exists}</span>元</span>
-                </li>
-                <li class="over">
-                    <span class="lf">渠道费(0.${donorContribution.smartContract.fundManangerFee?if_exists}%)</span>
-                    <span class="rt"><span>${processDonored.channelAmountStr?if_exists}</span>元</span>
+                    <span class="lf">受理渠道</span>
+                    <span class="rt">瑶瑶缴费</span>
                 </li>
             </ul>
             <!--ul-->
+            <ul class="maskDel maskMoney">
+                <li class="over"><span class="lf">您的捐款金额中包含</span></li>
+                <li class="over">
+                    <span class="lf">基金管理费(${donorContribution.smartContract.fundManangerFeeStr?if_exists}%)</span>
+                    <span class="rt"><span>${processDonored.fundAmountStr?if_exists}</span>元</span>
+                </li>
+                <li class="over">
+                    <span class="lf">渠道费(${donorContribution.smartContract.channelFeeStr?if_exists}%)</span>
+                    <span class="rt"><span>${processDonored.channelAmountStr?if_exists}</span>元</span>
+                </li>
+                <li class="over">
+                    <span class="lf">合约账户实收</span>
+                    <span class="rt"><span>${processDonored.smartContractAmountStr?if_exists}</span>元</span>
+                </li>
+            </ul>
+            <!--ul
             <ul class="maskDel maskRoad">
                 <li class="over">
                     <span class="lf">受理渠道</span>
                     <span class="rt">瑶瑶缴费</span>
                 </li>
-            </ul>
+            </ul>-->
             <!--txt-->
             <div class="maskText">
-                感谢您参与 <u>${processDonored.smartContractName?if_exists}</u>的捐款活动，此次捐款是由区块链技术支持，其捐款凭证号是捐款唯一凭证，不可篡改。
+                感谢您参与 <u>${processDonored.smartContractName?if_exists}</u>的捐款活动，此次捐款是由区块链技术支持，其公益链凭证号是捐款唯一凭证，不可篡改。
             </div>
         </div>
     </div>
@@ -101,7 +114,7 @@
             <!--ul-->
             <ul class="giftDel mui-table-view">
                 <li class="mui-table-view-cell over">
-                    <span class="lf">收款方</span>
+                    <span class="lf">慈善项目</span>
                     <span class="rt">${donorContribution.smartContractName?if_exists}</span>
                 </li>
                 <li class="mui-table-view-cell over">
@@ -127,16 +140,16 @@
                     <span class="rt"><span>${processDonored.smartContractAmountStr?if_exists}</span>元</span>
                 </li>
                 <li class="mui-table-view-cell over">
-                    <span class="lf">基金管理费(0.${donorContribution.smartContract.fundManangerFee?if_exists}%)</span>
+                    <span class="lf">基金管理费${donorContribution.smartContract.fundManangerFeeStr?if_exists}%</span>
                     <span class="rt"><span>${processDonored.fundAmountStr?if_exists}</span>元</span>
                 </li>
                 <li class="mui-table-view-cell over">
-                    <span class="lf">渠道费(0.${donorContribution.smartContract.channelFee?if_exists}%)</span>
+                    <span class="lf">渠道费${donorContribution.smartContract.channelFeeStr?if_exists}%</span>
                     <span class="rt"><span>${processDonored.channelAmountStr?if_exists}</span>元</span>
                 </li>
             </ul>
             <!--ul-资金流向-->
-            <ul class="giftDel mui-table-view">
+            <ul class="giftDel mui-table-view giftImg">
                 <li class="mui-table-view-cell over">
                     <span class="lf">资金流向</span>
                     <!--<span class="rt hao"></span>-->
@@ -144,9 +157,9 @@
                 <#if (donorTrackDetail.drawList?if_exists?size > 0)>
                 	 <li class="moneyIcon lxIcon-${donorTrackDetail.drawList?if_exists?size}">
                     <p class="lxIcon"><img src="${system.basePath}/img/common/lxIcon-${donorTrackDetail.drawList?if_exists?size}.png" alt=""/></p>
-                    <div class="lxTxt jk"><p>发起捐款</p><p>${donorTrackDetail.donorAmountStr?if_exists}¥</p></div>
-                    <div class="lxTxt qd"><p>渠道账户</p><p>${donorTrackDetail.channelAmountStr?if_exists} ¥</p></div>
-                    <div class="lxTxt jjgl"><p>基金管理账户</p><p>${donorTrackDetail.fundAmountStr?if_exists} ¥</p></div>
+                    <div class="lxTxt jk"><p>发起捐款</p><p>¥${donorTrackDetail.donorAmountStr?if_exists}</p></div>
+                    <div class="lxTxt qd"><p>渠道账户</p><p>¥${donorTrackDetail.channelAmountStr?if_exists} </p></div>
+                    <div class="lxTxt jjgl"><p>基金管理账户</p><p>¥${donorTrackDetail.fundAmountStr?if_exists} </p></div>
                     <div class="lxTxt qkl"><p>合约<br/>区块链账户</p><p>${donorTrackDetail.contractAmountStr?if_exists} ¥</p></div>
                     <#if (donorTrackDetail.drawList?if_exists?size > 0)>
 	                    <#list donorTrackDetail.drawList as drawObj>
@@ -165,10 +178,10 @@
                  		 <!--0-->
 		                <li class="moneyIcon lxIcon-0">
 		                    <p class="lxIcon"><img src="${system.basePath}/img/common/lxIcon-0.png" alt=""/></p>
-		                    <div class="lxTxt jk"><p>发起捐款</p><p>${donorTrackDetail.donorAmountStr?if_exists}¥</p></div>
-		                    <div class="lxTxt qd"><p>渠道账户</p><p>${donorTrackDetail.channelAmountStr?if_exists} ¥</p></div>
-		                    <div class="lxTxt jjgl"><p>基金管理账户</p><p>${donorTrackDetail.fundAmountStr?if_exists} ¥</p></div>
-		                    <div class="lxTxt qkl"><p>合约<br/>区块链账户</p><p>${donorTrackDetail.contractAmountStr?if_exists} ¥</p></div>
+		                    <div class="lxTxt jk"><p>发起捐款</p><p>¥${donorTrackDetail.donorAmountStr?if_exists}</p></div>
+		                    <div class="lxTxt qd"><p>渠道账户</p><p>¥${donorTrackDetail.channelAmountStr?if_exists} </p></div>
+		                    <div class="lxTxt jjgl"><p>基金管理账户</p><p>¥${donorTrackDetail.fundAmountStr?if_exists} </p></div>
+		                    <div class="lxTxt qkl"><p>合约<br/>区块链账户</p><p>¥${donorTrackDetail.contractAmountStr?if_exists} </p></div>
 		                    <div class="lj lj01" id="${donorTrackDetail.donorid?if_exists}" type="donor">1</div>
 		                </li>
                 </#if>

@@ -1,6 +1,8 @@
 package com.ecloudtime.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ecloudtime.model.Bargain;
 import com.ecloudtime.model.BargainTrack;
 import com.ecloudtime.model.BlockInfo;
 import com.ecloudtime.model.DonorContribution;
@@ -21,6 +24,7 @@ import com.ecloudtime.model.DonorTrackDetail;
 import com.ecloudtime.model.ProcessDonored;
 import com.ecloudtime.model.SmartContract;
 import com.ecloudtime.model.SmartContractExt;
+import com.ecloudtime.model.SmartContractHistory;
 import com.ecloudtime.model.SmartContractTrack;
 import com.ecloudtime.model.SysDonorDrawTransRel;
 import com.ecloudtime.model.Transaction;
@@ -69,6 +73,13 @@ public class AppController extends BaseController{
 		return "index";
    	}*/
     
+    @RequestMapping("/login")
+  	@ApiOperation(value="queryDonorHis",notes="requires login Name")
+  	public String login(Model model) {
+  	  
+  	  return "redirect:/login "; 
+  	}
+    
     @RequestMapping("/queryDonorHis")
 	@ApiOperation(value="queryDonorHis",notes="requires login Name")
 	public String queryDonorHis(Model model) {
@@ -89,6 +100,17 @@ public class AppController extends BaseController{
 				}
 			}
 		}
+		Map<String,Integer> map = new HashMap<String,Integer>();
+		for(DonorContribution dc : donorHisList){
+			if(map.containsKey(dc.getDonorTimeStr().substring(0,4))){
+				Integer num = map.get(dc.getDonorTimeStr().substring(0,4));
+				map.put(dc.getDonorTimeStr().substring(0,4), num + 1);
+			}else{
+				map.put(dc.getDonorTimeStr().substring(0,4), 1);
+				dc.setYear(dc.getDonorTimeStr().substring(0,4));
+			}
+		}
+		model.addAttribute("day", (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()));
 		model.addAttribute("donorHisList", donorHisList);
 		if(0==donorHisList.size()){
 			return "app/queryDonorHisNull";
@@ -110,6 +132,7 @@ public class AppController extends BaseController{
 		String userName=SessionUtils.getUserNameFromSession();
 		model.addAttribute("name", userName);
 		User user =SessionUtils.getUserFromSession();
+		user=this.apiService.queryDonor(user.getAddr());
 		List<DonorContribution> conList=user.getContributions();
 		DonorContribution donorContribution=new DonorContribution();
 		if(null!=conList){
@@ -167,18 +190,9 @@ public class AppController extends BaseController{
 				donorTrackDetail =(DonorTrackDetail)this.cacheManager.getCacheObjectByKey("donorTrackDetail_"+donorid);
 			}
 			model.addAttribute("donorTrackDetail", donorTrackDetail);
-		}else{//提款
-			model.addAttribute("donorTrackDetail", new DonorTrackDetail());
 		}
-		
-   		
 //      SysDonorTransRel donorTransRel=this.commonService.findDonorTransRelByTxid(txid);
-		
-   		
-   		
-   		
-		
-		
+		model.addAttribute("type", type);
 	    return "app/queryDonorTransDeatail";  
 	}
 	
@@ -216,9 +230,16 @@ public class AppController extends BaseController{
 			Model model) {
 		SmartContractExt smartContractExt=this.apiService.querySmartContractExt(smartContractAddr);
 		SmartContractTrack  smartContractTrack =this.apiService.querySmartContractTrack(smartContractAddr);
+		if(null!=smartContractTrack.getTrans()&&smartContractTrack.getTrans().size()>0){
+			for(SmartContractHistory his:smartContractTrack.getTrans()){
+				Bargain bargain=this.apiService.queryBargain(his.getBargainAddr());
+				his.setStatus(bargain.getBargainStatus());
+			}
+		}
 		model.addAttribute("smartContractExt", smartContractExt);
 		model.addAttribute("smartContractTrack", smartContractTrack);
 		model.addAttribute("donateYuan", donateYuan);
+		model.addAttribute("smartContractAddr", smartContractAddr);
    		return "app/queryContributeGo";
    	}
 	
@@ -285,6 +306,13 @@ public class AppController extends BaseController{
 		model.addAttribute("SmartContractExt", SmartContractExt);
 		model.addAttribute("smartContract", smartContract);
 		return "app/querySmartContract";
+	}
+	
+	@RequestMapping("/querySmartContractDetail")
+	@ApiOperation(value="querySmartContractDetail",notes="requires login Name")
+	public String querySmartContractDetail(@RequestParam(value = "smartContractAddr", required = false, defaultValue = "smartContractAddr") String smartContractAddr,
+			Model model) {
+		return "app/querySmartContractDetail";
 	}
 	
 	@RequestMapping("/donate")
@@ -376,7 +404,10 @@ public class AppController extends BaseController{
 		if(bargainId.indexOf(":")==-1){
 			bargainAddr=this.commonService.findBargainAddrById(bargainId);
 		}
+		Bargain bargain = this.apiService.queryBargain(bargainAddr);
+		model.addAttribute("bargain", bargain);
 		model.addAttribute("bargainAddr", bargainAddr);
+		model.addAttribute("bargainAddr2", bargainAddr.split(":")[0]);
 		return "app/queryBargain";
 	}
 	
@@ -399,7 +430,8 @@ public class AppController extends BaseController{
 			Model model) {
 		String userName=SessionUtils.getUserNameFromSession();
 		User user =SessionUtils.getUserFromSession();
-		
+		String donorid2 = donorid.split(":")[0];
+		model.addAttribute("donorid", donorid2);
 		return "app/queryBargainContract";
 	}
 	@RequestMapping("/queryBargainImages")
@@ -408,7 +440,8 @@ public class AppController extends BaseController{
 			Model model) {
 		String userName=SessionUtils.getUserNameFromSession();
 		User user =SessionUtils.getUserFromSession();
-		
+		String donorid2 = donorid.split(":")[0];
+		model.addAttribute("donorid", donorid2);
 		return "app/queryBargainImages";
 	}
 	@RequestMapping("/queryBargainCheck")
@@ -417,7 +450,8 @@ public class AppController extends BaseController{
 			Model model) {
 		String userName=SessionUtils.getUserNameFromSession();
 		User user =SessionUtils.getUserFromSession();
-		
+		String donorid2 = donorid.split(":")[0];
+		model.addAttribute("donorid", donorid2);
 		return "app/queryBargainCheck";
 	}
     

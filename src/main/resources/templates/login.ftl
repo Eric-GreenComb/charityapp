@@ -31,17 +31,18 @@
                 <input type="password" id="passWord" value="000000" placeholder="密码"/>
             </p>
         </div>
+        <p class="alertCon"><span class="errorAlert"><img src="img/common/errorAlert.png" alt=""/>不存在的用户！</span></p>
         <!--alert-->
-        <p class="alertCon"><span class="errorAlert"><img src="img/common/errorAlert.png" alt=""/>密码错误！</span></p>
         <!--denglu -->
         <p class="btnCon"><a href="#"><button class="btn loginBtn">登录</button></a></p>
         <!--看看-->
-        <p class="kan"><a href="${system.basePath}/login_login">我是访客，随便看看&gt;&gt;</a></p>
+        <p class="kan"><a href="${system.basePath}/login_login?isFake=true">我是访客，随便看看&gt;&gt;</a></p>
     </div>
 </div>
 
 
 <script src="js/jquery-1.11.3.js"></script>
+<script src="js/mui.min.js"></script>
 <script>
     console.log( $('.loginYi input').val() );
     $('.section').css('height',window.screen.height +'px');
@@ -58,6 +59,14 @@
            // $('.alertCon').css('display','block');
         }
     });
+    
+    	$(document).ready(function(){
+    			var noExistUser='${noExistUser?if_exists}';
+    			if("yes"==noExistUser){
+    				$('.alertCon').css('display','block');
+    			}
+    	
+		});
 
 
 </script>

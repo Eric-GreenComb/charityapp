@@ -88,7 +88,7 @@ public class SmartContractExt  {
 		if(0!=this.getTotal()){
     		return MoneyUtil.ccToMoneyFormat(getTotal(),"wan");
     	}
-		return totalStr;
+		return "0";
 	}
 	public void setTotalStr(String totalStr) {
 		this.totalStr = totalStr;
@@ -110,12 +110,12 @@ public class SmartContractExt  {
 		this.fundFeeStr = fundFeeStr;
 	}
 	public String getCanDonateNumberStr() {
-		if(0!=smartContract.getGoal()&&smartContract.getGoal()>this.getValidTotal()){
-			long canDonateNumber=smartContract.getGoal()-this.getValidTotal();
+		if(0!=smartContract.getGoal()&&smartContract.getGoal()>this.getTotal()){
+			long canDonateNumber=smartContract.getGoal()-this.getTotal();
 			return MoneyUtil.ccToMoneyFormat(canDonateNumber,"yuan");
 		}
 		
-		return "--";
+		return "0";
 	}
 	public void setCanDonateNumberStr(String canDonateNumberStr) {
 		this.canDonateNumberStr = canDonateNumberStr;

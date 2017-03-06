@@ -22,9 +22,9 @@ public class Bargain extends BargainGo{
 			return "未开始";
 		}
 		if(DateUtil.compareDate(nowDate, this.getEndTime())){
-			return "筹集中";
+			return "施工中";
 		}
-		return "已失效";
+		return "已验收";
 	}
 
 	public void setBargainStatus(String bargainStatus) {

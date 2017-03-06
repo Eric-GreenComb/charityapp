@@ -1,9 +1,15 @@
 package com.ecloudtime.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.LinkedBlockingDeque;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +43,34 @@ public class BlockInfoService {
 	@Value("${chaincode.base.newerListNumber}")
 	private int newerListNumber;
 	
+	private ArrayBlockingQueue<BlockHighGen> blockHighQueue;
+	
+	private BlockingDeque<BlockHighGen> blockHighStack;
+	
+	
+	public BlockingDeque<BlockHighGen> getBlockHighStack() {
+		if(null==blockHighStack){
+			blockHighStack=new LinkedBlockingDeque<BlockHighGen>(newerListNumber);
+		}
+		return blockHighStack;
+	}
+
+	public void setBlockHighStack(BlockingDeque<BlockHighGen> blockHighStack) {
+		this.blockHighStack = blockHighStack;
+	}
+
+	//	BlockingDeque<String> bDeque = new LinkedBlockingDeque<String>(20);
+	public ArrayBlockingQueue<BlockHighGen> getBlockHighQueue() {
+		if(null==blockHighQueue){
+			blockHighQueue=new ArrayBlockingQueue<BlockHighGen> (newerListNumber);
+		}
+		return blockHighQueue;
+	}
+
+	public void setBlockHighQueue(ArrayBlockingQueue<BlockHighGen> blockHighQueue) {
+		this.blockHighQueue = blockHighQueue;
+	}
+
 	/**
 	 * {
 		  "height": 8,
@@ -125,6 +159,141 @@ public class BlockInfoService {
 		}
 		return transList;
 	}
+	
+	
+	public List<BlockHighGen> getNewBlockFromQuene() {
+		refreshBlockFromQuene();
+
+		List<BlockHighGen> list = new ArrayList<BlockHighGen>();
+		BlockHighGen blockHighGen = new BlockHighGen();
+		blockHighQueue=this.getBlockHighQueue();
+		Iterator iter = blockHighQueue.iterator();
+		while (iter.hasNext()) {
+			blockHighGen = (BlockHighGen) iter.next();
+			list.add(blockHighGen);
+			this.logger.info("list_high=" + blockHighGen.getBlockHigh() + " time=" + blockHighGen.getBlockGenTime());
+		}
+		Collections.reverse(list);
+		return list;
+	}
+	
+	public List<BlockHighGen> getNewBlockFromStack() {
+		refreshBlockFromStack();
+
+		List<BlockHighGen> list = new ArrayList<BlockHighGen>();
+		BlockHighGen blockHighGen = new BlockHighGen();
+		blockHighStack=this.getBlockHighStack();
+		Iterator iter = blockHighStack.iterator();
+		while (iter.hasNext()) {
+			blockHighGen = (BlockHighGen) iter.next();
+			list.add(blockHighGen);
+			this.logger.info("list_high=" + blockHighGen.getBlockHigh() + " time=" + blockHighGen.getBlockGenTime());
+		}
+		Collections.reverse(list);
+		return list;
+	}
+
+	
+	private void refreshBlockFromStack() {
+		BlockHighGen blockHigh =null;
+		BlockInfo blockInfo= null;
+		blockHighStack=this.getBlockHighStack();
+		String url = nodeUrl + "/chain";
+		int currentHigh = getCurrentHigh(url);
+		int cacheHigh = 0;
+		blockHigh=blockHighStack.peekLast();
+		if(null==blockHigh){
+			cacheHigh=0;
+		}else{
+			cacheHigh=blockHigh.getBlockHigh();
+		}
+		url = nodeUrl + "/chain/blocks/";// http://192.168.31.100:7050/chain/blocks/7
+		boolean flag = false;
+		if(currentHigh-cacheHigh>newerListNumber){
+			cacheHigh=currentHigh-newerListNumber;
+		}
+		
+		
+		while (cacheHigh < currentHigh) {
+			cacheHigh++;
+			blockHigh = new BlockHighGen(cacheHigh);
+			logger.info("url + cacheHigh="+url + cacheHigh);
+			blockInfo = queryBlockByHigh(url + cacheHigh);
+			logger.info("blockInfo="+blockInfo);
+			if(null==blockInfo)break;
+			if(null!=blockInfo){
+				blockHigh.setBlockGenTime(blockInfo.getBlockGenTime());
+				blockHigh.setBlockInfo(blockInfo);
+				if (blockHighStack.size() == newerListNumber) {
+					blockHighStack.poll();// 如果
+				}
+				blockHighStack.add(blockHigh);
+			}
+		}
+	}
+	private void refreshBlockFromQuene() {
+		BlockHighGen blockHigh =null;
+		BlockInfo blockInfo= null;
+		blockHighQueue=this.getBlockHighQueue();
+		String url = nodeUrl + "/chain";
+		int currentHigh = getCurrentHigh(url);
+		int cacheHigh = this.cacheManager.getCacheBlockHigh();
+		blockHigh=blockHighQueue.peek();
+		if(null==blockHigh){
+			cacheHigh=0;
+		}else{
+			cacheHigh=blockHigh.getBlockHigh();
+		}
+		url = nodeUrl + "/chain/blocks/";// http://192.168.31.100:7050/chain/blocks/7
+		boolean flag = false;
+		if(currentHigh-cacheHigh>newerListNumber){
+			cacheHigh=currentHigh-newerListNumber;
+		}
+		
+		
+		while (cacheHigh < currentHigh) {
+			cacheHigh++;
+			blockHigh = new BlockHighGen(cacheHigh);
+			logger.info("url + cacheHigh="+url + cacheHigh);
+			blockInfo = queryBlockByHigh(url + cacheHigh);
+			logger.info("blockInfo="+blockInfo);
+			if(null==blockInfo)break;
+			blockHigh.setBlockGenTime(blockInfo.getBlockGenTime());
+			blockHigh.setBlockInfo(blockInfo);
+			if (blockHighQueue.size() == newerListNumber) {
+				blockHighQueue.poll();// 如果
+			}
+			blockHighQueue.add(blockHigh);
+		}
+	}
+	
+	/**
+	 * 获取最新的几个区块链 交易
+	 * 1.获取最新的区块高度
+	 * @return
+	 */
+	public List<Transaction> getNewTransactionFromQuene(){
+		List<BlockHighGen> blockHignList=getNewBlockFromQuene();
+		List<Transaction> transList= new ArrayList<Transaction>();
+		for(BlockHighGen blockHignGen :blockHignList){
+			if(null!=blockHignGen.getBlockInfo()&&null!=blockHignGen.getBlockInfo().getTransactions())
+			transList.addAll(blockHignGen.getBlockInfo().getTransactions());
+		}
+		
+		return transList;
+	}
+	
+	public List<Transaction> getNewTransactionFromStack(){
+		List<BlockHighGen> blockHignList=getNewBlockFromStack();
+		List<Transaction> transList= new ArrayList<Transaction>();
+		for(BlockHighGen blockHignGen :blockHignList){
+			if(null!=blockHignGen.getBlockInfo()&&null!=blockHignGen.getBlockInfo().getTransactions())
+			transList.addAll(blockHignGen.getBlockInfo().getTransactions());
+		}
+		
+		return transList;
+	}
+	
 	
 	
 	public List<BlockHighGen> getNewerBolckHighTimes(){

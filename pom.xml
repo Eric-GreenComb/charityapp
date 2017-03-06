@@ -57,6 +57,12 @@
 		    <version>${version.pagehelper}</version>
 		</dependency>
         
+        <!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
+		<dependency>
+		    <groupId>com.alibaba</groupId>
+		    <artifactId>druid</artifactId>
+		    <version>1.0.14</version>
+		</dependency>
    <!--     
 	   			 mybatis
 	        <dependency>

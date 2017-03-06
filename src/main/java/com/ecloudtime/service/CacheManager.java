@@ -63,7 +63,7 @@ public class CacheManager {
 	/********************************获取交易信息list******************************************************/
 	public int getCacheBlockHigh(){
 		Integer cacheHigh=(Integer)getCacheObjectByKey("cacheHigh");
-		if(null==cacheHigh)cacheHigh=-1;
+		if(null==cacheHigh)cacheHigh=0;
 		return cacheHigh;
 	}
 	

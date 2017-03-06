@@ -31,8 +31,8 @@
                 <img src="${system.basePath}/img/mine/go01.png" alt=""/>
                 <p class="goTopMask"></p>
                 <div class="goTopTxt">
-                    <p class="goTopTxtTitle">宁夏母亲水窖项目</p>
-                    <p class="traceP"><span class="traceEnd">已验收</span></p>
+                    <p class="goTopTxtTitle">${bargain.name?if_exists}</p>
+                    <p class="traceP"><span class="traceEnd">${bargain.bargainStatus?if_exists}</span></p>
                     <!--<p class="traceP"><span class="traceIng">进行中</span></p>-->
                     <!--<p class="traceP"><span class="traceDelay">已延期</span></p>-->
                 </div>
@@ -51,40 +51,30 @@
                     <img src="${system.basePath}/img/common/rate_tkIcon.png" alt=""/>
                     <span>提款记录</span>
                 </p>
+                <#if bargainAddr2 == 'bargain01' || bargainAddr2 == 'bargain09' >
                 <p class="mui-col-xs-3 rateBG" id="${bargainAddr?if_exists}">
                     <img src="${system.basePath}/img/common/rate_ysIcon.png" alt=""/>
                     <span>验收报告</span>
                 </p>
+                <#else>
+                <p class="mui-col-xs-3 rateBGNull" id="${bargainAddr?if_exists}">
+                    <img src="${system.basePath}/img/common/rate_ysIcon_null.png" alt=""/>
+    				<span>验收报告</span>
+                </p>
+                </#if>
             </div>
             <!--项目动态-->
             <div class="dynamicAll">
                 <p class="readZi"><span>项目动态</span></p>
                 <!--del-->
                 <div class="dynamicCon">
-                    <!--yi-->
-                    <div class="mui-row dynamicYi">
-                        <div class="mui-col-xs-2">
-                            <p class="yue"><span>12</span>月</p>
-                            <p class="ri"><span>01</span>日</p>
-                        </div>
-                        <ul class="mui-col-xs-10 dynamicUl">
-                           <li><p>项目进展描述项目进展描述项目进展描述项目进展描述项目进展描述项目进展描述</p></li>
-                           <li><img src="${system.basePath}/img/mine/dt01.png" alt=""/></li>
-                           <li><img src="${system.basePath}/img/mine/dt02.png" alt="" /></li>
-                        </ul>
-                    </div>
-                    <!--yi-->
-                    <div class="mui-row dynamicYi">
-                        <div class="mui-col-xs-2">
-                            <p class="yue"><span>12</span>月</p>
-                            <p class="ri"><span>01</span>日</p>
-                        </div>
-                        <ul class="mui-col-xs-10 dynamicUl">
-                            <li><p>项目进展描述项目进展描述项目进展描述项目进展描述项目进展描述项目进展描述</p></li>
-                            <li><img src="${system.basePath}/img/mine/dt01.png" alt="" /></li>
-                            <li><img src="${system.basePath}/img/mine/dt02.png" alt=""/></li>
-                        </ul>
-                    </div>
+                    <#if bargainAddr2 == 'bargain01' || bargainAddr2 == 'bargain02' || bargainAddr2 == 'bargain03'>
+                    <img src="${system.basePath}/img/proDynamic/001.png" alt="" class="rateLong"/>
+                    <#elseif bargainAddr2 == 'bargain04' || bargainAddr2 == 'bargain05' || bargainAddr2 == 'bargain06'>
+                    <img src="${system.basePath}/img/proDynamic/002.png" alt="" class="rateLong"/>
+                    <#elseif bargainAddr2 == 'bargain07' || bargainAddr2 == 'bargain08' || bargainAddr2 == 'bargain09' || bargainAddr2 == 'bargain10'>
+                    <img src="${system.basePath}/img/proDynamic/003.png" alt="" class="rateLong"/>
+                    </#if>
                 </div>
             </div>
         </div>
@@ -92,32 +82,35 @@
 </div>
 
 <script src="${system.basePath}/js/mui.min.js"></script>
+<script src="${system.basePath}/js/mui.zoom.js"></script>
+<script src="${system.basePath}/js/mui.previewimage.js"></script>
 <script src="${system.basePath}/js/jquery-1.11.3.js"></script>
 
 <script>
+//    img
+    mui.previewImage();
+
     //跳转
     $('.user').on('tap',function(){
         window.history.back(-1);
     });
 
     $('.rateHT').on('tap',function(){
-    	// window.location.href="mine_contributeRate_contract.html";
-        window.location.href="${system.basePath}/app/queryBargainContract";
+     	var bargainAddr = this.getAttribute("id");
+        window.location.href="${system.basePath}/app/queryBargainContract?donorid="+bargainAddr;
     });
     $('.rateIMGS').on('tap',function(){
-        //window.location.href="mine_contributeRate_imgs.html";
-        window.location.href="${system.basePath}/app/queryBargainImages";
+        var bargainAddr = this.getAttribute("id");
+        window.location.href="${system.basePath}/app/queryBargainImages?donorid="+bargainAddr;
     });
     $('.rateJL').on('tap',function(){
-    	var bargainAddr = this.getAttribute("id");
-        //window.location.href="mine_contributeRate_drawing.html";
+     var bargainAddr = this.getAttribute("id");
         window.location.href="${system.basePath}/app/queryBargainDraw?bargainAddr="+bargainAddr;
     });
     $('.rateBG').on('tap',function(){
-       // window.location.href="mine_contributeRate_contract.html";
-        window.location.href="${system.basePath}/app/queryBargainCheck";
+		var bargainAddr = this.getAttribute("id");
+        window.location.href="${system.basePath}/app/queryBargainCheck?donorid="+bargainAddr;
     });
-
 
 
 
@@ -158,8 +151,8 @@
         var ul, str, i;
         ul =$("#offCanvasContentScroll .dynamicAll");
         for (i=0; i<3; i++) {
-            str=$('<div class="mui-row dynamicYi"><div class="mui-col-xs-2"><p class="yue"><span>12</span>月</p><p class="ri"><span>01</span>日</p></div><ul class="mui-col-xs-10 dynamicUl"><li><p>项目进展描述项目进展描述项目进展描述项目进展描述项目进展描述项目进展描述</p></li><li><img src="${system.basePath}/img/mine/dt01.png" alt="" /></li><li><img src="${system.basePath}/img/mine/dt02.png" alt=""/></li></ul></div>');
-            ul.append(str);
+           	// str=$('<div class="mui-row dynamicYi"><div class="mui-col-xs-2"><p class="yue"><span>12</span>月</p><p class="ri"><span>01</span>日</p></div><ul class="mui-col-xs-10 dynamicUl mui-content-padded"><li><p>项目进展描述项目进展描述项目进展描述项目进展描述项目进展描述项目进展描述</p></li><li><img src="${system.basePath}/img/mine/dt01.png" alt="" data-preview-src="" data-preview-group="1"/></li><li><img src="${system.basePath}/img/mine/dt02.png" alt="" data-preview-src="" data-preview-group="1"/></li></ul></div>');
+            //ul.append(str);
         }
 //      this.endPullupToRefresh(true);
         this.endPullupToRefresh(false);

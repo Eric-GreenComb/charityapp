@@ -97,7 +97,7 @@
     color:#6E6E6E;
 }
 .giftDel li span.rt{
-    font-size:12px;
+    font-size:14px;
     color:#9B9B9B;
 }
 
@@ -115,7 +115,7 @@
 .maskTxt{
     position:absolute;
     /*top:85px;*/
-    top:18%;
+    top:15%;
     width:100%;
     text-align: center;
     left:0;
@@ -139,11 +139,11 @@
     color:#9C27B0;
 }
 .maskDel{
-    /*padding:0 0 8px 0 ;*/
+    /*padding:0 0 5px 0 ;*/
     padding:0 ;
     margin:0 auto;
     position:absolute;
-    top:30%;
+    top:28%;
     width:60%;
     left:20%;
     z-index:201;
@@ -152,12 +152,12 @@
 }
 .maskMoney.maskDel{
     /*top:200px;*/
-    top:41%;
+    top:47%;
 }
-.maskRoad.maskDel{
-    top:52%;
-    /*top:252px;*/
-}
+/*.maskRoad.maskDel{*/
+    /*top:52%;*/
+    /*/!*top:252px;*!/*/
+/*}*/
 .maskDel li{
     margin:0;
     padding:0;
@@ -175,7 +175,7 @@
     padding:0 0 8px 0;
     position:absolute;
     /*top:285px;*/
-    top:58%;
+    top:61%;
     width:60%;
     left:20%;
     z-index:201;
@@ -432,14 +432,26 @@
 }
 
 
+.newsAll li.newsYear{
+    padding:0 0 0 24px;
+    background:#fafafa;
+    height:28px;
+    line-height: 28px;
+    font-size: 16px;
+    color:#cacaca;
+}
+
+/*凭证*/
+.txtTitle{
+    width: 80%;
+    margin: 0 auto;
+}
 
 
-
-
-
-
-
-
+.giftImg.giftDel.mui-table-view:after{background:none;}
+.giftImg.giftDel.mui-table-view{
+	padding-bottom:25px;
+}
 
 
 

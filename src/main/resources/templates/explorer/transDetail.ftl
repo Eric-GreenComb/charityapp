@@ -9,6 +9,7 @@
 
 <!--mask-->
 <div class="dealDel">
+<div class="maskAll">
     <div class="dealMask">
         <p class="dealTitle">合约详情</p>
         <p class="maskColor"></p>
@@ -38,6 +39,7 @@
         </#if>
     </div>
     <p class="close"><img src="${system.basePath}/img/common_pc/closeIcon.png" alt=""/></p>
+    </div>
 </div>
 
 
@@ -49,9 +51,9 @@
             <span class="logoTxt">区块链浏览器</span>
         </div>
         <div class="rt header_top_down">
-            <p class="search_con">
-                <input type="text" id="search" class="search" placeholder="高度、UUID、交易ID" />
-                <label for="search"><a href="#"><img src="${system.basePath}/img/common_pc/search.png" alt=""/></a></label>
+           <p class="search_con">
+                <input type="text" id="searchVal" class="search" value="" placeholder="高度、UUID、交易ID" />
+                <label for="search"><a href="javascript:searchDetail();"><img src="${system.basePath}/img/common_pc/search.png" alt=""/></a></label>
             </p>
         </div>
     </div>
@@ -62,8 +64,12 @@
         
         <div class="partYi">
             <p class="partName">交易信息</p>
-            <p class="partInfo"><span>交易ID</span><span class="color">${transaction.txid?if_exists}</span></p>
-            <p class="partInfo"><span>交易金额</span><span><span>${transaction.transMoney?if_exists}  &yen;</span><span class="dealConfirm">交易已确认</span></span></p>
+             <#if transaction.txid ?if_exists !=''>
+            	<p class="partInfo"><span>交易ID</span><span class="color">${transaction.txid?if_exists}</span></p>
+             </#if>
+             <#if transaction.transMoney ?if_exists !='--'>
+            <p class="partInfo"><span>交易金额</span><span><span>&yen;${transaction.transMoney?if_exists}  </span><span class="dealConfirm">交易已确认</span></span></p>
+             </#if>
             <p class="partInfo"><span>所在区块(stateHash)</span><a href="${system.basePath}/explorer/blockDetail?heigh=${donorTransRel.blockHeight?if_exists}" class="color partDelNum">${donorTransRel.blockHash?if_exists}</a></p>
             <p class="partInfo"><span>接收时间</span><span>${transaction.tranGenTime?if_exists}</span></p>
              <#if donorTransRel.contractIdStr??>
@@ -75,12 +81,12 @@
         	<#if donorTransRel.contractIdStr??>
 	        	<#if donorTransRel.type?if_exists='1'>
 			        	 <span class="jkr">捐款人账户</span>
-			            <span>${donorTrackDetail.donorAmountStr?if_exists}&yen;</span>
+			            <span>&yen;${donorTrackDetail.donorAmountStr?if_exists}</span>
 			            <img src="${system.basePath}/img/common_pc/zhuan.png" alt="" class="zhuan"/>
 			            <ul class="dealMoney">
-			                <li><span class="lf">合约账户</span><span class="rt">${donorTrackDetail.contractAmountStr?if_exists}&yen;</span></li>
-			                <li><span class="lf">慈善基金账户</span><span class="rt">${donorTrackDetail.fundAmountStr?if_exists}&yen;</span></li>
-			                <li><span class="lf">捐款渠道账户</span><span class="rt">${donorTrackDetail.channelAmountStr?if_exists}&yen;</span></li>
+			                <li><span class="lf">合约账户</span><span class="rt">&yen;${donorTrackDetail.contractAmountStr?if_exists}</span></li>
+			                <li><span class="lf">慈善基金账户</span><span class="rt">&yen;${donorTrackDetail.fundAmountStr?if_exists}</span></li>
+			                <li><span class="lf">捐款渠道账户</span><span class="rt">&yen;${donorTrackDetail.channelAmountStr?if_exists}</span></li>
 			            </ul>
 	        	<#elseif donorTransRel.type?if_exists='2'>
 	        	
@@ -99,8 +105,8 @@
         </div>
         <!--序列化信息-->
         <div class="partXlh">
-            <p class="partName">写入信息(区块中记录的序列化信息)[转义button]</p>
-            <p class="partShu">${transaction.payload?if_exists}</p>
+            <p class="partName"><span class="lf">写入信息(区块中记录的序列化信息)</span><button class="rt transfer" id="transfer">进行转义</button></p>
+            <p class="partShu" id="payloadStr">${transaction.payload?if_exists}</p>
         </div>
     </div>
 </div>
@@ -108,6 +114,7 @@
 
 <script src="${system.basePath}/js/jquery-1.11.3.js"></script>
 <script src="${system.basePath}/js/common_pc.js"></script>
+<script src="${system.basePath}/js/base64Util.js"></script>
 <script>
 	var bObj = document.getElementById("backExplorerIndex"); 
 		bObj.addEventListener("click",backIndex,false); 
@@ -118,6 +125,30 @@
 function goBlockDetail(height){
 	window.location.href="${system.basePath}/explorer/blockDetail?heigh="+height;
 }
+
+ $('#transfer').click(function(){
+        if($(this).html()=="进行转义"){
+        	var payloadStr =$("#payloadStr").html();
+        	$("#payloadStr").html(base64decode(payloadStr))
+            $(this).html("取消转义")
+        }else{
+        	//base64encode
+        	var payloadStr =$("#payloadStr").html();
+        	$("#payloadStr").html(base64encode(payloadStr))
+            $(this).html("进行转义")
+        }
+    });
+    
+    function searchDetail(){
+		var searchVal=$("#searchVal").val();
+		console.log("searchVal="+searchVal)
+		if(""!=searchVal){
+			window.location.href="${system.basePath}/explorer/searchDetail?searchVal="+searchVal;
+		}else{
+			alert("请输入查询条件,区块高度或是txid!")
+		}
+		
+	}
 </script>
 </body>
 </html>

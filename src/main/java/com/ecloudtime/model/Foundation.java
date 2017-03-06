@@ -72,14 +72,14 @@ public class Foundation {
 		if(0!=fundManangerFee){
     		return MoneyUtil.ccToMoneyFormat(fundManangerFee,"yuan");
     	}
-		return fundManangerFeeStr;
+		return "0";
 	}
 	
 	public String getChannelFeeStr() {
 		if(0!=channelFee){
     		return MoneyUtil.ccToMoneyFormat(channelFee,"yuan");
     	}
-		return channelFeeStr;
+		return "0";
 	}
 	
 	public long getFundManangerFee() {

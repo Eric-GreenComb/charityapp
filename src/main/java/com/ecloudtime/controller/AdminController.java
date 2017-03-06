@@ -32,6 +32,7 @@ import com.ecloudtime.service.BlockInfoService;
 import com.ecloudtime.service.CacheManager;
 import com.ecloudtime.service.CommonService;
 import com.ecloudtime.service.HttpService;
+import com.ecloudtime.utils.DateUtil;
 import com.ecloudtime.utils.SessionUtils;
 import com.github.pagehelper.PageHelper;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -138,11 +139,10 @@ public class AdminController extends BaseController{
     @RequestMapping("/myAccountBook")
     @ApiOperation(value="myAccountBook",notes="requires login Name")
     public String myAccountBook(
-    		@RequestParam(value = "type", required = false) String type,
-    		@RequestParam(value = "contractId", required = false ) String contractId,
+    		@RequestParam(value = "type", required = false, defaultValue = "") String type,
+    		@RequestParam(value = "contractId", required = false, defaultValue = "" ) String contractId,
     		@RequestParam(value = "transDate", required = false) String transDate,
-    		Model model) {
-    	Foundation fundCache=SessionUtils.getFundUserFromSession();
+    		Model model) {    	Foundation fundCache=SessionUtils.getFundUserFromSession();
   		if(null==fundCache)return login(model);
     	
     	String userName=SessionUtils.getUserNameFromSession();
@@ -159,6 +159,8 @@ public class AdminController extends BaseController{
     	PageHelper.startPage(1, 15);
     	List<TransDetail> transDetailList=this.commonMapper.queryTransDetailsList(td);;
     	
+    	String allContractStr=commonService.findAllSmartContractS();//查询数据
+		List<SmartContractExt> allSmartcontracts= apiService.querySmartContractExts(allContractStr);
     	
     	model.addAttribute("userName", userName);
     	model.addAttribute("type", type);
@@ -166,6 +168,7 @@ public class AdminController extends BaseController{
     	model.addAttribute("transDate", transDate);
     	model.addAttribute("fund", fundCache);
     	model.addAttribute("transDetailList", transDetailList);
+    	model.addAttribute("allSmartcontracts", allSmartcontracts);
     	return "admin/myAccountBook";
     }
     
@@ -204,6 +207,16 @@ public class AdminController extends BaseController{
     	return new ArrayList();
     }
     
+    @ApiOperation(value="querySmartContractExt",notes="requires noting")
+    @RequestMapping(value="/querySmartContractExt",method=RequestMethod.GET)
+    @ResponseBody
+    public Object querySmartContractExt(
+    		@RequestParam(value="smartContractAddr", required=false, defaultValue="smartContract01") String smartContractAddr,
+    		Model model){
+    	SmartContractExt smartContractExt=this.apiService.querySmartContractExt(smartContractAddr);
+    	return smartContractExt;
+    }
+    
     @ApiOperation(value="draw",notes="requires noting")
     @RequestMapping(value="/draw",method=RequestMethod.GET)
     @ResponseBody
@@ -215,11 +228,9 @@ public class AdminController extends BaseController{
     	
     	SysDonorDrawTransRel sysDonorDrawTransRel=this.apiService.drawed(fundName, drawAmount, smartContractId, bargainAddr,drawRemark);
     	if(null!=sysDonorDrawTransRel&&!StringUtils.isEmpty(sysDonorDrawTransRel.getTransId())){
-    		String fundSessionName=SessionUtils.getFundUserNameFromSession();
-    		Foundation fund =queryFund(fundSessionName);
+    		Foundation fund =queryFund(SessionUtils.getFundUserFromSession().getAddr());
     		SessionUtils.putFoundUserInfoToSession(fund);
     	}
-    	
     	
     	return sysDonorDrawTransRel;
     }
@@ -238,8 +249,8 @@ public class AdminController extends BaseController{
     	String allContractStr=commonService.findAllSmartContractS();//查询数据
 		List<SmartContractExt> smartContractExts= apiService.querySmartContractExts(allContractStr);
 		model.addAttribute("smartContractExts", smartContractExts);
-		
-    	return "admin/donateContractList";
+		SmartContractExt smartContractExt =this.apiService.querySmartContractExt("smartcontract01:1d54a8713923af1718e8eeabec3e4d8596dbbdf2da3f69ea23aeb8c7a5ab73d8");
+		return "admin/donateContractList";
     }
     
     /**
@@ -257,4 +268,21 @@ public class AdminController extends BaseController{
     	model.addAttribute("bargainList", bargainList);
     	return "admin/bargainItemList";
     }
+    
+    /**
+     * 施工合同详情
+     * @param bargainAddr
+     * @param model
+     * @return
+     */
+    @ApiOperation(value="queryBargainExt",notes="requires noting")
+    @RequestMapping(value="/queryBargainExt",method=RequestMethod.GET)
+    @ResponseBody
+    public Object queryBargainExt(
+    		@RequestParam(value="bargainAddr", required=false, defaultValue="bargainAddr01") String bargainAddr,
+    		Model model){
+    	Bargain  bargain = this.apiService.queryBargain(bargainAddr);
+    	return bargain;
+    }
+    
 }

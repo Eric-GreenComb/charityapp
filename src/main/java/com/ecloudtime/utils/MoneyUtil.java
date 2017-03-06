@@ -1,8 +1,9 @@
 package com.ecloudtime.utils;
 
-	import java.text.DecimalFormat;
-import java.util.regex.Matcher;    
-	import java.util.regex.Pattern;    
+	import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;    
 	/** 
 	 *  
 	 * MoneyUtil.java 
@@ -95,11 +96,11 @@ import java.util.regex.Matcher;
 	    }    
 
 	    public static long moneyToCcFormat(String amount){
-//	    	amount=amount.replace(".", newChar)
-//	    	double cc=MathUtil.mul(Double.valueOf(amount), Double.valueOf(1000));//到元
-//	    	double cc=MathUtil.mul(Double.valueOf(cc), Double.valueOf(100));//到分
-	    	
-	    	return Long.valueOf(amount)*1000*100;//
+	    	//double cc=MathUtil.mul(Double.valueOf(amount), Double.valueOf(100000));
+	    	BigDecimal amoney =new BigDecimal(amount);
+	    	amoney=amoney.multiply(new BigDecimal(100000));
+	    	return amoney.longValue();
+//	    	return Long.valueOf(amount)*1000*100;//
 	    }
 	    
 	    public static String ccToMoneyFormat(long amount){
@@ -154,7 +155,7 @@ import java.util.regex.Matcher;
 	public static String getMoneyFromPayload(String payload) {
 //		payload=Base64Util.getFromBase64(payload);
 		String money = "";
-		String regEx = ":::(\\-?[1-9]\\d+):::";
+		String regEx = ":::(.*):::";
 		// String s = "count000dfdfsdffaaaa1";
 		// s=":::1000:::_wwwww:::2000:::";
 		Pattern pat = Pattern.compile(regEx);
@@ -182,16 +183,20 @@ import java.util.regex.Matcher;
 	      myformat.applyPattern(YUAN_FORMAT);
 	      System.out.println(myformat.format(11112345.12545));
 	      System.out.println(myformat.format(1000));*/
-	      float num= (float)2/3;  
-	      DecimalFormat df = new DecimalFormat("#,###.##");//格式化小数  
-	      String s = df.format(num);//返回的是String类型  
-	      System.out.println("final="+s);
-	      System.out.println("final="+df.format(1000));
-	      System.out.println("final="+df.format(1000));
-	      System.out.println(MoneyUtil.ccToMoneyFormat(122783000,"yuan"));  
-	      System.out.println(MathUtil.div(122783000, 100000, 0));  
-	      System.out.println(MoneyUtil.ccToMoneyFormat(122783000,"yuan"));  
-	      System.out.println(df.format(1/10.0));  
+//	      float num= (float)2/3;  
+//	      DecimalFormat df = new DecimalFormat("#,###.##");//格式化小数  
+//	      String s = df.format(num);//返回的是String类型  
+//	      System.out.println("final="+s);
+//	      System.out.println("final="+df.format(1000));
+//	      System.out.println("final="+df.format(1000));
+//	      System.out.println(MoneyUtil.ccToMoneyFormat(122783000,"yuan"));  
+//	      System.out.println(MathUtil.div(122783000, 100000, 0));  
+//	      System.out.println(MoneyUtil.ccToMoneyFormat(122783000,"yuan"));  
+//	      System.out.println(df.format(1/10.0));  
+	    	
+//	    	String regEx = ":::(\\-?[1-9]\\d+):::";
+	      System.out.println(MoneyUtil.getMoneyFromPayload(":::-4.5555:::"));  
+	      System.out.println(MoneyUtil.moneyToCcFormat("45012345623"));  
 	    }    
 	    
 	}  

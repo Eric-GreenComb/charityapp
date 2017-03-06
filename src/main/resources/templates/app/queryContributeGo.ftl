@@ -31,14 +31,14 @@
                 <p class="goTopMask"></p>
                 <div class="goTopTxt">
                     <p class="goTopTxtTitle">${smartContractExt.smartContract.name?if_exists}</p>
-                    <p class="goTopTxtDel">查看项目详情</p>
+                    <p class="goTopTxtDel" id="${smartContractAddr?if_exists}">查看项目详情</p>
                 </div>
             </div>
             <!--折叠-->
             <ul class="mui-table-view goMoneyAll">
                 <li class="mui-table-view-cell mui-collapse">
                     <a class="mui-navigate-right goMoneyTxt">已筹集善款</a>
-                    <p class="goMoney"><span>${smartContractExt.validTotalYuan?if_exists}</span>元</p>
+                    <p class="goMoney"><span>${smartContractExt.totalYuan?if_exists}</span>元</p>
                     <div class="mui-collapse-content">
                         <!--ul-->
                         <ul class="giftDel mui-table-view">
@@ -52,7 +52,7 @@
                             </li>
                             <li class="mui-table-view-cell over">
                                 <span class="lf">实收善款</span>
-                                <span class="rt"><span>${smartContractExt.totalYuan?if_exists}</span>元</span>
+                                <span class="rt"><span>${smartContractExt.validTotalYuan?if_exists}</span>元</span>
                             </li>
                         </ul>
                         <!--ul-->
@@ -73,26 +73,30 @@
             <div class="traceAll">
                 <p class="traceTxt">善款去向</p>
                 <!--traceDel-->
+                <#if smartContractTrack.trans?? && smartContractTrack.trans?size gt 0 >
+                <#list smartContractTrack.trans as tran>
                 <div class="traceDel">
-                    <p class="traceTime">2017.01.01</p>
+                    <p class="traceTime">${tran.timestampStr?if_exists}</p>
                     <!--ul,ing-->
                     <ul class="traceUl ">
                         <li>
                             <span>工程用款</span>
-                            <span><span>10000</span>元</span>
+                            <span><span>${tran.amountStr?if_exists}</span>元</span>
                         </li>
                         <li>
                             <span>工程名称</span>
-                            <span>张张家村水井10座</span>
+                            <span>${tran.bargainName?if_exists}</span>
                         </li>
                         <li>
                             <span>工程状态</span>
-                            <span class="traceIng">进行中</span>
+                            <span class="traceIng">${tran.status?if_exists}</span>
                         </li>
                     </ul>
                     <!--kan-->
-                    <p class="traceLook">查看工程详情</p>
+                    <p class="traceLook" id="${tran.bargainAddr?if_exists}">查看工程详情</p>
                 </div>
+                </#list>
+                </#if>
             </div>
         </div>
     </div>
@@ -108,13 +112,14 @@
     });
 
     $('.traceAll').on('tap','.traceLook',function(){
-    		//  var smartContractAddr = this.getAttribute("id");
-          window.location.href="${system.basePath}/app/queryBargain";
+    	  var bargainId = this.getAttribute("id");
+          window.location.href="${system.basePath}/app/queryBargain?bargainId="+bargainId;
  //         window.location.href="mine_contributeRate.html";
 //        window.location.href="mine_contributeRateNull.html";
     });
-    $('.goTop').on('tap',function(){
-        window.location.href="mine_contributeGoDelIng.html";
+    $('.goTop').on('tap','.goTopTxtDel',function(){
+    	var smartContractAddr = this.getAttribute("id");
+        window.location.href="${system.basePath}/app/querySmartContract?smartContractAddr="+smartContractAddr;
 //        window.location.href="mine_contributeGoDelEnd.html";
     });
 
@@ -157,7 +162,7 @@
         var ul, str, i;
         ul =$("#offCanvasContentScroll .traceAll");
         for (i=0; i<3; i++) {
-            str=$('<div class="traceDel"><p class="traceTime">2017.01.01</p><ul class="traceUl "><li><span>工程用款</span><span><span>10000</span>元</span></li><li><span>工程名称</span><span>张张家村水井10座</span></li><li><span>工程状态</span><span class="traceDelay">已延期</span></li></ul><p class="traceLook">查看工程详情</p></div>');
+ //           str=$('<div class="traceDel"><p class="traceTime">2017.01.01</p><ul class="traceUl "><li><span>工程用款</span><span><span>10000</span>元</span></li><li><span>工程名称</span><span>张张家村水井10座</span></li><li><span>工程状态</span><span class="traceDelay">已延期</span></li></ul><p class="traceLook">查看工程详情</p></div>');
             ul.append(str);
         }
 //      this.endPullupToRefresh(true);

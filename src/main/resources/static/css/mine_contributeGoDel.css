@@ -249,9 +249,17 @@
 }
 
 
-
-
-
+/*项目合约*/
+#offCanvasContentScroll.conText{
+    margin:44px 0 0 0 ;
+}
+#offCanvasContentScroll.conText .section{
+    padding:15px;
+}
+.contractText p{
+    color:#333;
+    line-height: 25px;
+}
 
 
 

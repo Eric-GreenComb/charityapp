@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>验收合同</title>
+    <title>验收报告</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -25,8 +25,7 @@
     <div class="mui-scroll">
         <div class="section">
             <ul class="contractUl">
-                <li><img src="${system.basePath}/img/common/contract01.png" alt=""/></li>
-                <li><img src="${system.basePath}/img/common/contract01.png" alt=""/></li>
+                <li><img src="${system.basePath}/img/rateBG/${donorid}.png" alt=""/></li>
             </ul>
         </div>
     </div>
@@ -70,7 +69,7 @@
         var ul, str, i;
         ul =$("#offCanvasContentScroll .contractUl");
         for (i=0; i<3; i++) {
-            str=$('<li><img src="${system.basePath}/img/common/contract01.png" alt=""/></li>');
+       //     str=$('<li><img src="${system.basePath}/img/common/contract01.png" alt=""/></li>');
             ul.append(str);
         }
 //      this.endPullupToRefresh(true);

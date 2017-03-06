@@ -10,6 +10,8 @@
 
 <!--添加合同-->
 <div class="dealDel" id="addCon">
+<!--有内容-->
+<!-- 
     <div class="maskAll">
         <div class="dealMask">
             <p class="dealTitle conTitle">添加合同<img src="${system.basePath}/img/common_admin/closeIcon.png" class="rt close" alt=""/></p>
@@ -64,50 +66,60 @@
             <p class="backBtn"><button class="closeBtn cancel">取消</button><button class="done">完成</button></p>
         </div>
     </div>
+    -->
+    <div class="maskAll noPermissionAll">
+        <div class="noPermission">
+            <p>抱歉，此功能权限暂未开放！</p>
+            <p class="noPermissionBtn"><button class="cancel">确认</button></p>
+        </div>
+    </div>
 </div>
 <!--合同详情-->
 <div class="dealDel" id="contractDetail">
-    <div class="maskAll">
-        <div class="dealMask">
+    <div class="maskAll" style="top:15%;">
+        <div class="dealMask" style="height:450px;">
             <p class="dealTitle">施工合同详情<img src="${system.basePath}/img/common_admin/closeIcon.png" class="rt close" alt=""/></p>
             <p class="maskColor"></p>
             <ul class="maskUl">
-                <li><p>合同名称：<span>宁夏母亲水窖项目</span></p></li>
-                <li><p>甲方：<span>中国妇女基金会母亲水窖基金委员会</span></p></li>
-                <li><p>乙方：<span>农村城建公司</span></p></li>
+                <li><p>合同名称：<span id="contractDetail_name"></span></p></li>
+                <li><p>甲方：<span id="contractDetail_A"></span></p></li>
+                <li><p>乙方：<span id="contractDetail_B"></span></p></li>
             </ul>
             <ul class="maskUl">
-                <li><p>工程状态：<span class="mineStatus">已验收</span></p></li>
-                <li><p>合同有效期：<span>2016.1.1-2017.1.1</span></p></li>
+                <li><p>工程状态：<span class="mineStatus" id="contractDetail_status"></span></p></li>
+                <li><p>合同有效期：<span id="contractDetail_startTime"></span><span id="contractDetail_endTime"></span></p></li>
             </ul>
             <ul class="maskUl">
-                <li><p>合同ID：<span>300001</span></p></li>
-                <li><p>合同详情：<span>为张家村修建10座水井，分三期付款</span></p></li>
+                <li><p>合同ID：<span id="contractDetail_id"></span></p></li>
+                <li><p>合同详情：<span id="contractDetail_detail"></span></p></li>
             </ul>
             <ul class="maskUl">
-                <li><p>收款账号开户行：<span>招商银行</span></p></li>
-                <li><p>收款账户：<span>626000000000000</span></p></li>
+                <li><p>收款账号开户行：<span id="contractDetail_bank"></span></p></li>
+                <li><p>收款账户：<span id="contractDetail_account"></span></p></li>
             </ul>
             <ul class="maskUl">
-                <li><p>备注信息：<span>捐款的备注信息</span></p></li>
+                <li><p>备注信息：<span id="contractDetail_remark">无</span></p></li>
             </ul>
-            <ul class="maskUl">
-                <li>
-                    <p class="lf">合同附件：</p>
-                    <p class="lf"><span class="contractColor">张家村水窖项目合同.pdf</span><br><span class="contractColor"> 张家村水窖项目验收报告.pdf</span></p>
-                </li>
-            </ul>
-            <div class="maskUl">
-                <p>收款明细</p>
-                <p class="remark conMark"><span>收款次数：</span><span>3</span></p>
-                <p><span>收款金额：</span><span>500000元</span></p>
-            </div>
+            <!-- 
+		            <ul class="maskUl">
+		                <li>
+		                    <p class="lf">合同附件：</p>
+		                    <p class="lf"><span class="contractColor">张家村水窖项目合同.pdf</span><br><span class="contractColor"> 张家村水窖项目验收报告.pdf</span></p>
+		                </li>
+		            </ul>
+		            <div class="maskUl">
+		                <p>收款明细</p>
+		                <p class="remark conMark"><span>收款次数：</span><span>3</span></p>
+		                <p><span>收款金额：</span><span>500000元</span></p>
+		            </div>
+            -->
             <p class="backBtn"><button class="closeBtn">返回</button></p>
         </div>
     </div>
 </div>
 <!--验收-->
 <div class="dealDel" id="checkAll">
+<!-- 
     <div class="maskAll">
         <div class="dealMask">
             <p class="dealTitle conTitle">验收<img src="${system.basePath}/img/common_admin/closeIcon.png" class="rt close" alt=""/></p>
@@ -156,17 +168,25 @@
             <p class="backBtn"><button class="closeBtn cancel">取消</button><button class="done">确认验收</button></p>
         </div>
     </div>
+    -->
+    <div class="maskAll noPermissionAll">
+        <div class="noPermission">
+            <p>抱歉，此功能权限暂未开放！</p>
+            <p class="noPermissionBtn"><button class="cancel">确认</button></p>
+        </div>
+    </div>
 </div>
 
 <!--header-->
 <div class="header">
     <div class="container">
+        <a href="${system.basePath}/admin/index">
         <div class="lf logoDiv">
             <img src="${system.basePath}/img/common_admin/logo.png" alt=""/>
             <span class="logoTxt">公益捐款 <span class="logoTxtSm">基金会版</span></span>
-        </div>
+        </div></a>
         <div class="rt logoTxtSmRt">
-            <p>欢迎您！中国妇女基金会母亲水窖基金委员会</p>
+            <p>欢迎您！中国妇女发展基金会</p>
         </div>
         <div class="logoTxtSmRt logoAct">
             <!-- 
@@ -197,8 +217,8 @@
             <!--del-->
             <ul class="mineDel contractUl ">
                 <li class="mineTitle">
-                    <span class="contractID">合约ID</span>
-                    <span class="contractName">合约名称</span>
+                    <!-- <span class="contractID">合约ID</span>-->
+                    <span class="contractName" style="width:200px">合约名称</span>
                     <span class="conWhere">施工方</span>
                     <span class="contractTime">合同有效期</span>
                     <span class="conStatus">状态</span>
@@ -207,12 +227,12 @@
                 
                   <#list bargainList as bargain>
                   	 <li class="mineInfo">
-	                    <span class="contractID">${bargain.addr?if_exists}</span>
-	                    <span class="contractName">${bargain.name?if_exists}</span>
+	                   <!-- <span class="contractID">${bargain.addr?if_exists}</span>-->
+	                    <span class="contractName" style="width:200px">${bargain.name?if_exists}</span>
 	                    <span class="conWhere">${bargain.partyB?if_exists}</span>
 	                    <span class="contractTime">${bargain.bargainDate?if_exists}</span>
 	                    <span class="conStatus">${bargain.bargainStatus?if_exists}</span>
-	                    <span class="rt delIcon contractDel"><img src="${system.basePath}/img/common_admin/delIcon.png" alt=""/></span>
+	                    <span class="rt delIcon contractDel" id="${bargain.addr?if_exists}"><img src="${system.basePath}/img/common_admin/delIcon.png" alt=""/></span>
 	                    <span class="rt delIcon checkIcon"><img src="${system.basePath}/img/common_admin/checkIcon.png" alt=""/></span>
 	                </li>
                 </#list>
@@ -227,10 +247,19 @@
 <script src="${system.basePath}/js/admin/common_admin.js"></script>
 <script>
     //    colse
+    $('.logoAct').click(function(){
+    window.location.href="${system.basePath}/admin/login";
+});
     $('.backBtn button.closeBtn').click(function(){
         $('.dealDel').fadeOut();
     });
+    $('button.closeBtn').click(function(){
+        $('.dealDel').fadeOut();
+    });
     $('.close').click(function(){
+        $('.dealDel').fadeOut();
+    });
+     $('button.cancel').click(function(){
         $('.dealDel').fadeOut();
     });
     //    添加合同
@@ -246,7 +275,8 @@
 
     //    合同详情
     $('.contractDel').click(function(){
-        $('#contractDetail').fadeIn();
+     var bargainAddr=$(this).attr("id");
+     queryBargainExt(bargainAddr);
     });
 
 //    验收
@@ -256,10 +286,47 @@
 
 
     //    时间
-    $("#timeDuring01").dateSelect();
-    $("#timeDuring02").dateSelect();
+    try{
+ 		$("#timeDuring01").dateSelect();
+    	$("#timeDuring02").dateSelect();
+    }catch(e){
+    }
 
-
+	function queryBargainExt(bargainAddr){
+		    var postData =  {"bargainAddr":bargainAddr,tm:new Date().getTime()};
+			var queryBargainExtUrl='${system.basePath}/admin/queryBargainExt';
+			$.ajax({
+				type: 'GET',
+				url: queryBargainExtUrl,
+				data:postData,
+				dataType:'json',
+				cache: false,
+				async: true,//同步方法
+				success: function(data){
+					console.log(data)
+					$("#contractDetail_name").html(data.name);
+					$("#contractDetail_A").html(data.partyA);
+					$("#contractDetail_B").html(data.partyB);
+					$("#contractDetail_status").html(data.bargainStatus);
+					var startTime = data.startTime;
+					$("#contractDetail_startTime").html(startTime.replace("-",".").replace("-","."));
+					if(data.endTime != null && data.endTime != ""){
+						var endTime = data.endTime;
+						$("#contractDetail_endTime").html("-"+endTime.replace("-",".").replace("-","."));
+					}
+					var addd =data.addr;
+					var adds = addd.split(":");
+					$("#contractDetail_id").html(adds[0]);
+					$("#contractDetail_detail").html(data.detail);
+					$("#contractDetail_bank").html(data.depositBank);
+					$("#contractDetail_account").html(data.bankAccount);
+					if(data.remark != null && data.remark != ""){
+						$("#contractDetail_remark").html(data.remark);
+					}
+					 $('#contractDetail').fadeIn();
+				}
+			});
+	}
     function picChange(obj){
 
             var f=obj.files[0];

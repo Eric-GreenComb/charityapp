@@ -14,7 +14,7 @@
         <!--inputCon-->
         <div class="inputCon">
             <p class="loginYi loginYiName">
-                <input type="text" id="userName" id="userName" value="fund01" placeholder="用户账号"/>
+                <input type="text" id="userName" id="userName" value="fund01" readonly placeholder="用户账号"/>
             </p>
             <div class="inputLine"><span></span><p></p><span></span></div>
             <p class="loginYi">

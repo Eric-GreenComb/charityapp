@@ -29,10 +29,19 @@
             <div class="newsCon">
                 <ul class="newsAll mui-table-view">
                 	<#list donorHisList as donorHis>
+                		<#if donorHis.year?? && donorHis.year != '' && donorHis.year != day?if_exists?substring(0,4)>
+                		<li class="mui-table-view-cell mui-row newsYear">
+	                        ${donorHis.year?if_exists}年
+	                    </li>
+	                    </#if>
                 		<li class="mui-table-view-cell mui-row" id="${donorHis.donorid?if_exists}">
 	                        <div class="mui-col-xs-3 giftLeft">
-	                            <p class="day">${donorHis.donorTimeStr?if_exists?substring(0,10)}</p>
-	                            <p class="time">${donorHis.donorTimeStr?if_exists?substring(10)}</p>
+	                            <#if donorHis.donorTimeStr?if_exists?substring(0,10) == day >
+	                            <p class="day">今天</p>
+	                            <#else>
+	                            <p class="day">${donorHis.donorTimeStr?if_exists?substring(5,10)?replace("-","/")}</p>
+	                            </#if>
+	                            <p class="time">${donorHis.donorTimeStr?if_exists?substring(10,16)}</p>
 	                        </div>
 	                       <div class="mui-col-xs-9 over giftRight">
 	                           <span class="giftTitle lf">${donorHis.smartContractName?if_exists}</span>
@@ -58,7 +67,9 @@ function goback(){
     });
     $('.newsAll').on('tap','li',function(){
      	var donorid = this.getAttribute("id");
-        window.location.href="${system.basePath}/app/queryDonorDeatail?donorid="+donorid;
+     	if(donorid != ''){
+	        window.location.href="${system.basePath}/app/queryDonorDeatail?donorid="+donorid;
+     	}
     });
 
 

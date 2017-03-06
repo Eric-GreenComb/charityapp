@@ -31,12 +31,35 @@ public class PcExplorerController extends BaseController{
     private HttpService httpService;
     @Autowired
     private ApiService apiService;
+
     
     @Autowired
    	private CommonService commonService;
     
+    @Value("${chaincode.base.hostip1}")
+	private String hostip1;
+    
+    @Value("${chaincode.base.hostip2}")
+    private String hostip2;
+    
+    @Value("${chaincode.base.hostip3}")
+    private String hostip3;
+    
+    @Value("${chaincode.base.hostip4}")
+    private String hostip4;
+   
+    @Value("${chaincode.base.hostname1}")
+    private String hostname1;
+    @Value("${chaincode.base.hostname2}")
+    private String hostname2;
+    @Value("${chaincode.base.hostname3}")
+    private String hostname3;
+    @Value("${chaincode.base.hostname4}")
+    private String hostname4;
+    
+    
     @Value("${chaincode.base.nodeUrl}")
-	private String nodeUrl;
+   	private String nodeUrl;
     
     @Autowired
 	private CacheManager cacheManager;
@@ -46,16 +69,48 @@ public class PcExplorerController extends BaseController{
 	    
     @RequestMapping("/index")
 	@ApiOperation(value="index",notes="requires login Name default user01")
-	public String index(@RequestParam(value = "name", required = false, defaultValue = "user01") String name,
+	public String index(@RequestParam(value = "name", required = false, defaultValue = "donor01") String name,
 			Model model) {
 		model.addAttribute("name", name);
-		List<BlockHighGen> blockHighList=blockInfoService.getNewerBolckHighTimes();
+		List<BlockHighGen> blockHighList=blockInfoService.getNewBlockFromStack();
 		model.addAttribute("blockHighList", blockHighList);
-		List<Transaction> transList =blockInfoService.getNewerTransactions();
+		List<Transaction> transList =blockInfoService.getNewTransactionFromStack();
 		model.addAttribute("transList", transList);
+		model.addAttribute("hostip1", hostip1);
+		model.addAttribute("hostip2", hostip2);
+		model.addAttribute("hostip3", hostip3);
+		model.addAttribute("hostip4", hostip4);
+		model.addAttribute("hostname1", hostname1);
+		model.addAttribute("hostname2", hostname2);
+		model.addAttribute("hostname3", hostname3);
+		model.addAttribute("hostname4", hostname4);
 		model.addAttribute("currentPeerUrl", nodeUrl+"/chain");
+		
 		return "explorer/index";
 	}
+    
+   /* 
+    @RequestMapping("/index")
+   	@ApiOperation(value="index",notes="requires login Name default user01")
+   	public String index(@RequestParam(value = "name", required = false, defaultValue = "user01") String name,
+   			Model model) {
+   		model.addAttribute("name", name);
+   		List<BlockHighGen> blockHighList=blockInfoService.getNewerBolckHighTimes();
+   		model.addAttribute("blockHighList", blockHighList);
+   		List<Transaction> transList =blockInfoService.getNewerTransactions();
+   		model.addAttribute("transList", transList);
+   		model.addAttribute("hostip1", hostip1);
+   		model.addAttribute("hostip2", hostip2);
+   		model.addAttribute("hostip3", hostip3);
+   		model.addAttribute("hostip4", hostip4);
+   		model.addAttribute("hostname1", hostname1);
+   		model.addAttribute("hostname2", hostname2);
+   		model.addAttribute("hostname3", hostname3);
+   		model.addAttribute("hostname4", hostname4);
+   		model.addAttribute("currentPeerUrl", nodeUrl+"/chain");
+   		
+   		return "explorer/index";
+   	}*/
     
     @RequestMapping("/blockDetail")
    	@ApiOperation(value="blockDetail",notes="requires login Name default user01")
@@ -104,13 +159,25 @@ public class PcExplorerController extends BaseController{
    		if(searchVal.length()<4){//根据高度查询
    			try {
 				int high =Integer.parseInt(searchVal);
-				return blockDetail(high,"",model);
+				if(high==0){
+					return "explorer/searchDetail"; 
+				}
+				String url=nodeUrl+"/chain";
+				int currentHigh=this.blockInfoService.getCurrentHigh(url);
+				if(high<=currentHigh){
+					return blockDetail(high,"",model);
+				}
 			} catch (NumberFormatException e) {
 				return "explorer/searchDetail"; 
 			}
    		}else{
-   			return transDetail(searchVal,model);
+//   			SysDonorDrawTransRel sysDonorDrawTransRel=this.commonService.findDonorTransRelByTxid(searchVal);
+   			Transaction transaction =blockInfoService.queryTransactionByTxId(searchVal);
+   			if(null!=transaction){
+   				return transDetail(searchVal,model);
+   			}
    		}
+   		return "explorer/searchDetail"; 
    	}
     
     
